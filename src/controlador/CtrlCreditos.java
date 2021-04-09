@@ -1,13 +1,24 @@
 package controlador;
 
+import com.github.anastaciocintra.escpos.EscPos;
+import com.github.anastaciocintra.escpos.EscPosConst;
+import com.github.anastaciocintra.escpos.Style;
+import com.github.anastaciocintra.escpos.image.Bitonal;
+import com.github.anastaciocintra.escpos.image.BitonalThreshold;
+import com.github.anastaciocintra.escpos.image.CoffeeImageImpl;
+import com.github.anastaciocintra.escpos.image.EscPosImage;
+import com.github.anastaciocintra.escpos.image.RasterBitImageWrapper;
+import com.github.anastaciocintra.output.PrinterOutputStream;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.print.PrintService;
 import javax.swing.JOptionPane;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -16,6 +27,7 @@ import modelo.Creditos;
 import modelo.PagosCreditos;
 import modelo.Reportes;
 import modelo.InfoFactura;
+import samplesCommon.SamplesCommon;
 import vista.IMenu;
 
 public class CtrlCreditos extends PrintReportes implements ActionListener, CaretListener, MouseListener {
@@ -155,7 +167,7 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 
                     } else {
                         this.modelo = (DefaultTableModel) menu.tblCreditos.getModel();
-                        id = (String) this.modelo.getValueAt(filaseleccionada, 3);
+                        id = (String) this.modelo.getValueAt(filaseleccionada, 0);
                         MostrarDatosCrediticio(id);
                         menu.jdInfoCrediticia.setSize(925, 530);
                         menu.jdInfoCrediticia.setVisible(true);
@@ -194,7 +206,6 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
         DeshabilitarCreditos();
         MostrarDatosCrediticio("");
         menu.jcFechaPago.setDate(fecha);
-        UltimoPago();
 
     }
 
@@ -215,10 +226,7 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
         }
     }
 
-    //mostrar el id del pago actual
-    public void UltimoPago() {
-        this.menu.lblNumeroPago.setText("" + creditos.obtenerUltimoPago());
-    }
+   
 
     public void MostrarCreditosCreados(String buscar) {
         menu.tblCreditosCreados.getTableHeader().setFont(new Font("Sugoe UI", Font.PLAIN, 14));
@@ -346,7 +354,6 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
                     LimpiarCreditos();
                     menu.btnActualizarCredito.setEnabled(false);
                     menu.btnCrearCredito.setEnabled(true);
-                    UltimoPago();
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Ya existe un credito para el cliente " + Cliente);

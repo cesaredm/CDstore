@@ -283,8 +283,8 @@ public class Productos extends Conexiondb {
     public DefaultTableModel MinimoStock(String categoria, float cantidad) {
         cn = Conexion();
         //Agregar precioVenta y MonedaVenta a la consulta y al titulo de la tabla
-        this.consulta = "SELECT productos.id, productos.codigoBarra, productos.nombre AS nombreProducto, precioVenta, monedaVenta, fechaVencimiento,stock, ubicacion, productos.descripcion, categorias.nombre AS nombreCategoria, marca.nombre as nombreMarca FROM productos INNER JOIN categorias ON(productos.categoria=categorias.id) INNER JOIN marca ON(productos.marca=marca.id) WHERE productos.stock < " + cantidad + " AND categorias.nombre LIKE '%" + categoria + "%'";
-        String[] titulos = {"Id", "Codigo Barra", "Nombre", "precioVenta", "Moneda", "Fecha Vencimiento", "Stock", "Categoria", "Laboratorio", "Ubicacion", "Descripcion"};
+        this.consulta = "SELECT productos.id, productos.codigoBarra, productos.nombre AS nombreProducto, precioVenta, monedaVenta, fechaVencimiento,stock, ubicacion, productos.descripcion, categorias.nombre AS nombreCategoria, marca.nombre as nombreMarca FROM productos INNER JOIN categorias ON(productos.categoria=categorias.id) INNER JOIN marca ON(productos.marca=marca.id) WHERE productos.stock < " + cantidad + " AND categorias.nombre LIKE '%" + categoria + "%' ORDER BY productos.stock";
+        String[] titulos = {"Id", "Codigo Barra", "Nombre", "precioVenta", "Moneda", "Fecha Vencimiento", "Stock", "Categoria", "Marca", "Ubicacion", "Descripcion"};
         String[] registros = new String[12];
         modelo = new DefaultTableModel(null, titulos) {
             @Override

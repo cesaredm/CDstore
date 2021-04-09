@@ -412,8 +412,8 @@ public class Facturacion extends Conexiondb {
         this.consulta = "UPDATE facturas SET impuestoISV = ?, totalFactura = ? WHERE id = ?";
         try {
             this.pst = this.cn.prepareStatement(this.consulta);
-            this.pst.setFloat(1,Float.parseFloat(IVA));
-            this.pst.setFloat(2, Float.parseFloat(TOTAL));
+            this.pst.setString(1,IVA);
+            this.pst.setString(2, TOTAL);
             this.pst.setInt(3, id);
             this.pst.executeUpdate();
             this.cn.close();

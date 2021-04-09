@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vista.IMenu;
 import modelo.InfoFactura;
@@ -37,6 +36,7 @@ public class CtrlImprimirReport extends PrintReportes implements ActionListener 
         this.menu.btnImprimirReporteGlobal.addActionListener(this);
         this.menu.btnImprimirPmasV.addActionListener(this);
         this.menu.btnReImprimirFactura.addActionListener(this);
+        this.menu.btnImprimirHistorialCrediticio.addActionListener(this);
     }
 
     @Override
@@ -59,6 +59,9 @@ public class CtrlImprimirReport extends PrintReportes implements ActionListener 
         if (e.getSource() == menu.btnReImprimirFactura) {
             ReImprimirFactura();
         }
+        if (e.getSource() == menu.btnImprimirHistorialCrediticio) {
+            ImprimirInfoCrediticia();
+        }
     }
 
     public void imprimirReporteGlobal() {
@@ -70,7 +73,7 @@ public class CtrlImprimirReport extends PrintReportes implements ActionListener 
                 ingresosE = menu.lblIngresosEfectivo.getText();
         llenarTicketGlobal(nombreTienda, efectivoB, ventasT, pagosE, pagosT, ingresosE, creditos, egresos, existCaja, bancos, totalV);
         try {
-            print("Global","LR2000");
+            print("Global");
         } catch (Exception err) {
             //JOptionPane.showMessageDialog(null, err+" en la funcion de btn ImprimirReporteglobal");
         }
@@ -95,7 +98,7 @@ public class CtrlImprimirReport extends PrintReportes implements ActionListener 
                 TCDC = menu.lblTotalCordobasPorCompraDolar.getText();
         llenarTicketDiario(nombreTienda, fechaR, base, ventasE, ventasT, pagosE, pagosT, ingresosE, creditos, egresos, existCaja, bancos, totalV, DV, DC, PDC, PDV, TCDV,TCDC, cordobas);
         try {
-            print("Diario","LR2000");
+            print("Diario");
         } catch (Exception err) {
             //JOptionPane.showMessageDialog(null, "");
         }
@@ -117,7 +120,7 @@ public class CtrlImprimirReport extends PrintReportes implements ActionListener 
         llenarTicketTotalV(datos, nombreTienda);
         LimpiarTablaTotalV();
         try {
-            print("TotalV","LR2000");
+            print("TotalV");
         } catch (Exception err) {
         }
     }
@@ -141,7 +144,7 @@ public class CtrlImprimirReport extends PrintReportes implements ActionListener 
         }
         BIP(tienda, fecha1, fecha2, producto);
         try {
-            print("BI","LR2000");
+            print("BI");
         } catch (Exception err) {
         }
     }
@@ -161,7 +164,8 @@ public class CtrlImprimirReport extends PrintReportes implements ActionListener 
             IVA = (String) menu.tblReporte.getValueAt(filaseleccionada, 2);
             formaPago = (String) menu.tblReporte.getValueAt(filaseleccionada, 5);
             creditoId = (String) menu.tblReporte.getValueAt(filaseleccionada, 6);
-            comprador = (String) menu.tblReporte.getValueAt(filaseleccionada, 5);
+            comprador = (String) menu.tblReporte.getValueAt(filaseleccionada, 4);
+            System.out.println(comprador);
             caja = (String) menu.tblReporte.getValueAt(filaseleccionada, 7);
             for (int i = 0; i < filas; i++) {
                 producto = (String) menu.tblMostrarDetalleFactura.getValueAt(i, 3);
@@ -186,14 +190,37 @@ public class CtrlImprimirReport extends PrintReportes implements ActionListener 
                 cliente = this.credito.NombreCliente(creditoId);
             }
             Ticket d = new Ticket(info.getNombre(), info.getDireccion(), info.getTelefono(), info.getRfc(), info.getRango(), "1", factura, "Cajero", comprador, cliente, tipoVenta, formaPago, fecha, Listaproducto, String.valueOf(subTotal), IVA, String.valueOf(total), "", "");
-            d.printInfo("LR2000");
+            d.printInfo();
         } catch (Exception err) {
             //JOptionPane.showMessageDialog(null, err + " Erro en la funcion btnReImprimirFactura");
         }
     }
-
-    public void ticketPago(){
-        
+    
+    public void ImprimirInfoCrediticia(){
+        try {
+            int filasDolar = this.menu.tblArticulosCredito.getRowCount();
+            int filasCordobas = this.menu.tblArticulosCreditoCordobas.getRowCount();
+            int filaseleccionada = this.menu.tblCreditos.getSelectedRow();
+            String cliente = this.menu.tblCreditos.getValueAt(filaseleccionada, 4).toString() + " " + this.menu.tblCreditos.getValueAt(filaseleccionada, 5).toString();
+            String listado = "PRODUCTOS EN DOLAR \n";
+            
+            for (int i = 0; i < filasDolar; i++) {
+                listado += this.menu.tblArticulosCredito.getValueAt(i,2).toString()
+                           +" "+ this.menu.tblArticulosCredito.getValueAt(i,1).toString()
+                           +" "+ this.menu.tblArticulosCredito.getValueAt(i,3).toString()+"$\n";
+            }
+            listado += "PRODUCTOS EN CORDOBAS \n";
+            for (int i = 0; i < filasCordobas; i++) {
+                listado += this.menu.tblArticulosCreditoCordobas.getValueAt(i,2).toString()
+                           +" "+ this.menu.tblArticulosCreditoCordobas.getValueAt(i,1).toString()
+                           +" "+ this.menu.tblArticulosCreditoCordobas.getValueAt(i,3).toString()+" C$\n";
+            }
+            setListaProductosCreditos(listado);
+            setNombreCliente(cliente);
+            print("ListaCredito");
+        } catch (Exception e) {
+            
+        }
     }
     
     public void LimpiarTablaTotalV() {

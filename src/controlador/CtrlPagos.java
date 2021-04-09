@@ -5,10 +5,12 @@
  */
 package controlador;
 
+import com.github.anastaciocintra.escpos.EscPos;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -22,7 +24,7 @@ import vista.IMenu;
  *
  * @author CESAR DIAZ MARADIAGA
  */
-public class CtrlPagos implements ActionListener, CaretListener {
+public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretListener {
 
     IMenu menu;
     PagosCreditos pagos;
@@ -35,10 +37,12 @@ public class CtrlPagos implements ActionListener, CaretListener {
     DefaultTableModel modelo;
     String id;
     Date fecha;
-
+    DecimalFormat formato;
+    
     public CtrlPagos(IMenu menu, PagosCreditos pagos) {
         this.menu = menu;
         this.pagos = pagos;
+        this.formato = new DecimalFormat("############0.00");
         this.reportes = new Reportes();
         this.creditos = new Creditos();
         this.ctrlR = new CtrlReportes(menu, reportes);
@@ -57,6 +61,7 @@ public class CtrlPagos implements ActionListener, CaretListener {
         this.menu.btnMostrarPagosRegistrados.addActionListener(this);
         MostrarPagos("");
         DeshabilitarPagos();
+        UltimoPago();
         this.menu.jcFechaPago.setDate(fecha);
     }
 
@@ -163,7 +168,7 @@ public class CtrlPagos implements ActionListener, CaretListener {
         menu.jcFechaPago.setDate(this.fecha);
         menu.tblPagos.getTableHeader().setFont(new Font("Sugoe UI", Font.PLAIN, 14));
         menu.tblPagos.getTableHeader().setOpaque(false);
-        menu.tblPagos.getTableHeader().setBackground(new Color(69,76,89));
+        menu.tblPagos.getTableHeader().setBackground(new Color(69, 76, 89));
         menu.tblPagos.getTableHeader().setForeground(new Color(255, 255, 255));
         menu.tblPagos.setModel(this.pagos.Mostrar(buscar));
     }
@@ -194,26 +199,16 @@ public class CtrlPagos implements ActionListener, CaretListener {
         menu.btnGuardarPago.setEnabled(false);
     }//lbls para hacer visible el pago en la ventana pago
 
-
-     public void obtenerDatosCreditoImprimir(String pago, String idPago, String idCredito, Date fecha){
-        int filaseleccionada = menu.tblCreditos.getSelectedRow();
-        float saldoActual;
-        info.obtenerInfoFactura();
-        String saldoPendiente = (String) menu.tblCreditos.getValueAt(filaseleccionada, 1),
-               nombres = (String) menu.tblCreditos.getValueAt(filaseleccionada, 4) +" "+(String) menu.tblCreditos.getValueAt(filaseleccionada, 5),
-               fecha1,
-                tienda;
-        SimpleDateFormat sdf = new SimpleDateFormat("DD/MM/YYYY");
-        fecha1 = sdf.format(fecha);
-        saldoActual = Float.parseFloat(saldoPendiente) -  Float.parseFloat(pago); 
-        
-//        llenarTicketPago(info.getNombre(),idPago,fecha1, nombres, idCredito, pago, String.valueOf(saldoActual));
-//        print("Pago", "LR2000");
+    //mostrar el id del pago actual
+    public void UltimoPago() {
+        this.menu.lblNumeroPago.setText("" + creditos.obtenerUltimoPago());
     }
-    
+
     public void guardarPago() {
         int c;
-        float montoPago, saldo = 0, saldoActual = 0;
+        float montoPago,
+                saldo = 0,
+                saldoActual = 0;
         String fechaString = "", credito = menu.txtCreditoPago.getText(), monto = menu.txtMontoPago.getText(), formaPago = menu.cmbFormaPagoCredito.getSelectedItem().toString();
         int idFormaPago = Integer.parseInt(pagos.ObtenerFormaPago(formaPago));
         Date f = menu.jcFechaPago.getDate();
@@ -226,11 +221,12 @@ public class CtrlPagos implements ActionListener, CaretListener {
                 try {
                     c = Integer.parseInt(credito);
                     montoPago = Float.parseFloat(monto);
-                    saldoActual = pagos.deuda(credito) - pagos.PagosSegunCredito(credito);
+                    saldo = pagos.deuda(credito) - pagos.PagosSegunCredito(credito);
                     pagos.Guardar(c, montoPago, fechaPago, idFormaPago);
-                    saldo = saldoActual - montoPago;
+                    saldoActual = pagos.deuda(credito) - pagos.PagosSegunCredito(credito);
+                    UltimoPago();
                     info.obtenerInfoFactura();
-                    print.llenarTicketPago(info.getNombre(), menu.lblNumeroPago.getText() ,fechaString, this.pagos.cliente(credito), credito, String.valueOf(saldoActual),monto, String.valueOf(saldo));
+                    imprimir(info.getNombre(), menu.lblNumeroPago.getText(), fechaString, this.pagos.cliente(credito), credito, this.formato.format(saldo), monto, this.formato.format(saldoActual));
                     MostrarPagos("");
                     LimpiarPago();
                     ctrlC.MostrarCreditos("");
@@ -246,8 +242,6 @@ public class CtrlPagos implements ActionListener, CaretListener {
                     ctrlC.MostrarCreditosAddFactura("");
                     menu.btnGuardarPago.setEnabled(true);
                     menu.btnActualizarPago.setEnabled(false);
-                    //el try catch es para el metodo de imprimir
-                    print.print("Pago","EPSON TM-T20II Receipt");
                 } catch (Exception e) {
 
                 }
@@ -257,6 +251,40 @@ public class CtrlPagos implements ActionListener, CaretListener {
         }
     }
 
+    //IMPRIMIR TICKET COMPOBANTE DE PAGO
+    public void imprimir(String tienda, String idPago, String fecha, String cliente, String credito, String totalCredito, String monto, String saldo) {
+        try {
+            escpos.write(imageWrapper, escposImage).feed(1);
+            
+            escpos.writeLF(boldCenter, tienda)
+                    .feed(1)
+                    .writeLF(boldCenter, "COMPROBANTE DE PAGO")
+                    .feed(2)
+                    .writeLF("N° crédito:"+credito)
+                    .writeLF("N° pago:"+idPago)
+                    .writeLF("Cliente:"+cliente)
+                    .writeLF("Fecha:"+fecha)
+                    .writeLF("Total crédito:"+totalCredito)
+                    .writeLF("Monto de abono:"+monto)
+                    .write("Saldo:").writeLF(bold, saldo)
+                    .feed(4)
+                    .writeLF(centrar,"_____________________________________")
+                    .writeLF(centrar,"Firma vendedor")
+                    .feed(8)
+                    .writeLF(centrar,"_____________________________________")
+                    .writeLF(centrar,"Firma cliente")
+                    .feed(3)
+                    .cut(EscPos.CutMode.FULL);
+            
+            escpos.close();
+            
+
+        } catch (Exception e) {
+            
+        }
+    };
+    
+    
     @Override
     public void caretUpdate(CaretEvent e) {
         if (e.getSource() == menu.txtBuscarPago) {

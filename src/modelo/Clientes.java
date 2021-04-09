@@ -80,7 +80,7 @@ public class Clientes extends Conexiondb{
 
     public DefaultTableModel Consulta(String Buscar) {
          cn = Conexion();
-        String Consulta = "SELECT id, nombres, apellidos, telefono, direccion FROM clientes WHERE CONCAT(nombres,apellidos) LIKE '%" + Buscar + "%'";
+        String Consulta = "SELECT id, nombres, apellidos, telefono, direccion FROM clientes WHERE CONCAT(id,nombres,apellidos) LIKE '%" + Buscar + "%'";
         String[] registro = new String[5];
         String[] titulos = {"Id", "Nombres", "Apellidos", "Telefono", "Dirección"};
         DefaultTableModel modelo = new DefaultTableModel(null, titulos) {

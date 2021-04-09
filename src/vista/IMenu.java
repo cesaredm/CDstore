@@ -274,6 +274,7 @@ public class IMenu extends javax.swing.JFrame {
         jScrollPane31 = new javax.swing.JScrollPane();
         tblArticulosCreditoCordobas = new javax.swing.JTable();
         jLabel178 = new javax.swing.JLabel();
+        btnImprimirHistorialCrediticio = new javax.swing.JButton();
         VentanaAddProductoStock = new javax.swing.JDialog();
         lblNombreProductStock = new javax.swing.JLabel();
         txtCantidadAgregar = new javax.swing.JTextField();
@@ -1245,12 +1246,11 @@ public class IMenu extends javax.swing.JFrame {
                         .addComponent(txtCantidadStockM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel53))
                     .addComponent(btnBuscarMinStock, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGenerarReporteStock, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnImprimirMinStock)))
-                .addGap(7, 7, 7)
-                .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                    .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnGenerarReporteStock, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnImprimirMinStock, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(jScrollPane19, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
 
@@ -1727,6 +1727,7 @@ public class IMenu extends javax.swing.JFrame {
         jdInfoCrediticia.setTitle("Información crediticia");
 
         jpInformacionCrediticia.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 16))); // NOI18N
+        jpInformacionCrediticia.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblAbonosCreditos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1741,6 +1742,8 @@ public class IMenu extends javax.swing.JFrame {
         ));
         jScrollPane8.setViewportView(tblAbonosCreditos);
 
+        jpInformacionCrediticia.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(534, 30, 336, 315));
+
         tblArticulosCredito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1753,6 +1756,8 @@ public class IMenu extends javax.swing.JFrame {
             }
         ));
         jScrollPane14.setViewportView(tblArticulosCredito);
+
+        jpInformacionCrediticia.add(jScrollPane14, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 29, 494, 142));
 
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Saldo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 16))); // NOI18N
 
@@ -1784,27 +1789,35 @@ public class IMenu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jpInformacionCrediticia.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, -1, -1));
+
         jLabel166.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel166.setText("Total crédito:");
+        jpInformacionCrediticia.add(jLabel166, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, -1));
 
         jLabel167.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel167.setText("Total abonos:");
+        jpInformacionCrediticia.add(jLabel167, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 350, -1, -1));
 
         lblTodalCreditoPorCliente.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblTodalCreditoPorCliente.setForeground(new java.awt.Color(51, 153, 255));
         lblTodalCreditoPorCliente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTodalCreditoPorCliente.setText("0.00");
+        jpInformacionCrediticia.add(lblTodalCreditoPorCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, 333, -1));
 
         lblTotalAbonosPorCliente.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblTotalAbonosPorCliente.setForeground(new java.awt.Color(51, 153, 255));
         lblTotalAbonosPorCliente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTotalAbonosPorCliente.setText("0.00");
+        jpInformacionCrediticia.add(lblTotalAbonosPorCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 350, 220, -1));
 
         jLabel171.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel171.setText("Lista de productos en dólares.");
+        jpInformacionCrediticia.add(jLabel171, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 7, -1, -1));
 
         jLabel172.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel172.setText("Abonos realizados.");
+        jpInformacionCrediticia.add(jLabel172, new org.netbeans.lib.awtextra.AbsoluteConstraints(534, 7, -1, -1));
 
         tblArticulosCreditoCordobas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1819,76 +1832,14 @@ public class IMenu extends javax.swing.JFrame {
         ));
         jScrollPane31.setViewportView(tblArticulosCreditoCordobas);
 
+        jpInformacionCrediticia.add(jScrollPane31, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 203, 494, 142));
+
         jLabel178.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel178.setText("Lista de productos en córdobas.");
+        jpInformacionCrediticia.add(jLabel178, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 181, -1, -1));
 
-        javax.swing.GroupLayout jpInformacionCrediticiaLayout = new javax.swing.GroupLayout(jpInformacionCrediticia);
-        jpInformacionCrediticia.setLayout(jpInformacionCrediticiaLayout);
-        jpInformacionCrediticiaLayout.setHorizontalGroup(
-            jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpInformacionCrediticiaLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jpInformacionCrediticiaLayout.createSequentialGroup()
-                        .addGroup(jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpInformacionCrediticiaLayout.createSequentialGroup()
-                                .addComponent(jLabel166)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblTodalCreditoPorCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29))
-                            .addGroup(jpInformacionCrediticiaLayout.createSequentialGroup()
-                                .addGroup(jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel171)
-                                    .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel178))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel172)
-                            .addGroup(jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jpInformacionCrediticiaLayout.createSequentialGroup()
-                                    .addComponent(jLabel167)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(lblTotalAbonosPorCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(18, 18, 18))
-            .addGroup(jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jpInformacionCrediticiaLayout.createSequentialGroup()
-                    .addGap(16, 16, 16)
-                    .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(370, Short.MAX_VALUE)))
-        );
-        jpInformacionCrediticiaLayout.setVerticalGroup(
-            jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpInformacionCrediticiaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel171)
-                    .addComponent(jLabel172))
-                .addGroup(jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpInformacionCrediticiaLayout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(jpInformacionCrediticiaLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
-                        .addComponent(jLabel178)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel166)
-                    .addComponent(jLabel167)
-                    .addComponent(lblTodalCreditoPorCliente)
-                    .addComponent(lblTotalAbonosPorCliente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jpInformacionCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jpInformacionCrediticiaLayout.createSequentialGroup()
-                    .addGap(28, 28, 28)
-                    .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(113, Short.MAX_VALUE)))
-        );
+        btnImprimirHistorialCrediticio.setText("Imprimir");
+        jpInformacionCrediticia.add(btnImprimirHistorialCrediticio, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 455, -1, -1));
 
         javax.swing.GroupLayout jdInfoCrediticiaLayout = new javax.swing.GroupLayout(jdInfoCrediticia.getContentPane());
         jdInfoCrediticia.getContentPane().setLayout(jdInfoCrediticiaLayout);
@@ -1901,9 +1852,9 @@ public class IMenu extends javax.swing.JFrame {
         );
         jdInfoCrediticiaLayout.setVerticalGroup(
             jdInfoCrediticiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jdInfoCrediticiaLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jpInformacionCrediticia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jdInfoCrediticiaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jpInformacionCrediticia, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -2520,7 +2471,6 @@ public class IMenu extends javax.swing.JFrame {
         jdGenerarCodeBarra.getContentPane().add(btnGenerarCodeBarraAleatorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 55, 181, -1));
 
         lblAlertaCreacionCodeBarra.setForeground(new java.awt.Color(255, 51, 51));
-        lblAlertaCreacionCodeBarra.setText("oops..! este código de barras ya existe");
         jdGenerarCodeBarra.getContentPane().add(lblAlertaCreacionCodeBarra, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
         jsNcopias.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -2761,6 +2711,11 @@ public class IMenu extends javax.swing.JFrame {
         txtAClienteFactura.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
         txtAClienteFactura.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtAClienteFactura.setEnabled(false);
+        txtAClienteFactura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAClienteFacturaActionPerformed(evt);
+            }
+        });
 
         jLabel35.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel35.setText("Fecha:");
@@ -5311,8 +5266,8 @@ public class IMenu extends javax.swing.JFrame {
         pnlMenuLateral.add(btnTransacciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 200, 47));
 
         logoClothing.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        logoClothing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/libreriaLibroAzul.png"))); // NOI18N
-        pnlMenuLateral.add(logoClothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 5, 130, 80));
+        logoClothing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoBlesskids.png"))); // NOI18N
+        pnlMenuLateral.add(logoClothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 7, -1, 80));
 
         btnInfoFactura.setBackground(new java.awt.Color(69, 76, 89));
         btnInfoFactura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -5410,6 +5365,10 @@ public class IMenu extends javax.swing.JFrame {
     private void DescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescuentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DescuentoActionPerformed
+
+    private void txtAClienteFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAClienteFacturaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAClienteFacturaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -5542,6 +5501,7 @@ public class IMenu extends javax.swing.JFrame {
     public javax.swing.JButton btnGuardarSalidaMoneda;
     public javax.swing.JButton btnGuardarUsuario;
     public javax.swing.JButton btnImprimirCodeBarra;
+    public javax.swing.JButton btnImprimirHistorialCrediticio;
     public javax.swing.JButton btnImprimirMinStock;
     public javax.swing.JButton btnImprimirPmasV;
     public javax.swing.JButton btnImprimirReporteDiario;

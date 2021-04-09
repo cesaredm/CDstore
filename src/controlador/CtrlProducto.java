@@ -503,7 +503,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
                 menu.btnActualizarProducto.setEnabled(true);
             }
         } catch (Exception err) {
-            JOptionPane.showConfirmDialog(null, err + "en la funcion editar producto");
+            JOptionPane.showConfirmDialog(null, err + "en la funcion editar producto en CtrlProducto");
         }
     }
 

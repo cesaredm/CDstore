@@ -129,8 +129,9 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                 saldo = this.creditos.creditoPorCliente(idCreditoL);
                 limite = this.creditos.limiteCredito(idCreditoL);
                 sumar = saldo + Float.parseFloat(totalF);
-                System.out.println(sumar + " " + limite);
-                if (sumar > limite) {
+                if(limite == 0){
+                    guardarFactura();
+                }else if (limite > 0 && sumar > limite) {
                     JOptionPane.showMessageDialog(null, "Esta excediendo el limite de credito", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     menu.btnGuardarFactura.setEnabled(false);
                 } else {
@@ -469,7 +470,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
         menu.pnlVentas.setVisible(false);
         menu.pnlReportes.setVisible(true);
         menu.btnActualizarFactura.setVisible(false);
-
         try {
             this.modelo = (DefaultTableModel) menu.tblFactura.getModel();
             int filas = this.modelo.getRowCount();//numero de filas de la tabla factura
@@ -502,7 +502,12 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
         InfoFactura info = new InfoFactura();
         info.obtenerInfoFactura();
         Ticket d = new Ticket(info.getNombre(), info.getDireccion(), info.getTelefono(), info.getRfc(), info.getRango(), "1", Nfactura, "Cajero", comprador, cliente, tipoVenta, formaPago, fecha, Datos, subtotal, isv, total, recibido, cambio);
-        d.printInfo("LR2000");
+        
+        try {
+            d.printInfo();
+        } catch (Exception e) {
+            
+        }
     }
 
     //metodo para editar el impuesto de la factura
@@ -526,6 +531,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
             menu.txtAClienteFactura.setText("");
             menu.lblIdClienteFactura.setText("");
             menu.txtCreditoFactura.setText("");
+            menu.lblIdClienteFactura.setText("");
             menu.txtCompradorFactura.setText("");
             menu.cmbFormaPago.setSelectedItem("Efectivo");
             menu.txtPagoCon.setText("");
@@ -570,7 +576,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
             if (filaseleccionada == -1) {
 
             } else {
-//                        if (this.descuento == 0) {   //no se aplica descuento
+//              if (this.descuento == 0) {   //no se aplica descuento
                 //capturar los datos de la tabla producto para mandarlos a tabla factura
                 this.modelo = (DefaultTableModel) menu.tblAddProductoFactura.getModel();
                 id = modelo.getValueAt(filaseleccionada, 0).toString();
@@ -881,11 +887,16 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                 precio = Float.parseFloat(this.modelo.getValueAt(filaseleccionada, 4).toString());
                 importeAdesminuir = Float.parseFloat(this.modelo.getValueAt(filaseleccionada, 5).toString());
                 id = (String) this.modelo.getValueAt(filaseleccionada, 0);
+                this.factura.monedaVentaProducto(id);
                 confirmar = JOptionPane.showConfirmDialog(null, spiner, "Agregar descuento a " + nombre, JOptionPane.OK_CANCEL_OPTION);
                 if (confirmar == JOptionPane.YES_OPTION) {
                     descuento = Float.parseFloat(spiner.getValue().toString());
                     //realiza el escuento
-                    precioUpdate = (importeAdesminuir - descuento) / cantidad;
+                    if(this.factura.getMonedaVenta().equals("Dolar")){
+                        precioUpdate = ((importeAdesminuir - descuento) / cantidad) / precioDolar;
+                    }else{
+                        precioUpdate = (importeAdesminuir - descuento) / cantidad;
+                    }
                     //obtengo desde el modelo facturta la moneda de venta de el producto na aplicarle el descuento
                     this.factura.monedaVentaProducto(id);
                     //validar que moneda de venta tiene el producto a aplicarse el descuento
@@ -949,12 +960,17 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                 precio = Float.parseFloat(this.modelo.getValueAt(filaseleccionada, 4).toString());
                 importeAdesminuir = Float.parseFloat(this.modelo.getValueAt(filaseleccionada, 5).toString());
                 id = (String) this.modelo.getValueAt(filaseleccionada, 0);
+                this.factura.monedaVentaProducto(id);
                 confirmar = JOptionPane.showConfirmDialog(null, spiner, "Agregar descuento a " + nombre, JOptionPane.OK_CANCEL_OPTION);
                 if (confirmar == JOptionPane.YES_OPTION) {
                     descuento = Float.parseFloat(spiner.getValue().toString());
                     importeUpdate = importeAdesminuir - (importeAdesminuir * descuento / 100);
-                    //realiza el escuento
-                    precioUpdate = importeUpdate / cantidad;
+                    //realiza el escuentocesar  
+                    if(this.factura.getMonedaVenta().equals("Dolar")){
+                        precioUpdate = (importeUpdate/cantidad) / precioDolar;
+                    }else{
+                        precioUpdate = importeUpdate / cantidad;
+                    }
                     //obtengo desde el modelo facturta la moneda de venta de el producto na aplicarle el descuento
                     this.factura.monedaVentaProducto(id);
                     //validar que moneda de venta tiene el producto a aplicarse el descuento

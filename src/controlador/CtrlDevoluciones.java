@@ -36,10 +36,12 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
     JSpinner spiner;
     SpinnerNumberModel sModel;
     Date fecha;
-
+    DecimalFormat formato;
+    
     public CtrlDevoluciones(IMenu menu, Reportes reportes) {
         this.menu = menu;
         this.reportes = reportes;
+        formato = new DecimalFormat("#############.##");
         this.factura = new Facturacion();
         this.producto = new Productos();
         this.modelo = new DefaultTableModel();
@@ -76,7 +78,7 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
             sacarImpuesto = Float.parseFloat(1 + "." + menu.lblImpuestoISV.getText());//concatenacion para sacar el valor 1.xx para sacar el iva
             //obtengo el IVA en entero "15" o cualquier que sea el impuesto
             porcentajeImp = Float.parseFloat(menu.lblImpuestoISV.getText());// "descProduct = descuento de producto"
-            DecimalFormat formato = new DecimalFormat("#############.##");
+            
             if (filaseleccionada == -1) {
 
             } else {
@@ -100,7 +102,7 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
                                 importe = (cantidadUpdate * precio) * Float.parseFloat(precioDolar);
                                 totalUpdate = total - ((cantidadDevolver * precio) * Float.parseFloat(precioDolar));
                             } else {
-                                JOptionPane.showMessageDialog(null, "El valor del dolar establecido es inavlido..");
+                                JOptionPane.showMessageDialog(null, "El valor del dolar establecido es inavalido..");
                             }
 
                         } else {
@@ -109,6 +111,7 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
                         }
                         //calcular el nuevo impuesto
                         ivaUpdate = ((totalUpdate / sacarImpuesto) * porcentajeImp) / 100;
+                        System.out.println(ivaUpdate);
                         //calcular el nuevo subtotal
                         subTotalUpdate = totalUpdate - ivaUpdate;
                         //llamar las funciones para actualizar los datos correpondientes

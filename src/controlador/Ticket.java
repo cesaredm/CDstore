@@ -11,38 +11,10 @@ package controlador;
  * 
  */
 import com.github.anastaciocintra.escpos.EscPos;
-import com.github.anastaciocintra.escpos.EscPosConst;
-import com.github.anastaciocintra.escpos.Style;
-import com.github.anastaciocintra.escpos.image.Bitonal;
-import com.github.anastaciocintra.escpos.image.BitonalThreshold;
-import com.github.anastaciocintra.escpos.image.CoffeeImage;
-import com.github.anastaciocintra.escpos.image.CoffeeImageImpl;
-import com.github.anastaciocintra.escpos.image.EscPosImage;
-import com.github.anastaciocintra.escpos.image.RasterBitImageWrapper;
-import com.github.anastaciocintra.output.PrinterOutputStream;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.print.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
-import java.net.URL;
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.SimpleDoc;
-import javax.print.Doc;
-import javax.print.ServiceUI;
-import javax.print.attribute.*;
-import samplesCommon.SamplesCommon;
 
-public class Ticket {
+public class Ticket extends CtrlImprimir{
     //Ticket attribute content
 
     private String contentTicket =
@@ -65,10 +37,10 @@ public class Ticket {
             + "TOTAL:{{total}} \n"
             + "RECIBIDO: {{recibo}}\n"
             + "CAMBIO: {{change}}\n"
-            + "========================================== \n"
-            + "Un lector vive mil vidas antes\n"
-            + "de morir aquel que nunca lee vive\n"
-            + "solo una.\n"
+//            + "========================================== \n"
+//            + "Un lector vive mil vidas antes\n"
+//            + "de morir aquel que nunca lee vive\n"
+//            + "solo una.\n"
             + "\n"
             + "\n";
 
@@ -100,30 +72,15 @@ public class Ticket {
         this.contentTicket = this.contentTicket.replace("{{change}}", change);
     }
 
-    public void printInfo(String printerName) {
-        //this call is slow, try to use it only once and reuse the PrintService variable.
-        PrintService printService = PrinterOutputStream.getPrintServiceByName(printerName);
+    public void printInfo() {
         try {
-            PrinterOutputStream printerOutputStream = new PrinterOutputStream(printService);
-            EscPos escpos = new EscPos(printerOutputStream);
-
-            Bitonal algorithm = new BitonalThreshold(127);
-            // creating the EscPosImage, need buffered image and algorithm.
-            BufferedImage githubBufferedImage;
-            githubBufferedImage = SamplesCommon.getImage(SamplesCommon.sampleImages.logoLib);
-            EscPosImage escposImage = new EscPosImage(new CoffeeImageImpl(githubBufferedImage), algorithm);
-
-            // this wrapper uses esc/pos sequence: "GS 'v' '0'"
-            RasterBitImageWrapper imageWrapper = new RasterBitImageWrapper();
-
-            imageWrapper.setJustification(EscPosConst.Justification.Center);
             escpos.write(imageWrapper, escposImage).feed(1);
 
             escpos.writeLF(contentTicket)
                     .feed(2).cut(EscPos.CutMode.FULL);
             escpos.close();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, ex + "en metodo printInfo en controlador Ticket");
         }
 
     }

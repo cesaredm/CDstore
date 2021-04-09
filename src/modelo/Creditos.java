@@ -94,7 +94,7 @@ public class Creditos extends Conexiondb {
     //funcion de consulta de datos de creditos y retornar una tabla con los creditos para mostrarla en interfaz
     public DefaultTableModel Mostrar(String buscar) {
         cn = Conexion();
-        this.consulta = "SELECT creditos.id,SUM(facturas.totalFactura) AS totalCredito, creditos.limite ,clientes.id as idCliente,nombres,apellidos, creditos.estado FROM creditos INNER JOIN clientes ON(creditos.cliente = clientes.id) INNER JOIN facturas ON(facturas.credito = creditos.id) WHERE CONCAT(creditos.id, clientes.nombres, clientes.apellidos) LIKE '%" + buscar + "%' AND creditos.estado = 'Pendiente' GROUP BY clientes.nombres";
+        this.consulta = "SELECT c.id,SUM(f.totalFactura) AS totalCredito, c.limite ,cl.id as idCliente,nombres,apellidos, c.estado FROM creditos AS c INNER JOIN clientes AS cl ON(c.cliente = cl.id) INNER JOIN facturas AS f ON(f.credito = c.id) WHERE CONCAT(c.id, cl.nombres, cl.apellidos) LIKE '%" + buscar + "%' AND c.estado = 'Pendiente' GROUP BY cl.id";
         String[] titulos = {"N° Credito", "Saldo", "Limite", "Id Cliente", "Nombres", "Apellidos", "Estado"};
         float saldo = 0, monto = 0;
         this.resgistros = new String[7];
@@ -242,7 +242,7 @@ public class Creditos extends Conexiondb {
         };
         this.consulta = "SELECT f.fecha, p.nombre, df.cantidadProducto, precioProducto, totalVenta AS totalImporte FROM facturas AS f "
                 + "INNER JOIN creditos AS c ON(f.credito=c.id) INNER JOIN detalleFactura AS df ON(f.id = df.factura) INNER JOIN productos AS p ON(df.producto=p.id)"
-                + " WHERE c.cliente = ? AND p.monedaVenta = 'Dolar' ORDER BY f.id DESC";
+                + " WHERE c.id = ? AND p.monedaVenta = 'Dolar' ORDER BY f.id DESC";
         try {
             this.pst = this.cn.prepareStatement(this.consulta);
             pst.setInt(1, id);
@@ -274,7 +274,7 @@ public class Creditos extends Conexiondb {
         };
         this.consulta = "SELECT f.fecha, p.nombre, df.cantidadProducto, precioProducto, totalVenta AS totalImporte FROM facturas AS f "
                 + "INNER JOIN creditos AS c ON(f.credito=c.id) INNER JOIN detalleFactura AS df ON(f.id = df.factura) INNER JOIN productos AS p ON(df.producto=p.id)"
-                + " WHERE c.cliente = ? AND p.monedaVenta = 'Cordobas' ORDER BY f.id DESC";
+                + " WHERE c.id = ? AND p.monedaVenta = 'Cordobas' ORDER BY f.id DESC";
         try {
             this.pst = this.cn.prepareStatement(this.consulta);
             pst.setInt(1, id);
@@ -297,7 +297,7 @@ public class Creditos extends Conexiondb {
 
     public DefaultTableModel MostrarAbonosCliente(int id){
         this.cn = Conexion();
-        this.consulta = "SELECT p.id,p.fecha AS f,p.monto FROM pagoscreditos AS p INNER JOIN creditos AS c ON(p.credito=c.id) WHERE c.cliente = ?";
+        this.consulta = "SELECT p.id,p.fecha AS f,p.monto FROM pagoscreditos AS p INNER JOIN creditos AS c ON(p.credito=c.id) WHERE c.id = ?";
         String[] titulos = {"Id Pago","Fecha", "Monto"};
         this.modelo = new DefaultTableModel(null,titulos){
             public boolean isCellEditable(int row, int col){
@@ -367,7 +367,7 @@ public class Creditos extends Conexiondb {
     public String NombreCliente(String idCredito) {
         String nombre = "";
         this.cn = Conexion();
-        this.consulta = "SELECT c.nombres, c.apellidos FROM clientes AS c INNER JOIN creditos ON(c.id = creditos.cliente) WHERE creditos.cliente = ?";
+        this.consulta = "SELECT c.nombres, c.apellidos FROM clientes AS c INNER JOIN creditos ON(c.id = creditos.cliente) WHERE creditos.id = ?";
         try {
             this.pst = this.cn.prepareStatement(this.consulta);
             this.pst.setString(1, idCredito);
@@ -424,7 +424,7 @@ public class Creditos extends Conexiondb {
     
     public float creditoGlobalCliente(int id){
         this.consulta = "SELECT SUM(facturas.totalFactura) AS totalCredito FROM creditos INNER JOIN clientes ON(creditos.cliente = clientes.id) "
-                + "INNER JOIN facturas ON(facturas.credito = creditos.id) WHERE clientes.id = ?";
+                + "INNER JOIN facturas ON(facturas.credito = creditos.id) WHERE creditos.id = ?";
         this.cn = Conexion();
         float total = 0;
         try{
@@ -443,7 +443,7 @@ public class Creditos extends Conexiondb {
     
     public float AbonoGlobalCliente(int id){
         this.consulta = "SELECT SUM(p.monto) AS totalAbonos FROM pagoscreditos AS p "
-                + "INNER JOIN creditos AS c ON(p.credito = c.id) INNER JOIN clientes ON(c.cliente=clientes.id) WHERE clientes.id = ?";
+                + "INNER JOIN creditos AS c ON(p.credito = c.id) INNER JOIN clientes ON(c.cliente=clientes.id) WHERE c.id = ?";
         this.cn = Conexion();
         float total = 0;
         try{

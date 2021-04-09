@@ -7,6 +7,7 @@ package controlador;
 
 import com.github.anastaciocintra.escpos.EscPos;
 import com.github.anastaciocintra.escpos.EscPosConst;
+import com.github.anastaciocintra.escpos.Style;
 import com.github.anastaciocintra.escpos.image.Bitonal;
 import com.github.anastaciocintra.escpos.image.BitonalThreshold;
 import com.github.anastaciocintra.escpos.image.CoffeeImageImpl;
@@ -58,6 +59,7 @@ public class CtrlGenCodBarra extends Productos implements ActionListener, CaretL
         return BarcodeImageHandler.getImage(barcode);
     }
     
+    //CREAR IMAGEN PNG DE COD DE BARRA
     public void pngCodeBarra(){
         try {
             File f = new File("C:/CodeBarraCDstore/lot4957.png");
@@ -70,13 +72,13 @@ public class CtrlGenCodBarra extends Productos implements ActionListener, CaretL
            JOptionPane.showMessageDialog(null, e + "Error al generar el codigo de barra");
         }
     }
+    
     //imprimir codigo de barra recibe nombre de la impresora y el codigo de barra a imprimir
     public void GenerarCodigoBarra(String printerName, String code, int Ncopias) throws OutputException {
         PrintService printService = PrinterOutputStream.getPrintServiceByName(printerName);
         EscPos escpos;
         try {
             escpos = new EscPos(new PrinterOutputStream(printService));
-
             Bitonal algorithm = new BitonalThreshold(127);
             // creating the EscPosImage, need buffered image and algorithm.
             BufferedImage githubBufferedImage;
@@ -85,10 +87,12 @@ public class CtrlGenCodBarra extends Productos implements ActionListener, CaretL
 
             // this wrapper uses esc/pos sequence: "GS 'v' '0'"
             RasterBitImageWrapper imageWrapper = new RasterBitImageWrapper();
-
+            
+            //aumentar el tamaño de la imagen de codbarra y centrarlo
+            imageWrapper.setRasterBitImageMode(RasterBitImageWrapper.RasterBitImageMode.DoubleHeight).setJustification(EscPosConst.Justification.Center);
+            escpos.feed(2);
             for(int i = 0; i < Ncopias; i++){
-                imageWrapper.setJustification(EscPosConst.Justification.Center);
-                escpos.feed(2);
+                
                 escpos.write(imageWrapper, escposImage).feed(5).cut(EscPos.CutMode.FULL);
             }
 
@@ -99,7 +103,33 @@ public class CtrlGenCodBarra extends Productos implements ActionListener, CaretL
         }
 
     }
-
+//METODO PARA DETECTAR CARACTERES ESPECIALES DENTRO DEL CODIGO DE BARRAS
+    public void CleanChars(String str){
+        char[] charSearch = {' ','\'','+','-','*','/','(',')','_','-','.'}; 
+        for(int i=0; i<str.length(); i++) 
+        {
+            char chr = str.charAt(i);
+            for(int j=0; j<charSearch.length; j++)
+            {
+                if(charSearch[j] == chr)
+                {
+                    if(this.menu.lblAlertaCreacionCodeBarra.isVisible()){
+                        this.menu.lblAlertaCreacionCodeBarra.setText("oops..! no se aceptan +,-,*,/,(,),_,-,', etc.");
+                        this.menu.btnImprimirCodeBarra.setEnabled(false);
+                    }else if(!this.menu.lblAlertaCreacionCodeBarra.isVisible()){
+                        this.menu.lblAlertaCreacionCodeBarra.setVisible(true);
+                        this.menu.lblAlertaCreacionCodeBarra.setText("oops..! no se aceptan +,-,*,/,(,),_,-,', etc.");
+                        this.menu.btnImprimirCodeBarra.setEnabled(false);
+                    }else{
+                        this.menu.lblAlertaCreacionCodeBarra.setVisible(false);
+                        this.menu.btnImprimirCodeBarra.setEnabled(true);
+                    }
+                    
+                }
+            }  
+        }
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == menu.btnGenerarCodBarra){
@@ -112,7 +142,7 @@ public class CtrlGenCodBarra extends Productos implements ActionListener, CaretL
                 String code = this.menu.txtCrearCodigoBarra.getText();
                 int Ncopias = (int) this.menu.jsNcopias.getValue();
                 if(!code.equals("")){
-                    GenerarCodigoBarra("LR2000",code, Ncopias);
+                    GenerarCodigoBarra("EPSON TM-T20III Receipt",code, Ncopias);
                     this.menu.txtCrearCodigoBarra.setText("");
                 }else{
                     JOptionPane.showMessageDialog(null, "El campo de codigo de barra esta vacio..!");
@@ -134,12 +164,14 @@ public class CtrlGenCodBarra extends Productos implements ActionListener, CaretL
             String code = this.menu.txtCrearCodigoBarra.getText();
             ExitsCodBarra(code);
             if(isExiste()){
+                this.menu.lblAlertaCreacionCodeBarra.setText("oops..! este código de barras ya existe");
                 this.menu.lblAlertaCreacionCodeBarra.setVisible(true);
                 this.menu.btnImprimirCodeBarra.setEnabled(false);
             }else{
                 this.menu.lblAlertaCreacionCodeBarra.setVisible(false);
                 this.menu.btnImprimirCodeBarra.setEnabled(true);
             }
+            CleanChars(code);
         }
     }
 
