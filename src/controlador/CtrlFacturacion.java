@@ -76,7 +76,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
         this.menu.btnActualizarFactura.setVisible(false);
         this.menu.btnGuardarFactura.addActionListener(this);
         this.menu.btnGuardarFactura.addKeyListener(this);
-        this.menu.btnCobrarSinImprimir.addActionListener(this);
         this.menu.btnGuardarSalidaMoneda.addActionListener(this);
         this.menu.btnSalidaMonedas.addActionListener(this);
         this.menu.btnActualizarFactura.addActionListener(this);
@@ -138,24 +137,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                 }
             } else {
                 guardarFactura();
-            }
-        }
-        if (e.getSource() == menu.btnCobrarSinImprimir) {
-            String totalF = menu.txtTotal.getText();
-            String idCreditoL = menu.txtCreditoFactura.getText();
-            float saldo, sumar, limite;
-            if (!idCreditoL.equals("")) {
-                saldo = this.creditos.creditoPorCliente(idCreditoL);
-                limite = this.creditos.limiteCredito(idCreditoL);
-                sumar = saldo + Float.parseFloat(totalF);
-                if (sumar > limite) {
-                    JOptionPane.showMessageDialog(null, "Está excediendo el límite de crédito", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                    menu.btnGuardarFactura.setEnabled(false);
-                } else {
-                    guardarFacturaSinImprimir();
-                }
-            } else {
-                guardarFacturaSinImprimir();
             }
         }
         if (e.getSource() == menu.btnActualizarFactura) {
@@ -648,10 +629,10 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
     public void DeshabilitarBtnGuardarFactura() {
         if (menu.tblFactura.getRowCount() > 0) {
             menu.btnGuardarFactura.setEnabled(true);
-            menu.btnCobrarSinImprimir.setEnabled(true);
+            //menu.btnCobrarSinImprimir.setEnabled(true);
         } else {
             menu.btnGuardarFactura.setEnabled(false);
-            menu.btnCobrarSinImprimir.setEnabled(false);
+            //menu.btnCobrarSinImprimir.setEnabled(false);
         }
     }
 

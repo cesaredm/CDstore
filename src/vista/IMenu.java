@@ -471,7 +471,6 @@ public class IMenu extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         btnDividirPago = new javax.swing.JButton();
-        btnCobrarSinImprimir = new javax.swing.JButton();
         pnlReportes = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel13 = new javax.swing.JPanel();
@@ -3164,11 +3163,6 @@ public class IMenu extends javax.swing.JFrame {
         btnDividirPago.setText("Ingresar monedas");
         jPanel29.add(btnDividirPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 20, -1, 30));
 
-        btnCobrarSinImprimir.setBackground(new java.awt.Color(0, 166, 192));
-        btnCobrarSinImprimir.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnCobrarSinImprimir.setForeground(new java.awt.Color(255, 255, 255));
-        btnCobrarSinImprimir.setText("Cobrar");
-
         javax.swing.GroupLayout pnlVentasLayout = new javax.swing.GroupLayout(pnlVentas);
         pnlVentas.setLayout(pnlVentasLayout);
         pnlVentasLayout.setHorizontalGroup(
@@ -3192,7 +3186,7 @@ public class IMenu extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlVentasLayout.createSequentialGroup()
                         .addComponent(jLabel108, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCodBarraFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCodBarraFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3202,9 +3196,7 @@ public class IMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNuevaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCobrarSinImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnGuardarFactura, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                        .addComponent(btnGuardarFactura, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         pnlVentasLayout.setVerticalGroup(
@@ -3225,19 +3217,18 @@ public class IMenu extends javax.swing.JFrame {
                     .addGroup(pnlVentasLayout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(pnlVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtCodBarraFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnAgregarProductoFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnEliminarFilaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnNuevaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCodBarraFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnlVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btnGuardarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnCobrarSinImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(pnlVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAgregarProductoFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnEliminarFilaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnNuevaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(pnlVentasLayout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addComponent(jLabel108)))
-                .addGap(10, 10, 10)
+                .addGap(11, 11, 11)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                 .addGap(11, 11, 11)
                 .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -5513,8 +5504,8 @@ public class IMenu extends javax.swing.JFrame {
         pnlMenuLateral.add(btnTransacciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 200, 47));
 
         logoClothing.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        logoClothing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoAgroJarquin.png"))); // NOI18N
-        pnlMenuLateral.add(logoClothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 7, -1, 80));
+        logoClothing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logoBlesskids.png"))); // NOI18N
+        pnlMenuLateral.add(logoClothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 7, -1, 80));
 
         btnInfoFactura.setBackground(new java.awt.Color(69, 76, 89));
         btnInfoFactura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -5723,7 +5714,6 @@ public class IMenu extends javax.swing.JFrame {
     public javax.swing.JButton btnCancel;
     public javax.swing.JPanel btnCerrarSesion;
     public javax.swing.JPanel btnClientes;
-    public javax.swing.JButton btnCobrarSinImprimir;
     public javax.swing.JButton btnCrearCredito;
     public javax.swing.JButton btnCreditoFactura;
     public javax.swing.JButton btnDevolverProducto;

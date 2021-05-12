@@ -5000,9 +5000,9 @@
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel108" min="-2" pref="84" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtCodBarraFactura" min="-2" pref="223" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="txtCodBarraFactura" min="-2" pref="299" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnAgregar" min="-2" pref="146" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="btnAgregarProductoFactura" min="-2" pref="121" max="-2" attributes="0"/>
@@ -5010,11 +5010,9 @@
                                   <Component id="btnEliminarFilaFactura" min="-2" pref="122" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Component id="btnNuevaFactura" min="-2" pref="121" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnCobrarSinImprimir" min="-2" pref="90" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnGuardarFactura" pref="146" max="32767" attributes="0"/>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnGuardarFactura" pref="166" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -5041,16 +5039,15 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="txtCodBarraFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                          <Component id="btnAgregar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                          <Component id="btnAgregarProductoFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                          <Component id="btnEliminarFilaFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                          <Component id="btnNuevaFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="txtCodBarraFactura" min="-2" pref="32" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="btnGuardarFactura" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnCobrarSinImprimir" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                              <Component id="btnAgregar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                              <Component id="btnAgregarProductoFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                              <Component id="btnEliminarFilaFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                              <Component id="btnNuevaFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                               </Group>
@@ -5059,7 +5056,7 @@
                                   <Component id="jLabel108" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           <Component id="jScrollPane10" pref="321" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           <Component id="jPanel29" min="-2" pref="55" max="-2" attributes="0"/>
@@ -5927,23 +5924,6 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="btnCobrarSinImprimir">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="c0" green="a6" red="0" type="rgb"/>
-                    </Property>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="16" style="0"/>
-                    </Property>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Cobrar"/>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-                  </AuxValues>
-                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="pnlReportes">
@@ -11712,12 +11692,12 @@
                   <Font name="Segoe UI" size="48" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/img/logoAgroJarquin.png"/>
+                  <Image iconType="3" name="/img/logoBlesskids.png"/>
                 </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="48" y="7" width="-1" height="80"/>
+                  <AbsoluteConstraints x="16" y="7" width="-1" height="80"/>
                 </Constraint>
               </Constraints>
             </Component>
