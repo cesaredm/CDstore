@@ -149,9 +149,9 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
                 menu.pnlUsuarios.setVisible(false);
                 menu.pnlNotificaciones.setVisible(false);
                 menu.pnlTransacciones.setVisible(false);
-                menu.btnGuardarProducto.setVisible(false);
-                menu.btnActualizarProducto.setVisible(false);
-                menu.btnNuevoProducto.setVisible(false);
+                menu.btnGuardarProducto.setEnabled(false);
+                menu.btnActualizarProducto.setEnabled(false);
+                menu.btnNuevoProducto.setEnabled(false);
 //                menu.lblTituloDeVentanas.setText("");
                 menu.pnlBlanco.setVisible(false);
             }else if(this.permiso == 1)
@@ -309,7 +309,7 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
                 menu.pnlNotificaciones.setVisible(false);
                 menu.pnlTransacciones.setVisible(false);
                 //ocultar inversion
-                menu.pnlInversion.setVisible(false);
+                menu.lblInversion.setVisible(false);
 //                menu.lblTituloDeVentanas.setText("");
                 menu.pnlBlanco.setVisible(false);
             }else if(this.permiso == 1)
