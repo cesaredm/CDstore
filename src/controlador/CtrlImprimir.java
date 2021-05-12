@@ -16,16 +16,17 @@ import com.github.anastaciocintra.escpos.image.RasterBitImageWrapper;
 import com.github.anastaciocintra.output.PrinterOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.print.PrintService;
 import samplesCommon.SamplesCommon;
 
-/**
- *
+/**nit
  * @author CESAR DIAZ MARADIAGA
  */
 public class CtrlImprimir {
 
-    PrintService printService = PrinterOutputStream.getPrintServiceByName("EPSON TM-T20III Receipt");
+    PrintService printService;
     PrinterOutputStream printerOutputStream;
     EscPos escpos;
     Style boldCenter,bold,centrar;
@@ -36,19 +37,44 @@ public class CtrlImprimir {
     // this wrapper uses esc/pos sequence: "GS 'v' '0'"
     RasterBitImageWrapper imageWrapper;
 
-    public CtrlImprimir() throws IOException {
-        printerOutputStream = new PrinterOutputStream(printService);
-        escpos = new EscPos(printerOutputStream);
-        boldCenter = new Style(escpos.getStyle())
-                .setBold(true).setJustification(EscPosConst.Justification.Center);
-        //estilo negrita sin centrar
-        bold = new Style(escpos.getStyle()).setBold(true);
-        //centrar texto
-        centrar = new Style().setJustification(EscPosConst.Justification.Center);
-        algorithm = new BitonalThreshold(127);
-        githubBufferedImage = SamplesCommon.getImage(SamplesCommon.sampleImages.blessKids);
-        escposImage = new EscPosImage(new CoffeeImageImpl(githubBufferedImage), algorithm);
-        imageWrapper = new RasterBitImageWrapper();
-        imageWrapper.setJustification(EscPosConst.Justification.Center);
+    public CtrlImprimir() {
+        try {
+            this.printService = PrinterOutputStream.getPrintServiceByName("");
+            this.printerOutputStream = new PrinterOutputStream(printService);
+            this.escpos = new EscPos(printerOutputStream);
+            this.boldCenter = new Style(escpos.getStyle())
+                    .setBold(true).setJustification(EscPosConst.Justification.Center);
+            //estilo negrita sin centrar
+            this.bold = new Style(escpos.getStyle()).setBold(true);
+            //centrar texto
+            this.centrar = new Style().setJustification(EscPosConst.Justification.Center);
+            this.algorithm = new BitonalThreshold(127);
+            this.githubBufferedImage = SamplesCommon.getImage(SamplesCommon.sampleImages.blessKids);
+            this.escposImage = new EscPosImage(new CoffeeImageImpl(githubBufferedImage), algorithm);
+            this.imageWrapper = new RasterBitImageWrapper();
+            this.imageWrapper.setJustification(EscPosConst.Justification.Center);
+        } catch (IOException ex) {
+            Logger.getLogger(CtrlImprimir.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
+    public void reiniciar(){
+        try {
+            this.printService = PrinterOutputStream.getPrintServiceByName("");
+            this.printerOutputStream = new PrinterOutputStream(printService);
+            this.escpos = new EscPos(this.printerOutputStream);
+        } catch (IOException ex) {
+            Logger.getLogger(CtrlImprimir.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void close(){
+        try {
+            this.escpos.close();
+        } catch (IOException ex) {
+            Logger.getLogger(CtrlImprimir.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
 }

@@ -455,5 +455,4 @@ public class Facturacion extends Conexiondb {
         return total;
     }
     
-    
 }

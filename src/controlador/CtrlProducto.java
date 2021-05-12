@@ -15,10 +15,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.PrintService;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -32,7 +34,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
  *
  * @author CESAR DIAZ MARADIAGA
  */
-public class CtrlProducto implements ActionListener, CaretListener, MouseListener, KeyListener {
+public class CtrlProducto extends CtrlImprimir implements ActionListener, CaretListener, MouseListener, KeyListener {
 
     Productos productos;
     IMenu menu;
@@ -75,6 +77,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
         this.menu.rbBuscarCategoria.addActionListener(this);
         this.menu.rbBuscarLaboratorio.addActionListener(this);
         this.menu.rbBuscarNombreCodBarra.addActionListener(this);
+        this.menu.kardex.addActionListener(this);
         this.menu.txtCategoriaProducto.addMouseListener(this);
         this.menu.txtLaboratorioProducto.addMouseListener(this);
         this.menu.tblAddCategoria.addMouseListener(this);
@@ -93,6 +96,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
         this.menu.btnGuardarProducto.addKeyListener(this);
         this.menu.cmbMonedaCompraProducto.addKeyListener(this);
         this.menu.cmbMonedaVentaProducto.addKeyListener(this);
+        this.menu.spUtilidad.addKeyListener(this);
         this.id = null;
         this.modelo = new DefaultTableModel();
         iniciar();
@@ -169,13 +173,17 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
         }
         if (e.getSource() == menu.btnAgregarProducto) {
             try {
-                String Cantidad = "";
-                int filaseleccionada = menu.tblProductos.getSelectedRow();
+                String Cantidad = "",user=this.menu.lblUsuarioSistema.getText();
+                int filaseleccionada = menu.tblProductos.getSelectedRow(), producto;
+                float c;
                 this.modelo = (DefaultTableModel) menu.tblProductos.getModel();
                 String id = (String) this.modelo.getValueAt(filaseleccionada, 0);
+                producto = Integer.parseInt(id);
                 Cantidad = menu.txtCantidadAgregar.getText();//JOptionPane.showInputDialog("Ingrese la Cantidad de " + nombre, "");
+                c = Float.parseFloat(Cantidad);
                 if (Cantidad != null) {
                     productos.AgregarProductoStock(id, Cantidad);
+                    productos.guardarKardexIncial(producto,user,c,"add");
                     MostrarProductos("");
                     MostrarProductosVender("");
                     StockMinimoP("", 0);
@@ -249,7 +257,28 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
         }
 
         if (e.getSource() == menu.btnImprimirMinStock) {
-            ImprimirMinStock("EPSON TM-T20III Receipt");
+            ImprimirMinStock();
+        }
+        if (e.getSource() == menu.kardex) {
+            int filaseleccionada = this.menu.tblProductos.getSelectedRow();
+            String id,nombre,stock;
+            try {
+                if (filaseleccionada == -1) {
+
+                } else {
+                    id = (String) this.menu.tblProductos.getValueAt(filaseleccionada, 0);
+                    nombre = (String) this.menu.tblProductos.getValueAt(filaseleccionada, 2);
+                    stock = (String) this.menu.tblProductos.getValueAt(filaseleccionada, 10);
+                    this.menu.lblTituloKardex.setText(nombre.toUpperCase());
+                    this.menu.lblExistenciaKardex.setText(stock);
+                    Kardex(id);
+                    this.menu.jdKardex.setSize(1289, 564);
+                    this.menu.jdKardex.setLocationRelativeTo(null);
+                    this.menu.jdKardex.setVisible(true);
+                }
+            } catch (Exception err) {
+
+            }
         }
     }
 
@@ -334,6 +363,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
         menu.spPrecioVenta.setValue(0);
         menu.txtCantidadProducto.setValue(0);
         menu.spPrecioMinimoProducto.setValue(0);
+        menu.spUtilidad.setValue(0);
         menu.txtCategoriaProducto.setText("");
         menu.txtLaboratorioProducto.setText("");
         menu.txtUbicacionProducto.setText("");
@@ -363,6 +393,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
         menu.cmbMonedaCompraProducto.setEnabled(true);
         menu.cmbMonedaVentaProducto.setEnabled(true);
         menu.spPrecioMinimoProducto.setEnabled(true);
+        menu.spUtilidad.setEnabled(true);
     }
 
     public void HabilitarProductosParaEditar() {
@@ -386,6 +417,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
             menu.cmbMonedaCompraProducto.setEnabled(true);
             menu.cmbMonedaVentaProducto.setEnabled(true);
             menu.spPrecioMinimoProducto.setEnabled(true);
+            menu.spUtilidad.setEnabled(true);
         } else if (this.permiso == 2) {
             menu.txtCodBarraProducto.setEnabled(true);
             menu.txtNombreProducto.setEnabled(true);
@@ -405,6 +437,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
             menu.cmbMonedaCompraProducto.setEnabled(true);
             menu.cmbMonedaVentaProducto.setEnabled(true);
             menu.spPrecioMinimoProducto.setEnabled(false);
+            menu.spUtilidad.setEnabled(true);
         }
     }
 //este metodo iversion es el mismo metodo que esta en reportes lo repite para no crear una nueva instancia de la clase reportes
@@ -459,7 +492,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
         int filaseleccionada;
         String id, codBarra, nombre, categoria, laboratorio, ubicacion, descripcion, monedaCompra, monedaVenta, precioMin;
         Date fechaVencimiento;
-        float precioC, precioV, cantidad, precioMinimo;
+        float precioC, precioV, cantidad, precioMinimo, utilidad;
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         try {
             filaseleccionada = menu.tblProductos.getSelectedRow();
@@ -481,6 +514,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
                 categoria = (String) modelo.getValueAt(filaseleccionada, 11);
                 laboratorio = (String) modelo.getValueAt(filaseleccionada, 12);
                 ubicacion = (String) modelo.getValueAt(filaseleccionada, 13);
+                utilidad = Float.parseFloat(modelo.getValueAt(filaseleccionada, 14).toString());
                 HabilitarProductosParaEditar();
                 LimpiarProducto();
                 menu.txtCodBarraProducto.setText(codBarra);
@@ -498,6 +532,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
                 menu.spPrecioMinimoProducto.setValue(precioMinimo);
                 menu.txtGananciaProducto.setText("0");
                 menu.txtMargenGanancia.setText("");
+                menu.spUtilidad.setValue(utilidad);
                 this.id = id;
                 menu.btnGuardarProducto.setEnabled(false);
                 menu.btnActualizarProducto.setEnabled(true);
@@ -521,6 +556,7 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
                 monedaCompra = menu.cmbMonedaCompraProducto.getSelectedItem().toString(),
                 monedaVenta = menu.cmbMonedaVentaProducto.getSelectedItem().toString(),
                 precioMinimo = menu.spPrecioMinimoProducto.getValue().toString();
+                float utilidad = Float.parseFloat(menu.spUtilidad.getValue().toString());
         Date fechaVencimiento = menu.jcFechaVProducto.getDate();
         long fechaV = fechaVencimiento.getTime();
         java.sql.Date fecha = new java.sql.Date(fechaV);
@@ -537,7 +573,8 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
             if (!isNumeric(laboratorio)) {
                 laboratorio = "1";
             }
-            productos.Guardar(codigoBarra, nombre, precioCProducto, monedaCompra, precioVProducto, monedaVenta, precioMinimo, fecha, cantidad, categoria, laboratorio, ubicacion, descripcion);
+            productos.Guardar(codigoBarra, nombre, precioCProducto, monedaCompra, precioVProducto, monedaVenta, precioMinimo, fecha, cantidad, categoria, laboratorio, ubicacion, descripcion, utilidad);
+            guardarKardex(cantidad);
             MostrarProductos("");
             LimpiarProducto();
             menu.btnGuardarProducto.setEnabled(true);
@@ -549,6 +586,14 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
         }
     }
 
+    //guardar en el kardex el stock inicial
+    public void guardarKardex(String cantidad){
+        int producto = this.productos.ultimoRegistro();
+        String user = menu.lblUsuarioSistema.getText(), anotacion = "inicial";
+        this.productos.guardarKardexIncial(producto, user, Float.parseFloat(cantidad), anotacion);
+        
+    }
+    
     public void actualizarProducto() {
         String codigoBarra = menu.txtCodBarraProducto.getText(),
                 nombre = menu.txtNombreProducto.getText(),
@@ -562,7 +607,9 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
                 descripcion = menu.txtDescripcionProducto.getText(),
                 monedaCompra = menu.cmbMonedaCompraProducto.getSelectedItem().toString(),
                 monedaVenta = menu.cmbMonedaVentaProducto.getSelectedItem().toString(),
-                precioMinimo = menu.spPrecioMinimoProducto.getValue().toString();
+                precioMinimo = menu.spPrecioMinimoProducto.getValue().toString(),
+                user = this.menu.lblUsuarioSistema.getText();
+        float utilidad = Float.parseFloat(menu.spUtilidad.getValue().toString());
         Date fechaVencimiento = menu.jcFechaVProducto.getDate();
         long fechaV = fechaVencimiento.getTime();
         java.sql.Date fecha = new java.sql.Date(fechaV);
@@ -594,7 +641,8 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
                 if (!isNumeric(laboratorio)) {
                     laboratorio = "1";
                 }
-                productos.Actualizar(this.id, codigoBarra, nombre, precioCProducto, monedaCompra, precioVProducto, monedaVenta, precioMinimo, fecha, cantidad, categoria, laboratorio, ubicacion, descripcion);
+                productos.Actualizar(this.id, codigoBarra, nombre, precioCProducto, monedaCompra, precioVProducto, monedaVenta, precioMinimo, fecha, cantidad, categoria, laboratorio, ubicacion, descripcion, utilidad);
+                this.productos.guardarKardexIncial(Integer.parseInt(this.id), user, Float.parseFloat(cantidad), "edicion stock");
                 MostrarProductos("");
                 MostrarProductosVender("");
                 LimpiarProducto();
@@ -743,27 +791,33 @@ public class CtrlProducto implements ActionListener, CaretListener, MouseListene
         menu.cmbMonedaCompraProducto.setEnabled(false);
         menu.cmbMonedaVentaProducto.setEnabled(false);
         menu.spPrecioMinimoProducto.setEnabled(false);
+        menu.spUtilidad.setEnabled(false);
     }
 
-    public void ImprimirMinStock(String printerName) {
+    public void ImprimirMinStock() {
         int filas = menu.tblStockMin.getRowCount();
-        PrintService printService = PrinterOutputStream.getPrintServiceByName(printerName);
         String template = "Productos bajos en existencia. \n--------------------------------------\n";
         if (filas != 0) {
             for (int i = 0; i < filas; i++) {
                 template += menu.tblStockMin.getValueAt(i, 1) + " " + menu.tblStockMin.getValueAt(i, 2) + "[] \n";
             }
             try {
-                PrinterOutputStream printerOutputStream = new PrinterOutputStream(printService);
-                EscPos escpos = new EscPos(printerOutputStream);
+                escpos.write(imageWrapper, escposImage).feed(2);
                 escpos.writeLF(template).feed(2).cut(EscPos.CutMode.FULL);
                 escpos.close();
             } catch (Exception e) {
-                
+
             }
         } else {
 
         }
+    }
+
+    public void Kardex(String id) {
+        this.menu.lblSalidasKardex.setText(this.productos.countKardexSalidas(id));
+        this.menu.tblKardexS.setModel(this.productos.kardexSalidas(id));
+        this.menu.tblKardexE.setModel(this.productos.kardexEntradas(id));
+        this.menu.lblStockInicialKardex.setText(this.productos.kardexInicial(id));
     }
 
     @Override

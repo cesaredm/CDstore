@@ -67,7 +67,7 @@ public class Login extends Conexiondb {
                         {
                             bandera = 2;//2 si es de ventas
                         }
-                } else {
+                }else{
                     bandera = 0;//0 si no existe
                 }
 

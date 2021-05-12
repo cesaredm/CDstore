@@ -21,7 +21,7 @@ public class Reportes extends Conexiondb {
     PreparedStatement pst;
     int banderin;
     DefaultTableModel modelo;
-    private float Dolares,EgresoDolares,dolaresComprados;
+    private float Dolares,EgresoDolares,dolaresComprados, precioDolar;
 
     public Reportes() {
         this.pst = null;
@@ -29,6 +29,10 @@ public class Reportes extends Conexiondb {
         this.cn = null;
     }
 
+    public void setPrecioDolar(float precio){
+        this.precioDolar = precio;
+    }
+    
     public float getDolares() {
         return Dolares;
     }
@@ -553,7 +557,7 @@ public class Reportes extends Conexiondb {
     public float inversionCordobas() {
         cn = Conexion();
         float inversion = 0;
-        this.consulta = "SELECT SUM(precioVenta*stock) AS inversion FROM productos WHERE monedaVenta = 'Córdobas'";
+        this.consulta = "SELECT SUM(precioCompra*stock) AS inversion FROM productos WHERE monedaCompra = 'Córdobas'";
         try {
             PreparedStatement pst = this.cn.prepareStatement(this.consulta);
             ResultSet rs = pst.executeQuery();
@@ -571,7 +575,7 @@ public class Reportes extends Conexiondb {
     public float inversionDolar() {
         cn = Conexion();
         float inversion = 0;
-        this.consulta = "SELECT SUM(precioVenta*stock) AS inversion FROM productos WHERE monedaVenta = 'Dolar'";
+        this.consulta = "SELECT SUM(precioCompra*stock) AS inversion FROM productos WHERE monedaCompra = 'Dolar'";
         try {
             PreparedStatement pst = this.cn.prepareStatement(this.consulta);
             ResultSet rs = pst.executeQuery();
@@ -940,10 +944,64 @@ public class Reportes extends Conexiondb {
             JOptionPane.showMessageDialog(null, e + " en la funcion MonedasRecibidas en modelo Reportes");
         }
     }
-    //TODO mostrar los ingresos de monedas para editar
     
+    public float precioVenta(Date fecha){
+        float total = 0, totalUtilidades = 0;
+        this.cn = Conexion();
+        this.consulta = "select sum(f.totalFactura) as total from facturas as f where f.fecha=?";
+        try {
+            this.pst = this.cn.prepareStatement(this.consulta);
+            this.pst.setDate(1,fecha);
+            ResultSet rs = this.pst.executeQuery();
+            while(rs.next()){
+                total = rs.getFloat("total");
+            }
+            this.cn.close();
+            totalUtilidades = total - (precioCompraDolar(fecha)+precioCompraCordobas(fecha));
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e + "en la funcion precioVenta en el modelo de reporte");
+        }
+        return totalUtilidades;
+    }
     
+    public float precioCompraCordobas(Date fecha){
+        float total = 0;
+        this.cn = Conexion();
+        this.consulta = "select sum(df.cantidadProducto*p.precioCompra) as total from detalleFactura as df"
+                + " inner join facturas as f on(f.id=df.factura) inner join productos as p on(p.id=df.producto)"
+                + " where f.fecha = ? and p.monedaCompra='Córdobas'";
+        try {
+            this.pst = this.cn.prepareStatement(this.consulta);
+            this.pst.setDate(1,fecha);
+            ResultSet rs = this.pst.executeQuery();
+            while(rs.next()){
+                total = rs.getFloat("total");
+            }
+            this.cn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e + "en la funcion precioCompra en el modelo de reporte");
+        }
+        return total;
+    }
     
-    
+    public float precioCompraDolar(Date fecha){
+        float total = 0;
+        this.cn = Conexion();
+        this.consulta = "select sum(df.cantidadProducto*p.precioCompra) as total from detalleFactura as df"
+                + " inner join facturas as f on(f.id=df.factura) inner join productos as p on(p.id=df.producto)"
+                + " where f.fecha = ? and p.monedaCompra='Dolar'";
+        try {
+            this.pst = this.cn.prepareStatement(this.consulta);
+            this.pst.setDate(1,fecha);
+            ResultSet rs = this.pst.executeQuery();
+            while(rs.next()){
+                total = rs.getFloat("total");
+            }
+            this.cn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e + "en la funcion precioCompra en el modelo de reporte");
+        }
+        return total*this.precioDolar;
+    }
     
 }

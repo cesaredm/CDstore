@@ -8,7 +8,11 @@ import java.net.URL;
 public class SamplesCommon {
 
     public enum sampleImages {
-        github("logoLib.bmp"), logoLib("logoLib1.bmp"), bless("bless.png"), blessKids("logoPrintBlesskids.png");
+        github("logoLib.bmp"), 
+        logoLib("logoLib1.bmp"), 
+        bless("bless.png"),
+        blessKids("logoPrintBlesskids.png"),
+        logoJaquin("logoAgroJarquin.png");
         public String imageName;
 
         sampleImages(String imageName) {

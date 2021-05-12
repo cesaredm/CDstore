@@ -202,6 +202,9 @@ public class CtrlImprimirReport extends PrintReportes implements ActionListener 
             int filasCordobas = this.menu.tblArticulosCreditoCordobas.getRowCount();
             int filaseleccionada = this.menu.tblCreditos.getSelectedRow();
             String cliente = this.menu.tblCreditos.getValueAt(filaseleccionada, 4).toString() + " " + this.menu.tblCreditos.getValueAt(filaseleccionada, 5).toString();
+            String totalC = this.menu.lblTodalCreditoPorCliente.getText(),
+                   totalP = this.menu.lblTotalAbonosPorCliente.getText(),
+                   saldo = this.menu.lblSaldoCliente.getText();
             String listado = "PRODUCTOS EN DOLAR \n";
             
             for (int i = 0; i < filasDolar; i++) {
@@ -209,12 +212,15 @@ public class CtrlImprimirReport extends PrintReportes implements ActionListener 
                            +" "+ this.menu.tblArticulosCredito.getValueAt(i,1).toString()
                            +" "+ this.menu.tblArticulosCredito.getValueAt(i,3).toString()+"$\n";
             }
-            listado += "PRODUCTOS EN CORDOBAS \n";
+            listado += "\nPRODUCTOS EN CORDOBAS \n";
             for (int i = 0; i < filasCordobas; i++) {
                 listado += this.menu.tblArticulosCreditoCordobas.getValueAt(i,2).toString()
                            +" "+ this.menu.tblArticulosCreditoCordobas.getValueAt(i,1).toString()
                            +" "+ this.menu.tblArticulosCreditoCordobas.getValueAt(i,3).toString()+" C$\n";
             }
+            setTatalCredito(totalC);
+            setTotalPagos(totalP);
+            setSaldo(saldo);
             setListaProductosCreditos(listado);
             setNombreCliente(cliente);
             print("ListaCredito");

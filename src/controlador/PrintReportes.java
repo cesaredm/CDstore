@@ -22,6 +22,10 @@ public class PrintReportes extends CtrlImprimir{
     String nombreTienda;
     private String listaProductosCreditos;
     private String nombreCliente;
+    private String tatalCredito;
+    private String totalPagos;
+    private String saldo;
+
 
     //Ticket attribute content
     private String contentTicketDiario;
@@ -94,6 +98,18 @@ public class PrintReportes extends CtrlImprimir{
         this.nombreCliente = nombreCliente;
     }
     
+    public void setTatalCredito(String tatalCredito) {
+        this.tatalCredito = tatalCredito;
+    }
+
+    public void setTotalPagos(String totalPagos) {
+        this.totalPagos = totalPagos;
+    }
+
+    public void setSaldo(String saldo) {
+        this.saldo = saldo;
+    }
+    
     public void llenarTicketTotalV(String[] datos, String tienda) {
         StringBuffer a = new StringBuffer("");
         for (int i = 0; i < datos.length; i++) {
@@ -135,6 +151,8 @@ public class PrintReportes extends CtrlImprimir{
     
     public void print(String TipoReport) {
         try {
+            
+            reiniciar();
             //Agregamos la imagen
             escpos.write(imageWrapper, escposImage).feed(1);
             
@@ -160,13 +178,14 @@ public class PrintReportes extends CtrlImprimir{
                 }
                 break;
                 case "ListaCredito":{
-                    escpos.writeLF(boldCenter,this.nombreCliente).feed(2).writeLF(listaProductosCreditos)
-                    .feed(2).cut(EscPos.CutMode.FULL);
+                    escpos.writeLF(boldCenter,this.nombreCliente).feed(2)
+                          .writeLF(boldCenter,"Crédito:"+this.tatalCredito+" Pagos:"+this.totalPagos+" Saldo:"+this.saldo).feed(2)
+                          .write(this.listaProductosCreditos)
+                          .feed(4).cut(EscPos.CutMode.FULL);
                 }
                 break;
             }
-
-            escpos.close();
+            close();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }

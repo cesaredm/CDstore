@@ -69,7 +69,7 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
         this.menu.btnTransacciones.addMouseListener(this);
         this.menu.btnNotificaciones.addMouseListener(this);
         this.menu.btnCerrarSesion.addMouseListener(this);
-        this.menu.btnVerificarVencimientos.addMouseListener(this);
+        this.menu.btnVerificarVencimientos.addActionListener(this);
         this.menu.btnInfoFactura.addMouseListener(this);
         this.menu.addWindowListener(this);
         this.p = new Productos();
@@ -139,7 +139,7 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
 //            
 //            menu.btnInfoFactura.setBackground(new java.awt.Color(72,72,72));
             menu.lblEditarInfoFactura.setForeground(new java.awt.Color(255,255,255));
-
+            
             if(this.permiso == 2)
             {
                 menu.pnlClientes.setVisible(false);
@@ -149,6 +149,9 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
                 menu.pnlUsuarios.setVisible(false);
                 menu.pnlNotificaciones.setVisible(false);
                 menu.pnlTransacciones.setVisible(false);
+                menu.btnGuardarProducto.setVisible(false);
+                menu.btnActualizarProducto.setVisible(false);
+                menu.btnNuevoProducto.setVisible(false);
 //                menu.lblTituloDeVentanas.setText("");
                 menu.pnlBlanco.setVisible(false);
             }else if(this.permiso == 1)
@@ -305,6 +308,8 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
                 menu.pnlUsuarios.setVisible(false);
                 menu.pnlNotificaciones.setVisible(false);
                 menu.pnlTransacciones.setVisible(false);
+                //ocultar inversion
+                menu.pnlInversion.setVisible(false);
 //                menu.lblTituloDeVentanas.setText("");
                 menu.pnlBlanco.setVisible(false);
             }else if(this.permiso == 1)
@@ -317,6 +322,7 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
                 menu.pnlNotificaciones.setVisible(false);
                 menu.pnlTransacciones.setVisible(false);
                 menu.pnlInfoFactura.setVisible(false);
+                
             }
         }
         if (e.getSource() == menu.btnUsuarios) {
@@ -408,9 +414,9 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
                 menu.pnlInventario.setVisible(false);
                 menu.pnlUsuarios.setVisible(false);
                 menu.pnlNotificaciones.setVisible(false);
-                menu.pnlTransacciones.setVisible(false);
+                menu.pnlTransacciones.setVisible(true);
 //                menu.lblTituloDeVentanas.setText("");
-                menu.pnlBlanco.setVisible(true);
+                menu.pnlBlanco.setVisible(false);
             }else if(this.permiso == 1)
             {
                 menu.pnlClientes.setVisible(false);
@@ -602,13 +608,14 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
             try {
                 fechaFinal = sdf.parse(this.modelo.getValueAt(i, 9).toString());//obtengo la fecha del producto de la tabla producto lo paso a formato Date
                 int dias = (int) ((fechaFinal.getTime() - fechaInicio.getTime()) / 86400000);//calculo de diferencias de dias "conversion de milesegundos a dias"
+                //System.out.println(fechaFinal +" - "+fecha+" = "+ dias);
                 String nombre = (String) this.modelo.getValueAt(i, 2);//obtengo el nombre del producto de la tabla producto
-                if (dias == 60)//
+                if (dias <= 60 && dias > 0)//
                 {   
                     cont++;//contador de productos que venceran dentro de 60 dias 
                     menu.lblNumeroNotificaciones.setVisible(true);//hcaer visible el badge de numero de mensajes
                     //menu.lblMenuNotificacion.setForeground(new java.awt.Color(255, 7, 5, 255));//cambio de color si hay productos cerca de vencer
-                    lista.add("Quedan " + dias + " Dias para que el Producto " + nombre + " Expire");//agrego un elemeto a lista
+                    lista.add("Quedan " + dias + " días para que el producto " + nombre + " expire");//agrego un elemeto a lista
                     modeloLista.removeAllElements();//limpio el JList para que no repita los datos a mostrar
                     for (int l = 0; l < lista.size(); l++)//recorro la lista para ingresarla al modelo de Jlist
                     {

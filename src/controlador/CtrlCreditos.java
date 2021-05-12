@@ -169,7 +169,7 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
                         this.modelo = (DefaultTableModel) menu.tblCreditos.getModel();
                         id = (String) this.modelo.getValueAt(filaseleccionada, 0);
                         MostrarDatosCrediticio(id);
-                        menu.jdInfoCrediticia.setSize(925, 530);
+                        menu.jdInfoCrediticia.setSize(910, 538);
                         menu.jdInfoCrediticia.setVisible(true);
                         menu.jdInfoCrediticia.setLocationRelativeTo(null);
 

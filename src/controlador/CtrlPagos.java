@@ -254,6 +254,8 @@ public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretList
     //IMPRIMIR TICKET COMPOBANTE DE PAGO
     public void imprimir(String tienda, String idPago, String fecha, String cliente, String credito, String totalCredito, String monto, String saldo) {
         try {
+            
+            reiniciar();
             escpos.write(imageWrapper, escposImage).feed(1);
             
             escpos.writeLF(boldCenter, tienda)

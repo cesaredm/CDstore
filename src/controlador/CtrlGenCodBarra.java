@@ -72,7 +72,7 @@ public class CtrlGenCodBarra extends Productos implements ActionListener, CaretL
            JOptionPane.showMessageDialog(null, e + "Error al generar el codigo de barra");
         }
     }
-    
+    //TODO extends al controller de imprimir
     //imprimir codigo de barra recibe nombre de la impresora y el codigo de barra a imprimir
     public void GenerarCodigoBarra(String printerName, String code, int Ncopias) throws OutputException {
         PrintService printService = PrinterOutputStream.getPrintServiceByName(printerName);
@@ -142,7 +142,7 @@ public class CtrlGenCodBarra extends Productos implements ActionListener, CaretL
                 String code = this.menu.txtCrearCodigoBarra.getText();
                 int Ncopias = (int) this.menu.jsNcopias.getValue();
                 if(!code.equals("")){
-                    GenerarCodigoBarra("EPSON TM-T20III Receipt",code, Ncopias);
+                    GenerarCodigoBarra("",code, Ncopias);
                     this.menu.txtCrearCodigoBarra.setText("");
                 }else{
                     JOptionPane.showMessageDialog(null, "El campo de codigo de barra esta vacio..!");
