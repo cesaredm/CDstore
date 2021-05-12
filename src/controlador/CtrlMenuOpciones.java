@@ -309,7 +309,7 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
                 menu.pnlNotificaciones.setVisible(false);
                 menu.pnlTransacciones.setVisible(false);
                 //ocultar inversion
-                menu.lblInversion.setVisible(false);
+                menu.pnlInversion.setVisible(false);
 //                menu.lblTituloDeVentanas.setText("");
                 menu.pnlBlanco.setVisible(false);
             }else if(this.permiso == 1)

@@ -554,10 +554,10 @@ public class Reportes extends Conexiondb {
     }
 
     //total de efectivo envertido en productos comprados en cordobas 
-    public float inversionCordobas() {
+    public float proyeccionVentaCordobas() {
         cn = Conexion();
         float inversion = 0;
-        this.consulta = "SELECT SUM(precioCompra*stock) AS inversion FROM productos WHERE monedaCompra = 'Córdobas'";
+        this.consulta = "SELECT SUM(precioVenta*stock) AS inversion FROM productos WHERE monedaVenta = 'Córdobas'";
         try {
             PreparedStatement pst = this.cn.prepareStatement(this.consulta);
             ResultSet rs = pst.executeQuery();
@@ -572,7 +572,24 @@ public class Reportes extends Conexiondb {
     }
 
     //total de efectivo envertido en productos comprados en dolar
-    public float inversionDolar() {
+    public float proyeccionVentaDolar() {
+        cn = Conexion();
+        float inversion = 0;
+        this.consulta = "SELECT SUM(precioVenta*stock) AS inversion FROM productos WHERE monedaVenta = 'Dolar'";
+        try {
+            PreparedStatement pst = this.cn.prepareStatement(this.consulta);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                inversion = rs.getFloat("inversion");
+            }
+            this.cn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e + "funcion inversion en modelo");
+        }
+        return inversion;
+    }
+
+    public float inversionDolar(){
         cn = Conexion();
         float inversion = 0;
         this.consulta = "SELECT SUM(precioCompra*stock) AS inversion FROM productos WHERE monedaCompra = 'Dolar'";
@@ -588,7 +605,24 @@ public class Reportes extends Conexiondb {
         }
         return inversion;
     }
-
+    
+    public float inversionCordobas(){
+        cn = Conexion();
+        float inversion = 0;
+        this.consulta = "SELECT SUM(precioCompra*stock) AS inversion FROM productos WHERE monedaCompra = 'Córdobas'";
+        try {
+            PreparedStatement pst = this.cn.prepareStatement(this.consulta);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                inversion = rs.getFloat("inversion");
+            }
+            this.cn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e + "funcion inversion en modelo");
+        }
+        return inversion;
+    }
+    
     //Obtener Ingresos efectivo en caja por rango de fechas
     public float ingresoEfectivoCaja(Date fecha1, Date fecha2) {
         float total = 0;

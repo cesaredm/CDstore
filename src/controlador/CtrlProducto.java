@@ -447,7 +447,7 @@ public class CtrlProducto extends CtrlImprimir implements ActionListener, CaretL
                 dolar = this.productos.inversionDolar(),
                 precioDolar = Float.parseFloat(menu.txtPrecioDolarVenta.getText()),
                 total = cordobas + (dolar * precioDolar);
-        menu.lblInversion.setText("" + total);
+        menu.lblProyeccion.setText("" + total);
     }
 
     public void StockMinimoP(String categoria, float cantidad)//llenar tabla de productos bajos de estock

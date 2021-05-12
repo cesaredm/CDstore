@@ -76,6 +76,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
         this.menu.btnActualizarFactura.setVisible(false);
         this.menu.btnGuardarFactura.addActionListener(this);
         this.menu.btnGuardarFactura.addKeyListener(this);
+        this.menu.btnCobrarSinImprimir.addActionListener(this);
         this.menu.btnGuardarSalidaMoneda.addActionListener(this);
         this.menu.btnSalidaMonedas.addActionListener(this);
         this.menu.btnActualizarFactura.addActionListener(this);
@@ -647,10 +648,10 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
     public void DeshabilitarBtnGuardarFactura() {
         if (menu.tblFactura.getRowCount() > 0) {
             menu.btnGuardarFactura.setEnabled(true);
-            //menu.btnGuardarFacturaSinImpimir.setEnabled(true);
+            menu.btnCobrarSinImprimir.setEnabled(true);
         } else {
             menu.btnGuardarFactura.setEnabled(false);
-            //menu.btnGuardarFacturaSinImpimir.setEnabled(false);
+            menu.btnCobrarSinImprimir.setEnabled(false);
         }
     }
 

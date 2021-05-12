@@ -260,13 +260,15 @@ public class CtrlReportes implements ActionListener, MouseListener, KeyListener 
     //para la inversion
     public void inversion() {
 
-        float cordobas = this.reportes.inversionCordobas(),
-                dolar = this.reportes.inversionDolar(),
+        float cordobas = this.reportes.proyeccionVentaCordobas(),
+                dolar = this.reportes.proyeccionVentaDolar(),
                 precioDolar = Float.parseFloat(menu.txtPrecioDolarVenta.getText()),
                 total = 0;
         if (menu.isNumeric(String.valueOf(precioDolar))) {
             total = cordobas + (dolar * precioDolar);
-            menu.lblInversion.setText("" + this.formato.format(total));
+            menu.lblProyeccion.setText("" + this.formato.format(total));
+            menu.lblInversionDolar.setText(""+this.reportes.inversionDolar());
+            menu.lblInversionCordobas.setText(""+this.reportes.inversionCordobas());
         }
     }
 
