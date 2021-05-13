@@ -5040,15 +5040,13 @@
                                   <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="txtCodBarraFactura" min="-2" pref="32" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="btnGuardarFactura" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                                              <Component id="btnAgregar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                              <Component id="btnAgregarProductoFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                              <Component id="btnEliminarFilaFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                              <Component id="btnNuevaFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                                          </Group>
+                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                          <Component id="btnAgregar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                          <Component id="btnAgregarProductoFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                          <Component id="btnEliminarFilaFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                          <Component id="btnNuevaFactura" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                                       </Group>
+                                      <Component id="btnGuardarFactura" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
@@ -6342,14 +6340,14 @@
                               </AuxValues>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="11" y="17" width="330" height="35"/>
+                                  <AbsoluteConstraints x="11" y="17" width="220" height="35"/>
                                 </Constraint>
                               </Constraints>
                             </Component>
-                            <Component class="javax.swing.JButton" name="btnProductosMasVendidos">
+                            <Component class="javax.swing.JButton" name="btnRespaldo">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="ac" green="cd" red="0" type="rgb"/>
+                                  <Color blue="ff" green="0" red="99" type="rgb"/>
                                 </Property>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Segoe UI" size="16" style="0"/>
@@ -6357,7 +6355,7 @@
                                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
-                                <Property name="text" type="java.lang.String" value="Productos + Vendidos"/>
+                                <Property name="text" type="java.lang.String" value="Respaldo de datos"/>
                                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                                   <Color id="Cursor de Mano"/>
                                 </Property>
@@ -6369,7 +6367,7 @@
                               </AuxValues>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="650" y="17" width="290" height="35"/>
+                                  <AbsoluteConstraints x="730" y="16" width="210" height="35"/>
                                 </Constraint>
                               </Constraints>
                             </Component>
@@ -6396,7 +6394,34 @@
                               </AuxValues>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                                  <AbsoluteConstraints x="350" y="17" width="290" height="35"/>
+                                  <AbsoluteConstraints x="240" y="17" width="220" height="35"/>
+                                </Constraint>
+                              </Constraints>
+                            </Component>
+                            <Component class="javax.swing.JButton" name="btnProductosMasVendidos">
+                              <Properties>
+                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                  <Color blue="ac" green="cd" red="0" type="rgb"/>
+                                </Property>
+                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                  <Font name="Segoe UI" size="16" style="0"/>
+                                </Property>
+                                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                                </Property>
+                                <Property name="text" type="java.lang.String" value="Productos + Vendidos"/>
+                                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                                  <Color id="Cursor de Mano"/>
+                                </Property>
+                                <Property name="focusPainted" type="boolean" value="false"/>
+                                <Property name="focusable" type="boolean" value="false"/>
+                              </Properties>
+                              <AuxValues>
+                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                              </AuxValues>
+                              <Constraints>
+                                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                                  <AbsoluteConstraints x="470" y="17" width="250" height="35"/>
                                 </Constraint>
                               </Constraints>
                             </Component>

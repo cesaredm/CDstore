@@ -203,7 +203,7 @@ public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretList
     public void UltimoPago() {
         this.menu.lblNumeroPago.setText("" + creditos.obtenerUltimoPago());
     }
-
+    
     public void guardarPago() {
         int c;
         float montoPago,

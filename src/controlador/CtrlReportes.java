@@ -82,8 +82,8 @@ public class CtrlReportes implements ActionListener, MouseListener, KeyListener 
         this.menu.tblReporte.addMouseListener(this);
         this.menu.btnMostrarInversion.addActionListener(this);
         this.menu.btnMostrarInversion.setActionCommand("MOSTRAR-INVERSION");
-        this.menu.btnProductosMasVendidos.addActionListener(this);
-        this.menu.btnProductosMasVendidos.setActionCommand("PRODUCTOS-MAS-VENDIDOS");
+        this.menu.btnRespaldo.addActionListener(this);
+        this.menu.btnRespaldo.setActionCommand("PRODUCTOS-MAS-VENDIDOS");
         this.menu.btnMostrarPmasV.addActionListener(this);
         this.menu.btnMostrarPmasV.setActionCommand("MOSTRARPMASV");
         this.menu.btnImprimirPmasV.addActionListener(this);
@@ -210,6 +210,7 @@ public class CtrlReportes implements ActionListener, MouseListener, KeyListener 
 
             }
         }
+        
     }
 
     @Override

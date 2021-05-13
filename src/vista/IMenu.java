@@ -491,8 +491,9 @@ public class IMenu extends javax.swing.JFrame {
         jLabel191 = new javax.swing.JLabel();
         jPanel26 = new javax.swing.JPanel();
         btnAperturaCaja = new javax.swing.JButton();
-        btnProductosMasVendidos = new javax.swing.JButton();
+        btnRespaldo = new javax.swing.JButton();
         btnMasReportes = new javax.swing.JButton();
+        btnProductosMasVendidos = new javax.swing.JButton();
         jPanel34 = new javax.swing.JPanel();
         jLabel78 = new javax.swing.JLabel();
         jLabel61 = new javax.swing.JLabel();
@@ -3219,12 +3220,11 @@ public class IMenu extends javax.swing.JFrame {
                         .addGroup(pnlVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCodBarraFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnlVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnGuardarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(pnlVentasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAgregarProductoFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnEliminarFilaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnNuevaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAgregarProductoFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnEliminarFilaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnNuevaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnGuardarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlVentasLayout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addComponent(jLabel108)))
@@ -3324,16 +3324,16 @@ public class IMenu extends javax.swing.JFrame {
         btnAperturaCaja.setFocusable(false);
         btnAperturaCaja.setPreferredSize(new java.awt.Dimension(127, 30));
         btnAperturaCaja.setSelected(true);
-        jPanel26.add(btnAperturaCaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 17, 330, 35));
+        jPanel26.add(btnAperturaCaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(11, 17, 220, 35));
 
-        btnProductosMasVendidos.setBackground(new java.awt.Color(0, 205, 172));
-        btnProductosMasVendidos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        btnProductosMasVendidos.setForeground(new java.awt.Color(255, 255, 255));
-        btnProductosMasVendidos.setText("Productos + Vendidos");
-        btnProductosMasVendidos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnProductosMasVendidos.setFocusPainted(false);
-        btnProductosMasVendidos.setFocusable(false);
-        jPanel26.add(btnProductosMasVendidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 17, 290, 35));
+        btnRespaldo.setBackground(new java.awt.Color(153, 0, 255));
+        btnRespaldo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnRespaldo.setForeground(new java.awt.Color(255, 255, 255));
+        btnRespaldo.setText("Respaldo de datos");
+        btnRespaldo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRespaldo.setFocusPainted(false);
+        btnRespaldo.setFocusable(false);
+        jPanel26.add(btnRespaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 16, 210, 35));
 
         btnMasReportes.setBackground(new java.awt.Color(0, 166, 192));
         btnMasReportes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -3342,7 +3342,16 @@ public class IMenu extends javax.swing.JFrame {
         btnMasReportes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnMasReportes.setFocusPainted(false);
         btnMasReportes.setFocusable(false);
-        jPanel26.add(btnMasReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 17, 290, 35));
+        jPanel26.add(btnMasReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 17, 220, 35));
+
+        btnProductosMasVendidos.setBackground(new java.awt.Color(0, 205, 172));
+        btnProductosMasVendidos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnProductosMasVendidos.setForeground(new java.awt.Color(255, 255, 255));
+        btnProductosMasVendidos.setText("Productos + Vendidos");
+        btnProductosMasVendidos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnProductosMasVendidos.setFocusPainted(false);
+        btnProductosMasVendidos.setFocusable(false);
+        jPanel26.add(btnProductosMasVendidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 17, 250, 35));
 
         jPanel34.setBackground(new java.awt.Color(69, 76, 89));
         jPanel34.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
@@ -5772,6 +5781,7 @@ public class IMenu extends javax.swing.JFrame {
     public javax.swing.JButton btnReImprimirFactura;
     public javax.swing.JButton btnReporteDiario;
     public javax.swing.JPanel btnReportes;
+    public javax.swing.JButton btnRespaldo;
     public javax.swing.JButton btnSalidaMonedas;
     public javax.swing.JPanel btnTransacciones;
     public javax.swing.JPanel btnUsuarios;

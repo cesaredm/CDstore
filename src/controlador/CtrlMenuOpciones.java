@@ -29,6 +29,7 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
     Date fecha;
     IMenu menu;
     DefaultTableModel modelo;
+    Respaldo backup;
     Productos p;
     Clientes c;
     Creditos cred;
@@ -72,6 +73,7 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
         this.menu.btnVerificarVencimientos.addActionListener(this);
         this.menu.btnInfoFactura.addMouseListener(this);
         this.menu.addWindowListener(this);
+        this.backup = new Respaldo(menu);
         this.p = new Productos();
         this.c = new Clientes();
         this.cred = new Creditos();
