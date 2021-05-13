@@ -355,7 +355,6 @@ public class Facturacion extends Conexiondb {
     }
 
     public void obtenerPorCodBarra(String codBarra) {
-        DecimalFormat formato = new DecimalFormat("#############.00");
         this.producto = new String[6];
         float importe;
         this.cn = Conexion();
@@ -365,25 +364,28 @@ public class Facturacion extends Conexiondb {
             this.pst.setString(1, codBarra);
             ResultSet rs = this.pst.executeQuery();
             while (rs.next()) {
-                producto[0] = rs.getString("id");
-                producto[1] = rs.getString("codigoBarra");
-                producto[2] = "1.0";
-                producto[3] = rs.getString("nombre");
-                producto[4] = rs.getString("precioVenta");
+                this.producto[0] = rs.getString("id");
+                this.producto[1] = rs.getString("codigoBarra");
+                this.producto[2] = "1.0";
+                this.producto[3] = rs.getString("nombre");
+                this.producto[4] = rs.getString("precioVenta");
                 this.stock = rs.getFloat("stock");
                 this.monedaVenta = rs.getString("monedaVenta");
             }
             //producto[2] = Cantidad;
-            if (producto[2] == null || producto[4] == null) {
+            if (this.producto[4] == null) {
                 
             }else{
                 importe = Float.parseFloat(producto[2]) * Float.parseFloat(producto[4]);
                 if (this.monedaVenta.equals("Dolar")) {
                     importe = importe * precioDolar;
                 }
-                producto[5] = formato.format(importe);
+                this.producto[5] = formato.format(importe);
             }
             this.cn.close();
+            for(int i = 0; i<this.producto.length;i++){
+                System.out.println(this.producto[i]);
+            }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e + " en la funcion obtenerPorCodBarra En modelo facturacion");
         }
