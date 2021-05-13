@@ -359,6 +359,26 @@ public class Facturacion extends Conexiondb {
 
     }
 
+    public boolean verd(String codBarra){
+        boolean isYes = true;
+        this.cn = Conexion();
+        this.consulta = "SELECT id,codigoBarra, nombre, precioVenta, monedaVenta, stock FROM productos WHERE codigoBarra = ?";
+        try {
+            this.pst = this.cn.prepareStatement(this.consulta);
+            this.pst.setString(1, codBarra);
+            ResultSet rs = this.pst.executeQuery();
+            if(rs.next()){
+                isYes = true;
+            }else{
+                isYes = false;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e + "");
+        }
+        
+        return isYes;
+    }
+    
     public void obtenerPorCodBarra(String codBarra) {
         this.producto = new String[6];
         float importe;
@@ -368,7 +388,7 @@ public class Facturacion extends Conexiondb {
             this.pst = this.cn.prepareStatement(this.consulta);
             this.pst.setString(1, codBarra);
             ResultSet rs = this.pst.executeQuery();
-            if (rs.first()) {
+            if (verd(codBarra)) {
                 this.exito = true;
                 while (rs.next()) {
                     this.producto[0] = rs.getString("id");

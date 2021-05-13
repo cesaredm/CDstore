@@ -278,7 +278,7 @@ public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretList
                     .feed(3)
                     .cut(EscPos.CutMode.FULL);
             
-            escpos.close();
+            close();
             
 
         } catch (Exception e) {

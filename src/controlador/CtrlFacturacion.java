@@ -505,7 +505,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
             this.factura.setPrecioDolar(Float.parseFloat(precioDolar));
             this.factura.obtenerPorCodBarra(codBarra);
             if (this.factura.isExito()) {
-                System.out.println(this.factura.getStock());
                 if (this.factura.getStock() > 0) {
                     this.modelo = (DefaultTableModel) menu.tblFactura.getModel();
                     this.modelo.addRow(this.factura.getProducto());
