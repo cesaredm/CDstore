@@ -355,7 +355,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                 java.sql.Date fechaFactura = new java.sql.Date(fechaF);//convertir la fecha obtenida a formato sql
                 idCredito = menu.txtCreditoFactura.getText();//obtengo el numero de credito al que pertenecera la factura
                 if (idCredito.equals("")) {
-                    tipoVenta = "Contado"; 
+                    tipoVenta = "Contado";
                 } else {
                     tipoVenta = "Credito";
                 }
@@ -427,7 +427,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                 java.sql.Date fechaFactura = new java.sql.Date(fechaF);//convertir la fecha obtenida a formato sql
                 idCredito = menu.txtCreditoFactura.getText();//obtengo el numero de credito al que pertenecera la factura
                 if (idCredito.equals("")) {
-                    tipoVenta = "Contado"; 
+                    tipoVenta = "Contado";
                 } else {
                     tipoVenta = "Credito";
                 }
@@ -479,7 +479,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
             //JOptionPane.showMessageDialog(null, err);
         }
     }
-    
+
     public void mostrarVentanaProductos() {
         menu.AddProductoFactura.setSize(1071, 456);
         menu.AddProductoFactura.setVisible(true);
@@ -504,7 +504,8 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
             precioDolar = menu.txtPrecioDolarVenta.getText();
             this.factura.setPrecioDolar(Float.parseFloat(precioDolar));
             this.factura.obtenerPorCodBarra(codBarra);
-            if (this.factura.getProducto()[0] != null) {
+            if (this.factura.isExito()) {
+                System.out.println(this.factura.getStock());
                 if (this.factura.getStock() > 0) {
                     this.modelo = (DefaultTableModel) menu.tblFactura.getModel();
                     this.modelo.addRow(this.factura.getProducto());
@@ -528,9 +529,8 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                 } else {
                     JOptionPane.showMessageDialog(null, "No hay suficiente producto en stock para realizar la venta");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "El producto no esta ingresado...");
-                //menu.txtCodBarraFactura.setText("");
+            }else{
+                this.menu.txtCodBarraFactura.setText("");
             }
         }
     }

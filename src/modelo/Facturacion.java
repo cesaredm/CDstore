@@ -22,6 +22,7 @@ public class Facturacion extends Conexiondb {
     private String[] producto;
     private float stock, precioDolar;
     private String monedaVenta;
+    private boolean exito;
 
     public Facturacion() {
         this.cn = null;
@@ -29,6 +30,10 @@ public class Facturacion extends Conexiondb {
         formato = new DecimalFormat("##############0.00");
     }
 
+    public boolean isExito(){
+        return this.exito;
+    }
+    
     public String[] getProducto() {
         return producto;
     }
@@ -318,7 +323,7 @@ public class Facturacion extends Conexiondb {
             pst.setString(3, nombreComprador);
             pst.setDate(4, fecha);
             pst.setString(5, pago);
-            pst.setString(6,iva);
+            pst.setString(6, iva);
             pst.setString(7, total);
             pst.setString(8, id);
             pst.execute();
@@ -363,29 +368,31 @@ public class Facturacion extends Conexiondb {
             this.pst = this.cn.prepareStatement(this.consulta);
             this.pst.setString(1, codBarra);
             ResultSet rs = this.pst.executeQuery();
-            while (rs.next()) {
-                this.producto[0] = rs.getString("id");
-                this.producto[1] = rs.getString("codigoBarra");
-                this.producto[2] = "1.0";
-                this.producto[3] = rs.getString("nombre");
-                this.producto[4] = rs.getString("precioVenta");
-                this.stock = rs.getFloat("stock");
-                this.monedaVenta = rs.getString("monedaVenta");
-            }
-            //producto[2] = Cantidad;
-            if (this.producto[4] == null) {
-                
-            }else{
-                importe = Float.parseFloat(producto[2]) * Float.parseFloat(producto[4]);
-                if (this.monedaVenta.equals("Dolar")) {
-                    importe = importe * precioDolar;
+            if (rs.first()) {
+                this.exito = true;
+                while (rs.next()) {
+                    this.producto[0] = rs.getString("id");
+                    this.producto[1] = rs.getString("codigoBarra");
+                    this.producto[2] = "1.0";
+                    this.producto[3] = rs.getString("nombre");
+                    this.producto[4] = rs.getString("precioVenta");
+                    this.stock = rs.getFloat("stock");
+                    this.monedaVenta = rs.getString("monedaVenta");
                 }
-                this.producto[5] = formato.format(importe);
+                if (this.producto[4] == null) {
+
+                } else {
+                    importe = Float.parseFloat(producto[2]) * Float.parseFloat(producto[4]);
+                    if (this.monedaVenta.equals("Dolar")) {
+                        importe = importe * precioDolar;
+                    }
+                    this.producto[5] = formato.format(importe);
+                }
+            }else{
+                this.exito = false;
+                JOptionPane.showMessageDialog(null, "Producto no esta insgresado..");
             }
             this.cn.close();
-            for(int i = 0; i<this.producto.length;i++){
-                System.out.println(this.producto[i]);
-            }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e + " en la funcion obtenerPorCodBarra En modelo facturacion");
         }
@@ -404,28 +411,28 @@ public class Facturacion extends Conexiondb {
             }
             this.cn.close();
         } catch (Exception e) {
-            
+
         }
     }
-    
-    public void ActualizarDevolucion(int id, float iva, float total){
+
+    public void ActualizarDevolucion(int id, float iva, float total) {
         this.cn = Conexion();
         String IVA = formato.format(iva), TOTAL = formato.format(total);
         this.consulta = "UPDATE facturas SET impuestoISV = ?, totalFactura = ? WHERE id = ?";
         try {
             this.pst = this.cn.prepareStatement(this.consulta);
-            this.pst.setString(1,IVA);
+            this.pst.setString(1, IVA);
             this.pst.setString(2, TOTAL);
             this.pst.setInt(3, id);
             this.pst.executeUpdate();
             this.cn.close();
-        }
-        catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e+" en la funcion ActualizarDevolucion en modelo Facturacion");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e + " en la funcion ActualizarDevolucion en modelo Facturacion");
         }
     }
+
     //esta funcio no se esta utilizando
-    public void eliminarDetalle(int id){
+    public void eliminarDetalle(int id) {
         this.cn = Conexion();
         this.consulta = "DELETE FROM detalleFactura WHERE id = ?";
         try {
@@ -433,28 +440,27 @@ public class Facturacion extends Conexiondb {
             this.pst.setInt(1, id);
             this.pst.executeUpdate();
             this.cn.close();
-        }
-        catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e+" en la funcion eliminarDetalle en modelo Facturacion");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e + " en la funcion eliminarDetalle en modelo Facturacion");
         }
     }
-    
-    public float obtenerTotalFacturaSeleccionada(int id){
+
+    public float obtenerTotalFacturaSeleccionada(int id) {
         float total = 0;
         this.cn = Conexion();
         this.consulta = "SELECT totalFactura FROM facturas WHERE id = ?";
         try {
             this.pst = this.cn.prepareStatement(this.consulta);
-            this.pst.setInt(1,id);
+            this.pst.setInt(1, id);
             ResultSet rs = this.pst.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 total = rs.getFloat("totalFactura");
             }
             this.cn.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e+" en la funcion obtenerTotalFacturaSeleccionada en modelo Facturacion");
+            JOptionPane.showMessageDialog(null, e + " en la funcion obtenerTotalFacturaSeleccionada en modelo Facturacion");
         }
         return total;
     }
-    
+
 }
