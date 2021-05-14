@@ -134,9 +134,11 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                     menu.btnGuardarFactura.setEnabled(false);
                 } else {
                     guardarFactura();
+                    menu.txtCodBarraFactura.setText("");
                 }
             } else {
                 guardarFactura();
+                menu.txtCodBarraFactura.setText("");
             }
         }
         if (e.getSource() == menu.btnActualizarFactura) {
@@ -308,7 +310,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
             mostrarVentanaProductos();
         }
         if (e.VK_SPACE == e.getKeyCode()) {
-
             String totalF = menu.txtTotal.getText();
             String idCreditoL = menu.txtCreditoFactura.getText();
             float saldo, sumar, limite;
@@ -322,9 +323,11 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                     menu.btnGuardarFactura.setEnabled(false);
                 } else {
                     guardarFactura();
+                    menu.txtCodBarraFactura.setText("");
                 }
             } else {
                 guardarFactura();
+                menu.txtCodBarraFactura.setText("");
             }
             menu.txtCodBarraFactura.setText("");
             // menu.txtCodBarraFactura.requestFocus();
