@@ -134,11 +134,9 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                     menu.btnGuardarFactura.setEnabled(false);
                 } else {
                     guardarFactura();
-                    menu.txtCodBarraFactura.setText("");
                 }
             } else {
                 guardarFactura();
-                menu.txtCodBarraFactura.setText("");
             }
         }
         if (e.getSource() == menu.btnActualizarFactura) {
@@ -305,11 +303,10 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                 JOptionPane.showMessageDialog(null, "Escriba un código de barras..");
             }
         }
-
         if (e.VK_F10 == e.getKeyCode()) {
             mostrarVentanaProductos();
         }
-        if (e.VK_SPACE == e.getKeyCode()) {
+        if (e.VK_F9 == e.getKeyCode()) {
             String totalF = menu.txtTotal.getText();
             String idCreditoL = menu.txtCreditoFactura.getText();
             float saldo, sumar, limite;
@@ -317,20 +314,15 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                 saldo = this.creditos.creditoPorCliente(idCreditoL);
                 limite = this.creditos.limiteCredito(idCreditoL);
                 sumar = saldo + Float.parseFloat(totalF);
-                System.out.println(sumar + " " + limite);
                 if (sumar > limite) {
-                    JOptionPane.showMessageDialog(null, "Esta excediendo el limite de credito", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Está excediendo el límite de crédito", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     menu.btnGuardarFactura.setEnabled(false);
                 } else {
                     guardarFactura();
-                    menu.txtCodBarraFactura.setText("");
                 }
             } else {
                 guardarFactura();
-                menu.txtCodBarraFactura.setText("");
             }
-            menu.txtCodBarraFactura.setText("");
-            // menu.txtCodBarraFactura.requestFocus();
         }
     }
 

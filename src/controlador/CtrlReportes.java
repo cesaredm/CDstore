@@ -319,8 +319,8 @@ public class CtrlReportes implements ActionListener, MouseListener, KeyListener 
         //total vendido
         totalVendidio = reportes.IngresosTotalesDiario(fechaInicio);
         //Margen de utilidad
-        reportes.setPrecioDolar(precioVentaDolar);
-        utilidad = reportes.precioVenta(fechaInicio);
+        /*reportes.setPrecioDolar(precioVentaDolar);
+        utilidad = reportes.precioVenta(fechaInicio);*/
         //existencia real en caja
         exisCaja = (ingresosEfectivo + base) - egresos;
         //ejecutar funcion para obtener los dolares y cordobas recibidos
@@ -348,7 +348,7 @@ public class CtrlReportes implements ActionListener, MouseListener, KeyListener 
         menu.lblTotalExistenciaCajaDiario.setText("" + this.formato.format(exisCaja));
         menu.lblIngresosBancosDiario.setText("" + this.formato.format(Ingresosbancos));
         menu.lbltotalVendidoDiario.setText("" + this.formato.format(totalVendidio));
-        menu.lblTotalUtilidadDiario.setText(""+this.formato.format(utilidad));
+        //menu.lblTotalUtilidadDiario.setText(""+this.formato.format(utilidad));
         menu.lblCantidadCordobas.setText("" + this.formato.format(dolaresComprados));
         menu.lblCantidadDolares.setText("" + this.formato.format(dolaresVendidos));
         menu.lblPrecioCompraDolarEnCordobas.setText(""+precioCompraDolar);

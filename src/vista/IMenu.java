@@ -545,9 +545,6 @@ public class IMenu extends javax.swing.JFrame {
         lblDiferenciaEnCordobas = new javax.swing.JLabel();
         jLabel179 = new javax.swing.JLabel();
         jLabel180 = new javax.swing.JLabel();
-        jLabel65 = new javax.swing.JLabel();
-        jLabel185 = new javax.swing.JLabel();
-        lblTotalUtilidadDiario = new javax.swing.JLabel();
         btnEnviarRD = new javax.swing.JButton();
         jPanel28 = new javax.swing.JPanel();
         jScrollPane13 = new javax.swing.JScrollPane();
@@ -3650,25 +3647,6 @@ public class IMenu extends javax.swing.JFrame {
         jLabel180.setText("$");
         jPanel34.add(jLabel180, new org.netbeans.lib.awtextra.AbsoluteConstraints(249, 378, -1, -1));
 
-        jLabel65.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel65.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
-        jLabel65.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel65.setText("Utilidades");
-        jPanel34.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 315, 210, -1));
-
-        jLabel185.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel185.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jLabel185.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel185.setText("C$");
-        jPanel34.add(jLabel185, new org.netbeans.lib.awtextra.AbsoluteConstraints(357, 315, -1, -1));
-
-        lblTotalUtilidadDiario.setBackground(new java.awt.Color(255, 255, 255));
-        lblTotalUtilidadDiario.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        lblTotalUtilidadDiario.setForeground(new java.awt.Color(138, 192, 84));
-        lblTotalUtilidadDiario.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTotalUtilidadDiario.setText("0.00");
-        jPanel34.add(lblTotalUtilidadDiario, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 315, 158, -1));
-
         btnEnviarRD.setBackground(new java.awt.Color(102, 102, 255));
         btnEnviarRD.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnEnviarRD.setForeground(new java.awt.Color(255, 255, 255));
@@ -5899,7 +5877,6 @@ public class IMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel182;
     private javax.swing.JLabel jLabel183;
     private javax.swing.JLabel jLabel184;
-    private javax.swing.JLabel jLabel185;
     private javax.swing.JLabel jLabel186;
     private javax.swing.JLabel jLabel187;
     private javax.swing.JLabel jLabel188;
@@ -5957,7 +5934,6 @@ public class IMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel64;
-    private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
@@ -6176,7 +6152,6 @@ public class IMenu extends javax.swing.JFrame {
     public javax.swing.JLabel lblTotalEfectivoCajaFiltro;
     public javax.swing.JLabel lblTotalExistenciaCajaDiario;
     public javax.swing.JLabel lblTotalFacturado;
-    public javax.swing.JLabel lblTotalUtilidadDiario;
     public javax.swing.JLabel lblTotalVendidoFiltro;
     public javax.swing.JLabel lblTotalVendidoReportFiltro;
     public javax.swing.JLabel lblTotalVentasEfectivoFiltro;
