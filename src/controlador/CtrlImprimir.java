@@ -39,7 +39,7 @@ public class CtrlImprimir {
 
     public CtrlImprimir() {
         try {
-            this.printService = PrinterOutputStream.getPrintServiceByName("EPSON TM-T20II Receipt");
+            this.printService = PrinterOutputStream.getPrintServiceByName("EPSON TM-T20III Receipt");
             this.printerOutputStream = new PrinterOutputStream(printService);
             this.escpos = new EscPos(printerOutputStream);
             this.boldCenter = new Style(escpos.getStyle())
@@ -60,7 +60,7 @@ public class CtrlImprimir {
     
     public void reiniciar(){
         try {
-            this.printService = PrinterOutputStream.getPrintServiceByName("EPSON TM-T20II Receipt");
+            this.printService = PrinterOutputStream.getPrintServiceByName("EPSON TM-T20III Receipt");
             this.printerOutputStream = new PrinterOutputStream(printService);
             this.escpos = new EscPos(this.printerOutputStream);
         } catch (IOException ex) {
