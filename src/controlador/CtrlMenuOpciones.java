@@ -154,6 +154,7 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
                 menu.btnGuardarProducto.setEnabled(false);
                 menu.btnActualizarProducto.setEnabled(false);
                 menu.btnNuevoProducto.setEnabled(false);
+                menu.EditarProducto.setEnabled(false);
 //                menu.lblTituloDeVentanas.setText("");
                 menu.pnlBlanco.setVisible(false);
             }else if(this.permiso == 1)
