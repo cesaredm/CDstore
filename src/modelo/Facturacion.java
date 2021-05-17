@@ -417,6 +417,39 @@ public class Facturacion extends Conexiondb {
             JOptionPane.showMessageDialog(null, e + " en la funcion obtenerPorCodBarra En modelo facturacion");
         }
     }
+    
+    public void obtenerPorId(String id) {
+        this.producto = new String[6];
+        float importe;
+        this.cn = Conexion();
+        this.consulta = "SELECT id,codigoBarra, nombre, precioVenta, monedaVenta, stock FROM productos WHERE id = ?";
+        try {
+            this.pst = this.cn.prepareStatement(this.consulta);
+            this.pst.setString(1, id);
+            ResultSet rs = this.pst.executeQuery();
+                while (rs.next()) {
+                    this.producto[0] = rs.getString("id");
+                    this.producto[1] = rs.getString("codigoBarra");
+                    this.producto[2] = "1.0";
+                    this.producto[3] = rs.getString("nombre");
+                    this.producto[4] = rs.getString("precioVenta");
+                    this.stock = rs.getFloat("stock");
+                    this.monedaVenta = rs.getString("monedaVenta");
+                }
+                if (this.producto[4] == null) {
+
+                } else {
+                    importe = Float.parseFloat(producto[2]) * Float.parseFloat(producto[4]);
+                    if (this.monedaVenta.equals("Dolar")) {
+                        importe = importe * precioDolar;
+                    }
+                    this.producto[5] = formato.format(importe);
+                }
+            this.cn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e + " en la funcion obtenerPorCodBarra En modelo facturacion");
+        }
+    }
 
     public void monedaVentaProducto(String id) {
         this.cn = Conexion();

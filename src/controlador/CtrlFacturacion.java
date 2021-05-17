@@ -812,7 +812,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
                 id = (String) this.modelo.getValueAt(filaseleccionada, 0);
                 nombre = (String) this.modelo.getValueAt(filaseleccionada, 3);
                 codBarra = (String) this.modelo.getValueAt(filaseleccionada, 1);
-                factura.obtenerPorCodBarra(codBarra);
+                factura.obtenerPorId(id);
                 JOptionPane.showMessageDialog(null, spiner, "Cantidad de " + nombre + " a agregar:", JOptionPane.INFORMATION_MESSAGE);
                 cantidadIngresar = Float.parseFloat(spiner.getValue().toString());
                 if (cantidadIngresar <= factura.getStock()) {
