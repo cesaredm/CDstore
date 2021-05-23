@@ -359,6 +359,8 @@ public class Facturacion extends Conexiondb {
 
     }
 
+    
+    //VERIFICAR SI EXISTE EL PRODUCTO 
     public boolean verd(String codBarra){
         boolean isYes = true;
         this.cn = Conexion();
@@ -410,7 +412,7 @@ public class Facturacion extends Conexiondb {
                 }
             }else{
                 this.exito = false;
-                JOptionPane.showMessageDialog(null, "Producto no esta insgresado..");
+                JOptionPane.showMessageDialog(null, "Producto no esta insgresado.. O no tiene código de barra");
             }
             this.cn.close();
         } catch (SQLException e) {

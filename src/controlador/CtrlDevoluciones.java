@@ -65,8 +65,19 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
     public void DevolverProducto() {
         Date fecha = menu.jcFacturasEmitidas.getDate();
         int idProducto = 0, filaseleccionada = 0, filaseleccionadaR = 0, idDetalle = 0, idFactura = 0, filas;
-        String precioDolar = menu.txtPrecioDolarVenta.getText();
-        float precio = 0, cantidadActual = 0, total = 0, totalUpdate = 0, ivaUpdate = 0, subTotalUpdate = 0, cantidadUpdate = 0, cantidadDevolver = 0, sacarImpuesto = 0, porcentajeImp = 0, importe = 0;
+        String precioDolar = menu.txtPrecioDolarVenta.getText(), restarString = "";
+        float precio = 0,
+                cantidadActual = 0,
+                total = 0,
+                totalUpdate = 0,
+                ivaUpdate = 0,
+                subTotalUpdate = 0,
+                cantidadUpdate = 0,
+                cantidadDevolver = 0,
+                sacarImpuesto = 0,
+                porcentajeImp = 0,
+                importe = 0, 
+                restar = 0;
         this.modelo = (DefaultTableModel) menu.tblMostrarDetalleFactura.getModel();
         try {
             //numero de filas
@@ -100,7 +111,10 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
                             //validar que precioDolar sea numerico
                             if (menu.isNumeric(precioDolar)) {
                                 importe = (cantidadUpdate * precio) * Float.parseFloat(precioDolar);
-                                totalUpdate = total - ((cantidadDevolver * precio) * Float.parseFloat(precioDolar));
+                                restar = (cantidadDevolver * precio) * Float.parseFloat(precioDolar);
+                                restarString = this.formato.format(restar);
+                                restar = Float.parseFloat(restarString);
+                                totalUpdate = total - restar;
                             } else {
                                 JOptionPane.showMessageDialog(null, "El valor del dolar establecido es inavalido..");
                             }
