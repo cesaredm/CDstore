@@ -83,7 +83,8 @@ public class CtrlReportes implements ActionListener, MouseListener, KeyListener 
         this.menu.btnMostrarInversion.addActionListener(this);
         this.menu.btnMostrarInversion.setActionCommand("MOSTRAR-INVERSION");
         this.menu.btnRespaldo.addActionListener(this);
-        this.menu.btnRespaldo.setActionCommand("PRODUCTOS-MAS-VENDIDOS");
+        this.menu.btnRespaldo.setActionCommand("RESPALDO");
+        this.menu.btnProductosMasVendidos.addActionListener(this);
         this.menu.btnMostrarPmasV.addActionListener(this);
         this.menu.btnMostrarPmasV.setActionCommand("MOSTRARPMASV");
         this.menu.btnImprimirPmasV.addActionListener(this);
