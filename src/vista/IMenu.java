@@ -838,7 +838,7 @@ public class IMenu extends javax.swing.JFrame {
         EditarCredito.setText("Editar Credito");
         mnCreditos.add(EditarCredito);
 
-        EliminarCredito.setText("Elimar Credito");
+        EliminarCredito.setText("Eliminar credito");
         mnCreditos.add(EliminarCredito);
 
         EditarGastos.setText("Editar Gasto");

@@ -215,7 +215,7 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="EliminarCredito">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Elimar Credito"/>
+            <Property name="text" type="java.lang.String" value="Eliminar credito"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

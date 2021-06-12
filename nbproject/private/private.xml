@@ -5,9 +5,7 @@
         <group>
             <file>file:/C:/Users/gallomasgallo/Documents/NetBeansProjects/CDstoreFull/src/controlador/CtrlFacturacion.java</file>
             <file>file:/C:/Users/gallomasgallo/Documents/NetBeansProjects/CDstoreFull/src/controlador/CtrlImprimir.java</file>
-            <file>file:/C:/Users/gallomasgallo/Documents/NetBeansProjects/CDstoreFull/src/controlador/CtrlReportes.java</file>
-            <file>file:/C:/Users/gallomasgallo/Documents/NetBeansProjects/CDstoreFull/src/controlador/CtrlMenuOpciones.java</file>
-            <file>file:/C:/Users/gallomasgallo/Documents/NetBeansProjects/CDstoreFull/src/modelo/Facturacion.java</file>
+            <file>file:/C:/Users/gallomasgallo/Documents/NetBeansProjects/CDstoreFull/src/controlador/Ticket.java</file>
             <file>file:/C:/Users/gallomasgallo/Documents/NetBeansProjects/CDstoreFull/src/vista/IMenu.java</file>
         </group>
     </open-files>

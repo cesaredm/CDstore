@@ -22,6 +22,7 @@ public class Ticket extends CtrlImprimir{
             +(char)27 + (char)112 + (char)0 + (char)10 + (char)100
             + "{{nameLocal}}\n"
             + "{{direccion}}\n"
+            + "Rut : {{rut}}"
             + "========================================== \n"
             + "Tel:{{telefono}}\n"
             + "Caja # {{box}} - Factura # {{ticket}}\n"
@@ -50,7 +51,7 @@ public class Ticket extends CtrlImprimir{
         this.contentTicket = this.contentTicket.replace("{{nameLocal}}", nameLocal);
         this.contentTicket = this.contentTicket.replace("{{direccion}}", direccion);
         this.contentTicket = this.contentTicket.replace("{{telefono}}", telefono);
-        //this.contentTicket = this.contentTicket.replace("{{RFC}}", RFC);
+        this.contentTicket = this.contentTicket.replace("{{rut}}", RFC);
         //this.contentTicket = this.contentTicket.replace("{{Rango}}", Rango);
         this.contentTicket = this.contentTicket.replace("{{box}}", box);
         this.contentTicket = this.contentTicket.replace("{{ticket}}", ticket);
@@ -70,6 +71,8 @@ public class Ticket extends CtrlImprimir{
         this.contentTicket = this.contentTicket.replace("{{total}}", total);
         this.contentTicket = this.contentTicket.replace("{{recibo}}", recibo);
         this.contentTicket = this.contentTicket.replace("{{change}}", change);
+        
+        System.out.println(this.contentTicket);
     }
 
     public void printInfo() {
