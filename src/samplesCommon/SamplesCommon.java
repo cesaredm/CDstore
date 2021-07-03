@@ -8,7 +8,7 @@ import java.net.URL;
 public class SamplesCommon {
 
     public enum sampleImages {
-        github("logoLib.bmp"), 
+        logoCD("logoCDsoft.png"), 
         logoLib("logoLib1.bmp"), 
         bless("bless.png"),
         blessKids("logoPrintBlesskids.png"),
