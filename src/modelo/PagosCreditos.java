@@ -31,8 +31,8 @@ public class PagosCreditos extends Conexiondb {
         this.banderin = 0;
     }
     //metodo para Guardar pagos
-    public void Guardar(int credito, float monto, Date fecha, int formaPago) {
-        this.consulta = "INSERT INTO pagoscreditos(credito,monto,fecha,formaPago) VALUES(?,?,?,?)";
+    public void Guardar(int credito, float monto, Date fecha, int formaPago, String anotacion) {
+        this.consulta = "INSERT INTO pagoscreditos(credito,monto,fecha,formaPago,anotacion) VALUES(?,?,?,?,?)";
         cn = Conexion();
         try {
             pst = this.cn.prepareStatement(this.consulta);
@@ -40,6 +40,7 @@ public class PagosCreditos extends Conexiondb {
             pst.setFloat(2, monto);
             pst.setDate(3, fecha);
             pst.setInt(4, formaPago);
+	    pst.setString(5,anotacion);
             this.banderin = pst.executeUpdate();
             if (this.banderin > 0) {
                 JOptionPane.showMessageDialog(null, "Pago guardado exitosamete", "Informacion", JOptionPane.INFORMATION_MESSAGE);
@@ -66,8 +67,8 @@ public class PagosCreditos extends Conexiondb {
         }
     }
     //metodo para Actualizar Pagos
-    public void Actualizar(String id, int credito, float monto, Date fecha, int formaPago) {
-        this.consulta = "UPDATE pagoscreditos SET credito = ?, monto = ?, fecha = ?, formaPago = ? WHERE id = ?";
+    public void Actualizar(String id, int credito, float monto, Date fecha, int formaPago,String anotacion) {
+        this.consulta = "UPDATE pagoscreditos SET credito = ?, monto = ?, fecha = ?, formaPago = ?, anotacion = ?  WHERE id = ?";
         cn = Conexion();
         try {
             pst = this.cn.prepareStatement(this.consulta);
@@ -75,7 +76,8 @@ public class PagosCreditos extends Conexiondb {
             pst.setFloat(2, monto);
             pst.setDate(3, fecha);
             pst.setInt(4, formaPago);
-            pst.setString(5, id);
+	    pst.setString(5,anotacion);
+            pst.setString(6, id);
             this.banderin = pst.executeUpdate();
             if (this.banderin > 0) {
                 JOptionPane.showMessageDialog(null, "Pago Actualizado Exitosamete", "Informacion", JOptionPane.INFORMATION_MESSAGE);
@@ -88,9 +90,9 @@ public class PagosCreditos extends Conexiondb {
     //metodo para mostrar todos los pagos
     public DefaultTableModel Mostrar(String buscar) {
         cn = Conexion();
-        this.consulta = "SELECT pagoscreditos.id AS idPago, monto as montoPago, credito, pagoscreditos.fecha, clientes.nombres,apellidos, formapago.tipoVenta FROM pagoscreditos LEFT JOIN creditos ON(pagoscreditos.credito = creditos.id) LEFT JOIN formapago ON(formapago.id=pagoscreditos.formaPago) LEFT JOIN clientes ON(creditos.cliente = clientes.id) WHERE CONCAT(pagoscreditos.id, pagoscreditos.credito, pagoscreditos.fecha, clientes.nombres, clientes.apellidos) LIKE '%" + buscar + "%'";
-        this.resgistros = new String[7];
-        String[] titulos = {"Id Pago", "Monto de Pago", "Al Credito", "Fecha De Pago", "Nombres Cliente", "Apellidos Cliente","Forma Pago"};
+        this.consulta = "SELECT pagoscreditos.id AS idPago, monto as montoPago, credito, pagoscreditos.fecha, clientes.nombres,apellidos, formapago.tipoVenta,pagoscreditos.anotacion FROM pagoscreditos LEFT JOIN creditos ON(pagoscreditos.credito = creditos.id) LEFT JOIN formapago ON(formapago.id=pagoscreditos.formaPago) LEFT JOIN clientes ON(creditos.cliente = clientes.id) WHERE CONCAT(pagoscreditos.id, pagoscreditos.credito, pagoscreditos.fecha, clientes.nombres, clientes.apellidos) LIKE '%" + buscar + "%'";
+        this.resgistros = new String[8];
+        String[] titulos = {"Id Pago", "Monto de Pago", "Al Credito", "Fecha De Pago", "Nombres Cliente", "Apellidos Cliente","Forma Pago","Anotación"};
         this.modelo = new DefaultTableModel(null, titulos) {
             public boolean isCellEditable(int row, int col) {
                 return false;
@@ -107,6 +109,7 @@ public class PagosCreditos extends Conexiondb {
                 this.resgistros[4] = rs.getString("nombres");
                 this.resgistros[5] = rs.getString("apellidos");
                 this.resgistros[6] = rs.getString("tipoVenta");
+		this.resgistros[7] = rs.getString("anotacion");
                 this.modelo.addRow(resgistros);
             }
             cn.close();

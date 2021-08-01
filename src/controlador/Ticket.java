@@ -22,7 +22,7 @@ public class Ticket extends CtrlImprimir{
             +(char)27 + (char)112 + (char)0 + (char)10 + (char)100
             + "{{nameLocal}}\n"
             + "{{direccion}}\n"
-            + "Rut : {{rut}}"
+            + "Rut : {{rut}}\n"
             + "========================================== \n"
             + "Tel:{{telefono}}\n"
             + "Caja # {{box}} - Factura # {{ticket}}\n"
