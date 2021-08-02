@@ -768,6 +768,7 @@ public class IMenu extends javax.swing.JFrame {
                 btnClientes = new javax.swing.JPanel();
                 lblIconClientes = new javax.swing.JLabel();
                 lblMenuClientes = new javax.swing.JLabel();
+                lblNotificacionClientes = new javax.swing.JLabel();
                 btnInventario = new javax.swing.JPanel();
                 lblIconIventario = new javax.swing.JLabel();
                 lblMenuInventario = new javax.swing.JLabel();
@@ -5561,6 +5562,14 @@ public class IMenu extends javax.swing.JFrame {
                 lblMenuClientes.setText("Clientes");
                 btnClientes.add(lblMenuClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(61, 11, -1, -1));
 
+                lblNotificacionClientes.setBackground(new java.awt.Color(255, 51, 51));
+                lblNotificacionClientes.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+                lblNotificacionClientes.setForeground(new java.awt.Color(255, 255, 255));
+                lblNotificacionClientes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                lblNotificacionClientes.setText("1");
+                lblNotificacionClientes.setOpaque(true);
+                btnClientes.add(lblNotificacionClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 8, 12, -1));
+
                 pnlMenuLateral.add(btnClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 200, 47));
 
                 btnInventario.setBackground(new java.awt.Color(69, 76, 89));
@@ -6292,6 +6301,7 @@ public class IMenu extends javax.swing.JFrame {
         public javax.swing.JLabel lblMenuUsuarios;
         public javax.swing.JLabel lblMenuVentas;
         public javax.swing.JLabel lblNombreProductStock;
+        public javax.swing.JLabel lblNotificacionClientes;
         public javax.swing.JLabel lblNumeroNotificaciones;
         public javax.swing.JLabel lblNumeroPago;
         public javax.swing.JLabel lblPrecioCompraDolarEnCordobas;

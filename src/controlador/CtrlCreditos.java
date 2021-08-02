@@ -214,6 +214,7 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 		DeshabilitarCreditos();
 		MostrarDatosCrediticio("");
 		menu.jcFechaPago.setDate(fecha);
+		fechaLimiteMorosos();
 	}
 
 //deshabilitar los elementos del form creditos
@@ -530,6 +531,12 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 			String dias90 = "7776000000";
 			java.sql.Date d = new java.sql.Date(now - Long.parseLong(dias90));
 			menu.tblMorosos.setModel(this.creditos.morosos(d));
+			if(this.creditos.isEmpty())
+			{
+				menu.lblNotificacionClientes.setVisible(true);
+			}else{
+				menu.lblNotificacionClientes.setVisible(false);
+			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e + " en el metodo fechaLimiteMoroso en controlador creditos");
 		}

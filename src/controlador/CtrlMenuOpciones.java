@@ -173,6 +173,7 @@ public class CtrlMenuOpciones implements MouseListener, ActionListener, WindowLi
 //            menu.btnClientes.setBackground(new java.awt.Color(60,60,60));
             menu.lblMenuClientes.setForeground(new java.awt.Color(165,95,235));
 //            menu.lblTituloDeVentanas.setText("Clientes");
+	    menu.lblNotificacionClientes.setVisible(false);
 
 //            menu.btnReportes.setBackground(new java.awt.Color(72,72,72));
             menu.lblMenuReportes.setForeground(new java.awt.Color(255, 255, 255));

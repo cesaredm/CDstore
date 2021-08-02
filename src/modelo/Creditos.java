@@ -22,6 +22,7 @@ public class Creditos extends Conexiondb {
 	String[] registros;
 	PagosCreditos pagos;
 	PreparedStatement pst;
+	boolean empty;
 	int banderin;
 	DecimalFormat formato;
 
@@ -31,6 +32,7 @@ public class Creditos extends Conexiondb {
 		this.consulta = null;
 		this.banderin = 0;
 		this.pagos = new PagosCreditos();
+		this.empty = true;
 		formato = new DecimalFormat("##########00.00");
 	}
 
@@ -486,35 +488,47 @@ public class Creditos extends Conexiondb {
 		return id + 1;
 	}
 
-	public DefaultTableModel morosos(Date fecha){
-		this.cn = Conexion();	
-		String[] titulos = {"Nombres","Apellidos","Telefono","F. pago","Monto ultimo pago","N pago"};
+	public DefaultTableModel morosos(Date fecha) {
+		int contRow = 0;
+		this.cn = Conexion();
+		String[] titulos = {"Nombres", "Apellidos", "Telefono", "F. pago", "Monto ultimo pago", "N pago"};
 		this.registros = new String[7];
 		this.consulta = "SELECT c.nombres,apellidos,telefono,p.fecha,monto,p.id AS nPago FROM clientes AS c INNER JOIN creditos AS cr"
 			+ " ON(c.id=cr.cliente) INNER JOIN pagoscreditos AS p ON(p.credito=cr.id) WHERE p.fecha < ?";
-		this.modelo = new DefaultTableModel(null, titulos){
-			public boolean isCellEditable(int row, int col){
+		this.modelo = new DefaultTableModel(null, titulos) {
+			public boolean isCellEditable(int row, int col) {
 				return false;
 			}
 		};
 		try {
 			this.pst = this.cn.prepareStatement(this.consulta);
-			this.pst.setDate(1,fecha);
+			this.pst.setDate(1, fecha);
 			ResultSet rs = this.pst.executeQuery();
-			while(rs.next())
-			{
+			while (rs.next()) {
 				this.registros[0] = rs.getString("nombres");
 				this.registros[1] = rs.getString("Apellidos");
 				this.registros[2] = rs.getString("telefono");
 				this.registros[3] = rs.getString("fecha");
-				this.registros[4] = rs.getString("monto");	
+				this.registros[4] = rs.getString("monto");
 				this.registros[5] = rs.getString("nPago");
 				this.modelo.addRow(this.registros);
-				
+				contRow++;
+
 			}
+			if(contRow>0)
+			{
+				this.empty = true;
+			}else{
+				this.empty = false;
+			}
+			this.cn.close();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e + " en el metodo morosos en modelo creditos");
 		}
 		return this.modelo;
+	}
+
+	public boolean isEmpty() {
+		return empty;
 	}
 }
