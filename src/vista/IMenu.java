@@ -4641,7 +4641,7 @@ public class IMenu extends javax.swing.JFrame {
                                 .addContainerGap(159, Short.MAX_VALUE))
                 );
 
-                jTabbedPane2.addTab("Morosos", jPanel23);
+                jTabbedPane2.addTab("Clientes P/A", jPanel23);
 
                 javax.swing.GroupLayout pnlClientesLayout = new javax.swing.GroupLayout(pnlClientes);
                 pnlClientes.setLayout(pnlClientesLayout);
