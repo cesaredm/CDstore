@@ -126,8 +126,7 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 			this.menu.jsFacturaPago.setValue(numeroFacturaPago);
 
 		}
-		if(e.getSource() == menu.btnActualizarMorosos)
-		{
+		if (e.getSource() == menu.btnActualizarMorosos) {
 			fechaLimiteMorosos();
 		}
 	}
@@ -530,11 +529,15 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 			long now = this.fecha.getTime();
 			String dias90 = "7776000000";
 			java.sql.Date d = new java.sql.Date(now - Long.parseLong(dias90));
+			menu.tblMorosos.getTableHeader().setFont(new Font("Sugoe UI", Font.PLAIN, 14));
+			menu.tblMorosos.getTableHeader().setOpaque(false);
+			menu.tblMorosos.getTableHeader().setBackground(new Color(69, 76, 89));
+			menu.tblMorosos.getTableHeader().setForeground(new Color(255, 255, 255));
+			menu.tblMorosos.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
 			menu.tblMorosos.setModel(this.creditos.morosos(d));
-			if(this.creditos.isEmpty())
-			{
+			if (this.creditos.isEmpty()) {
 				menu.lblNotificacionClientes.setVisible(true);
-			}else{
+			} else {
 				menu.lblNotificacionClientes.setVisible(false);
 			}
 		} catch (Exception e) {

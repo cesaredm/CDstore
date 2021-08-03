@@ -98,7 +98,9 @@ public class Creditos extends Conexiondb {
 	//funcion de consulta de datos de creditos y retornar una tabla con los creditos para mostrarla en interfaz
 	public DefaultTableModel Mostrar(String buscar) {
 		cn = Conexion();
-		this.consulta = "SELECT c.id,SUM(f.totalFactura) AS totalCredito, c.limite ,cl.id as idCliente,nombres,apellidos, c.estado FROM creditos AS c INNER JOIN clientes AS cl ON(c.cliente = cl.id) INNER JOIN facturas AS f ON(f.credito = c.id) WHERE CONCAT(c.id, cl.nombres, cl.apellidos) LIKE '%" + buscar + "%' AND c.estado = 'Pendiente' GROUP BY cl.id";
+		this.consulta = "SELECT c.id,SUM(f.totalFactura) AS totalCredito, c.limite ,cl.id as idCliente,nombres,apellidos, c.estado"
+			+ " FROM creditos AS c INNER JOIN clientes AS cl ON(c.cliente = cl.id) INNER JOIN facturas AS f ON(f.credito = c.id)"
+			+ " WHERE CONCAT(c.id, cl.nombres, cl.apellidos) LIKE '%" + buscar + "%' AND c.estado = 'Pendiente' GROUP BY cl.id";
 		String[] titulos = {"N° Credito", "Saldo", "Limite", "Id Cliente", "Nombres", "Apellidos", "Estado"};
 		float saldo = 0, monto = 0;
 		this.registros = new String[7];
@@ -395,7 +397,9 @@ public class Creditos extends Conexiondb {
 
 	public float creditoPorCliente(String id) {
 		cn = Conexion();
-		this.consulta = "SELECT SUM(facturas.totalFactura) AS totalCredito, clientes.id as idCliente FROM creditos INNER JOIN clientes ON(creditos.cliente = clientes.id) INNER JOIN facturas ON(facturas.credito = creditos.id) WHERE creditos.estado = 'Pendiente' AND creditos.id = ?";
+		this.consulta = "SELECT SUM(facturas.totalFactura) AS totalCredito, clientes.id as idCliente FROM creditos"
+			+ " INNER JOIN clientes ON(creditos.cliente = clientes.id) INNER JOIN facturas ON(facturas.credito = creditos.id)"
+			+ " WHERE creditos.estado = 'Pendiente' AND creditos.id = ?";
 		float saldo = 0, monto = 0;
 		DecimalFormat formato = new DecimalFormat("#############.##");
 		try {
@@ -490,11 +494,14 @@ public class Creditos extends Conexiondb {
 
 	public DefaultTableModel morosos(Date fecha) {
 		int contRow = 0;
+		float saldo;
 		this.cn = Conexion();
-		String[] titulos = {"Nombres", "Apellidos", "Telefono", "F. pago", "Monto ultimo pago", "N pago"};
-		this.registros = new String[7];
-		this.consulta = "SELECT c.nombres,apellidos,telefono,p.fecha,monto,p.id AS nPago FROM clientes AS c INNER JOIN creditos AS cr"
-			+ " ON(c.id=cr.cliente) INNER JOIN pagoscreditos AS p ON(p.credito=cr.id) WHERE p.fecha < ?";
+		String[] titulos = {"Nombres", "Apellidos", "Telefono","Dirección", "F. pago", "Monto ultimo pago", "N pago","Saldo"};
+		this.registros = new String[8];
+		this.consulta = "SELECT p.id, p.credito, p.fecha, p.monto,cl.nombres,apellidos,telefono,direccion FROM pagoscreditos AS p"
+			+ " INNER JOIN (SELECT credito, max(fecha) AS mfecha FROM pagoscreditos GROUP BY credito) AS ultimoPago ON"
+			+ " p.credito=ultimoPago.credito INNER JOIN creditos AS c ON(p.credito=c.id) INNER JOIN clientes AS cl ON(cl.id=c.cliente)"
+			+ " AND p.fecha=ultimoPago.mfecha AND c.estado='Pendiente' AND p.fecha < ?";
 		this.modelo = new DefaultTableModel(null, titulos) {
 			public boolean isCellEditable(int row, int col) {
 				return false;
@@ -505,12 +512,15 @@ public class Creditos extends Conexiondb {
 			this.pst.setDate(1, fecha);
 			ResultSet rs = this.pst.executeQuery();
 			while (rs.next()) {
+				saldo = this.creditoGlobalCliente(rs.getInt("credito")) - this.AbonoGlobalCliente(rs.getInt("credito"));
 				this.registros[0] = rs.getString("nombres");
 				this.registros[1] = rs.getString("Apellidos");
 				this.registros[2] = rs.getString("telefono");
-				this.registros[3] = rs.getString("fecha");
-				this.registros[4] = rs.getString("monto");
-				this.registros[5] = rs.getString("nPago");
+				this.registros[3] = rs.getString("direccion");
+				this.registros[4] = rs.getString("fecha");
+				this.registros[5] = rs.getString("monto");
+				this.registros[6] = rs.getString("id");
+				this.registros[7] = this.formato.format(saldo);
 				this.modelo.addRow(this.registros);
 				contRow++;
 

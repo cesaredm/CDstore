@@ -4602,6 +4602,7 @@ public class IMenu extends javax.swing.JFrame {
 
                 jTabbedPane2.addTab("Créditos", jPanel31);
 
+                tblMorosos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
                 tblMorosos.setModel(new javax.swing.table.DefaultTableModel(
                         new Object [][] {
                                 {null, null, null, null},
@@ -4613,6 +4614,7 @@ public class IMenu extends javax.swing.JFrame {
                                 "Title 1", "Title 2", "Title 3", "Title 4"
                         }
                 ));
+                tblMorosos.setRowHeight(22);
                 jScrollPane36.setViewportView(tblMorosos);
 
                 btnActualizarMorosos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
