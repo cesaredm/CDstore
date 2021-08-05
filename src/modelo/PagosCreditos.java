@@ -205,6 +205,7 @@ public class PagosCreditos extends Conexiondb {
         }
         return monto;
     }
+
     public float deuda(String id)
     {
         this.consulta = "SELECT SUM(f.totalFactura) AS deuda FROM facturas AS f INNER JOIN creditos AS c ON(f.credito=c.id) WHERE c.id= ?";

@@ -310,14 +310,14 @@ public class Creditos extends Conexiondb {
 
 	public DefaultTableModel MostrarAbonosCliente(int id) {
 		this.cn = Conexion();
-		this.consulta = "SELECT p.id,p.fecha AS f,p.monto FROM pagoscreditos AS p INNER JOIN creditos AS c ON(p.credito=c.id) WHERE c.id = ?";
-		String[] titulos = {"Id Pago", "Fecha", "Monto"};
+		this.consulta = "SELECT p.id,p.fecha AS f,p.monto,p.anotacion FROM pagoscreditos AS p INNER JOIN creditos AS c ON(p.credito=c.id) WHERE c.id = ?";
+		String[] titulos = {"Id Pago", "Fecha", "Monto","Anotación"};
 		this.modelo = new DefaultTableModel(null, titulos) {
 			public boolean isCellEditable(int row, int col) {
 				return false;
 			}
 		};
-		this.registros = new String[3];
+		this.registros = new String[4];
 
 		try {
 			this.pst = this.cn.prepareStatement(this.consulta);
@@ -327,6 +327,7 @@ public class Creditos extends Conexiondb {
 				this.registros[0] = rs.getString("id");
 				this.registros[1] = rs.getString("f");
 				this.registros[2] = rs.getString("monto");
+				this.registros[3] = rs.getString("anotacion");
 				this.modelo.addRow(this.registros);
 			}
 			this.cn.close();
@@ -498,7 +499,9 @@ public class Creditos extends Conexiondb {
 		this.cn = Conexion();
 		String[] titulos = {"Nombres", "Apellidos", "Telefono","Dirección", "F. pago", "Monto ultimo pago", "N pago","Saldo"};
 		this.registros = new String[8];
-		this.consulta = "SELECT p.id, p.credito, p.fecha, p.monto,cl.nombres,apellidos,telefono,direccion FROM pagoscreditos AS p"
+		String setLocalFormat = "SET lc_time_names = 'es_ES'";
+		this.consulta = "SELECT p.id, p.credito, DATE_FORMAT(p.fecha,'%a, %d-%b-%Y') AS fechaFormat ,"
+			+ " p.monto,cl.nombres,apellidos,telefono,direccion FROM pagoscreditos AS p"
 			+ " INNER JOIN (SELECT credito, max(fecha) AS mfecha FROM pagoscreditos GROUP BY credito) AS ultimoPago ON"
 			+ " p.credito=ultimoPago.credito INNER JOIN creditos AS c ON(p.credito=c.id) INNER JOIN clientes AS cl ON(cl.id=c.cliente)"
 			+ " AND p.fecha=ultimoPago.mfecha AND c.estado='Pendiente' AND p.fecha < ?";
@@ -508,6 +511,8 @@ public class Creditos extends Conexiondb {
 			}
 		};
 		try {
+			this.pst = this.cn.prepareStatement(setLocalFormat);
+			this.pst.execute();
 			this.pst = this.cn.prepareStatement(this.consulta);
 			this.pst.setDate(1, fecha);
 			ResultSet rs = this.pst.executeQuery();
@@ -517,7 +522,7 @@ public class Creditos extends Conexiondb {
 				this.registros[1] = rs.getString("Apellidos");
 				this.registros[2] = rs.getString("telefono");
 				this.registros[3] = rs.getString("direccion");
-				this.registros[4] = rs.getString("fecha");
+				this.registros[4] = rs.getString("fechaFormat");
 				this.registros[5] = rs.getString("monto");
 				this.registros[6] = rs.getString("id");
 				this.registros[7] = this.formato.format(saldo);
@@ -540,5 +545,35 @@ public class Creditos extends Conexiondb {
 
 	public boolean isEmpty() {
 		return empty;
+	}
+
+	public boolean isPagoAtrasado(Date fecha, String credito){
+		this.cn = Conexion();
+		int cont = 0;
+		boolean isPago = true;
+		this.consulta = "SELECT * FROM pagoscreditos"
+			+ " WHERE (SELECT fecha FROM pagoscreditos WHERE credito = ? ORDER BY fecha DESC LIMIT 1) < ?"
+			+ " AND credito = ? ORDER BY fecha DESC LIMIT 1";
+		try {
+			this.pst = this.cn.prepareStatement(this.consulta);
+			this.pst.setString(1, credito);
+			this.pst.setDate(2, fecha);
+			this.pst.setString(3, credito);
+			ResultSet rs = this.pst.executeQuery();
+			while(rs.next())
+			{
+				cont++;
+			}
+			if(cont>0)
+			{
+				isPago = true;
+			}else{
+				isPago = false;
+			}
+			this.cn.close();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e + " en el metodo isPagoAtrasado en modelo creditos");
+		}
+		return isPago;
 	}
 }

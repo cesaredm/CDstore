@@ -73,6 +73,7 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 		this.menu.btnCancel.addActionListener(this);
 		this.menu.btnMonedasRecibidasPagoCreditos.addActionListener(this);
 		this.menu.btnActualizarMorosos.addActionListener(this);
+		this.menu.tblAbonosCreditos.addMouseListener(this);
 		iniciar();
 	}
 
@@ -184,6 +185,25 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 				} catch (Exception err) {
 					JOptionPane.showMessageDialog(null, err + "mostrar facturasporcreditos");
 				}
+			}
+		}
+		if (e.getSource() == menu.tblAbonosCreditos) {
+			if (e.getClickCount() == 2) {
+				String anotacion;
+				int filaseleccionada = menu.tblAbonosCreditos.getSelectedRow();
+				try {
+					if (filaseleccionada != -1) {
+						anotacion = (String) menu.tblAbonosCreditos.getValueAt(filaseleccionada, 3);
+						menu.txtAreaInfoPago.setText(anotacion);
+						menu.jdInfoPago.setLocationRelativeTo(null);
+						menu.jdInfoPago.setSize(600, 270);
+						menu.jdInfoPago.setVisible(true);
+					}
+				} catch (Exception err) {
+					JOptionPane.showMessageDialog(null, err + "en metodo MouseClick en ctrl creditos");
+				}
+			}else{
+
 			}
 		}
 
@@ -520,7 +540,6 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 	}
 
 	public float limiteCredito(String id) {
-
 		return creditos.limiteCredito(id);
 	}
 
@@ -545,4 +564,5 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 		}
 
 	}
+
 }

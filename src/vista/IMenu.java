@@ -4625,11 +4625,13 @@ public class IMenu extends javax.swing.JFrame {
                 jPanel23Layout.setHorizontalGroup(
                         jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
-                                .addContainerGap(15, Short.MAX_VALUE)
+                                .addGap(15, 15, 15)
                                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane36, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(btnActualizarMorosos, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(14, 14, 14))
+                                        .addGroup(jPanel23Layout.createSequentialGroup()
+                                                .addComponent(btnActualizarMorosos, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 964, Short.MAX_VALUE))
+                                        .addComponent(jScrollPane36))
+                                .addContainerGap())
                 );
                 jPanel23Layout.setVerticalGroup(
                         jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4637,8 +4639,8 @@ public class IMenu extends javax.swing.JFrame {
                                 .addGap(21, 21, 21)
                                 .addComponent(btnActualizarMorosos)
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane36, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(159, Short.MAX_VALUE))
+                                .addComponent(jScrollPane36, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                                .addGap(17, 17, 17))
                 );
 
                 jTabbedPane2.addTab("Clientes P/A", jPanel23);
