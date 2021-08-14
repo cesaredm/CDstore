@@ -150,4 +150,9 @@ public class CtrlCategoria implements ActionListener, CaretListener {
         menu.btnGuardarCategoria.setEnabled(false);
         menu.btnActualizarCategoria.setEnabled(false);
     }
+
+    public void hello()
+    {
+        System.out.println("hello word..!");
+    }
 }
