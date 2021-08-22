@@ -243,16 +243,16 @@ public class Creditos extends Conexiondb {
 	public DefaultTableModel MostrarProductosCreditoDolar(int id) {
 		this.cn = Conexion();
 		float tasaCambio;
-		String[] titulos = {"Fecha", "Nombre", "Cantidad", "Precio", "", "TC", "Total C$"};
-		registros = new String[7];
+		String[] titulos = {"Fecha", "Nombre", "Cantidad", "Precio", "", "TC", "Total C$","N. Fact"};
+		registros = new String[8];
 		this.modelo = new DefaultTableModel(null, titulos) {
 			public boolean isCellEditable(int row, int col) {
 				return false;
 			}
 		};
-		this.consulta = "SELECT f.fecha, p.nombre, df.cantidadProducto, precioProducto, totalVenta AS totalImporte FROM facturas AS f "
-			+ "INNER JOIN creditos AS c ON(f.credito=c.id) INNER JOIN detalleFactura AS df ON(f.id = df.factura) INNER JOIN productos AS p"
-			+ " ON(df.producto=p.id)"
+		this.consulta = "SELECT f.fecha, p.nombre, df.cantidadProducto, precioProducto, totalVenta AS totalImporte, f.id AS factura FROM facturas"
+			+ " AS f INNER JOIN creditos AS c ON(f.credito=c.id) INNER JOIN detalleFactura AS df ON(f.id = df.factura)"
+			+ " INNER JOIN productos AS p ON(df.producto=p.id)"
 			+ " WHERE c.id = ? AND p.monedaVenta = 'Dolar' AND df.cantidadProducto > 0 ORDER BY f.id DESC";
 		try {
 			this.pst = this.cn.prepareStatement(this.consulta);
@@ -267,6 +267,7 @@ public class Creditos extends Conexiondb {
 				registros[4] = "$";
 				registros[5] = this.formato.format(tasaCambio);
 				registros[6] = rs.getString("totalImporte");
+				registros[7] = rs.getString("factura");
 				this.modelo.addRow(registros);
 			}
 			cn.close();
@@ -278,15 +279,16 @@ public class Creditos extends Conexiondb {
 
 	public DefaultTableModel MostrarProductosCreditoCordobas(int id) {
 		this.cn = Conexion();
-		String[] titulos = {"Fecha", "Nombre", "Cantidad", "Precio", "", "Total C$"};
-		registros = new String[6];
+		String[] titulos = {"Fecha", "Nombre", "Cantidad", "Precio", "", "Total C$","N. Fact"};
+		registros = new String[7];
 		this.modelo = new DefaultTableModel(null, titulos) {
 			public boolean isCellEditable(int row, int col) {
 				return false;
 			}
 		};
-		this.consulta = "SELECT f.fecha, p.nombre, df.cantidadProducto, precioProducto, totalVenta AS totalImporte FROM facturas AS f "
-			+ "INNER JOIN creditos AS c ON(f.credito=c.id) INNER JOIN detalleFactura AS df ON(f.id = df.factura) INNER JOIN productos AS p ON(df.producto=p.id)"
+		this.consulta = "SELECT f.fecha, p.nombre, df.cantidadProducto, precioProducto, totalVenta AS totalImporte, f.id AS factura FROM facturas"
+			+ " AS f INNER JOIN creditos AS c ON(f.credito=c.id) INNER JOIN detalleFactura AS df ON(f.id = df.factura)"
+			+ " INNER JOIN productos AS p ON(df.producto=p.id)"
 			+ " WHERE c.id = ? AND p.monedaVenta = 'Cordobas' AND df.cantidadProducto > 0 ORDER BY f.id DESC";
 		try {
 			this.pst = this.cn.prepareStatement(this.consulta);
@@ -299,6 +301,7 @@ public class Creditos extends Conexiondb {
 				registros[3] = rs.getString("precioProducto");
 				registros[4] = "C$";
 				registros[5] = rs.getString("totalImporte");
+				registros[6] = rs.getString("factura");
 				this.modelo.addRow(registros);
 			}
 			cn.close();
