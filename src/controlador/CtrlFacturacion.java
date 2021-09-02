@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador;
 
 import java.awt.Color;
@@ -231,7 +226,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 
 	@Override
 	public void caretUpdate(CaretEvent e) {
-		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 		if (e.getSource() == menu.txtPagoCon) {
 			String total = menu.txtTotal.getText(), pagoCon = menu.txtPagoCon.getText();
 			float cambio = 0;
@@ -278,25 +272,21 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 	@Override
 	public void mousePressed(MouseEvent e
 	) {
-		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e
 	) {
-		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e
 	) {
-		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e
 	) {
-		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
@@ -343,13 +333,31 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 
 	public void guardarFactura() {
 		try {
-			this.modelo = (DefaultTableModel) menu.tblFactura.getModel();//obtengo el modelo de tabla factura y sus datos
+			//obtengo el modelo de tabla factura y sus datos
+			this.modelo = (DefaultTableModel) menu.tblFactura.getModel();
 			int filas = this.modelo.getRowCount();//Cuento las filas de la tabla Factura
 			//guardara la factura solo si el boton guardar factura esta habilatado
 			if (menu.btnGuardarFactura.isEnabled()) {
 				Date fecha;
 				String[] ArregloImprimir = new String[filas];
-				String factura = "", id, cantidad, precio, totalDetalle, idCredito, iva, totalFactura, formaPago, idFormaPago, comprador, cliente, subtotal, nombreProduct, tipoVenta, pagoCon, cambio;//variables para capturar los datos a guardar
+				//variables para capturar los datos a guardar
+				String factura = "",
+					id,
+					cantidad,
+					precio,
+					totalDetalle,
+					idCredito,
+					iva,
+					totalFactura,
+					formaPago,
+					idFormaPago,
+					comprador,
+					cliente,
+					subtotal,
+					nombreProduct,
+					tipoVenta,
+					pagoCon,
+					cambio;
 				pagoCon = menu.txtPagoCon.getText();
 				cambio = menu.txtCambio.getText();
 				subtotal = menu.txtSubTotal.getText();
@@ -357,8 +365,10 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 				cliente = menu.txtNClienteFactura.getText() + " " + menu.txtAClienteFactura.getText();
 				fecha = menu.jcFechaFactura.getDate();//capturo la fecha del dateshooser
 				long fechaF = fecha.getTime();//
-				java.sql.Date fechaFactura = new java.sql.Date(fechaF);//convertir la fecha obtenida a formato sql
-				idCredito = menu.txtCreditoFactura.getText();//obtengo el numero de credito al que pertenecera la factura
+				//convertir la fecha obtenida a formato sql
+				java.sql.Date fechaFactura = new java.sql.Date(fechaF);
+				//obtengo el numero de credito al que pertenecera la factura
+				idCredito = menu.txtCreditoFactura.getText();
 				if (idCredito.equals("")) {
 					tipoVenta = "Contado";
 				} else {
@@ -366,29 +376,50 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 				}
 				iva = menu.txtImpuesto.getText();//obtengo el iva
 				totalFactura = menu.txtTotal.getText();//obtengo total de factura
-				formaPago = (String) menu.cmbFormaPago.getSelectedItem();//capturo el nombre de forma de pago 
-				idFormaPago = this.factura.ObtenerFormaPago(formaPago);//capturo el id de la forma de pago que retorna la funcion obtenerformapago de la clase facturacion
-				this.factura.GuardarFactura(1, fechaFactura, comprador, idCredito, idFormaPago, iva, totalFactura);//envio los datos a guardar de la factura
-				for (int cont = 0; cont < filas; cont++)//for para recorrer la tabla factura
-				{
-					id = (String) this.modelo.getValueAt(cont, 0);//capturo el id de producto para guardar en detallefactura
-					cantidad = (String) this.modelo.getValueAt(cont, 2);//capturo la cantidad de producto de la columna dos y la paso a String para guardar en detallefactura
-					nombreProduct = (String) this.modelo.getValueAt(cont, 3);//capturo el nombre de producto
-					precio = (String) this.modelo.getValueAt(cont, 4);//capturo el precio de producto para guardar en detallefactura
-					totalDetalle = (String) this.modelo.getValueAt(cont, 5);//capturo el total de detalle compra de producto para guardar en detallefactura
-					factura = menu.txtNumeroFactura.getText();//capturo id de factura ala que pertenece el detalle de factura
-					this.factura.DetalleFactura(factura, id, precio, cantidad, totalDetalle);//envio los datos a guardar de los detalles
-					//this.factura.Vender(id,cantidad);//funcion para diminuir el stock segun la cantidad que se venda
-//                    validar si el nombre del producto es mayor de 10 caracteres
+				//capturo el nombre de forma de pago
+				formaPago = (String) menu.cmbFormaPago.getSelectedItem();
+				//capturo el id de la forma de pago que retorna la funcion obtenerformapago de la clase facturacion
+				idFormaPago = this.factura.ObtenerFormaPago(formaPago);
+				//envio los datos a guardar de la factura
+				this.factura.GuardarFactura(
+					1,
+					fechaFactura,
+					comprador,
+					idCredito,
+					idFormaPago,
+					iva,
+					totalFactura
+				);
+				//for para recorrer la tabla factura
+				for (int cont = 0; cont < filas; cont++) {
+					//capturo el id de producto para guardar en detallefactura
+					id = (String) this.modelo.getValueAt(cont, 0);
+					//capturo la cantidad de producto de la columna dos y la paso a String para guardar en detallefactura
+					cantidad = (String) this.modelo.getValueAt(cont, 2);
+					//capturo el nombre de producto
+					nombreProduct = (String) this.modelo.getValueAt(cont, 3);
+					//capturo el precio de producto para guardar en detallefactura
+					precio = (String) this.modelo.getValueAt(cont, 4);
+					//capturo el total de detalle compra de producto para guardar en detallefactura
+					totalDetalle = (String) this.modelo.getValueAt(cont, 5);
+					//capturo id de factura ala que pertenece el detalle de factura
+					factura = menu.txtNumeroFactura.getText();
+					//envio los datos a guardar de los detalles
+					this.factura.DetalleFactura(factura, id, precio, cantidad, totalDetalle);
+					//funcion para diminuir el stock segun la cantidad que se venda
+					//this.factura.Vender(id,cantidad);
+//                    			validar si el nombre del producto es mayor de 10 caracteres
 					if (nombreProduct.length() > 10) {
 						nombreProduct = nombreProduct.substring(0, 10);
 					}
 					ArregloImprimir[cont] = nombreProduct + " " + cantidad + "   " + precio + "  " + totalDetalle + "\n";
 				}
-				menu.txtNumeroFactura.setText(this.factura.ObtenerIdFactura());//Actualizo el campo numero de factura con la funcion obtenerIdFactura 
+				//Actualizo el campo numero de factura con la funcion obtenerIdFactura
+				menu.txtNumeroFactura.setText(this.factura.ObtenerIdFactura()); 
 				menu.txtCodBarraFactura.setText("");
 				menu.txtCodBarraFactura.requestFocus();
-				LimpiarTablaFactura();//limpio la factura
+				//limpio la factura
+				LimpiarTablaFactura();
 				DeshabilitarBtnGuardarFactura();
 				productos.MostrarProductos("");
 				productos.MostrarProductosVender("");
@@ -404,7 +435,20 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 				reportes.mostrarProductosMasVendidios(this.fecha, this.fecha);
 				creditos.MostrarCreditos("");
 				creditos.MostrarCreditosAddFactura("");
-				Imprimir(factura, comprador, cliente, tipoVenta, formaPago, ArregloImprimir, subtotal, iva, totalFactura, fechaFactura.toString(), pagoCon, cambio);
+				Imprimir(
+					factura,
+					comprador,
+					cliente,
+					tipoVenta,
+					formaPago,
+					ArregloImprimir,
+					subtotal,
+					iva,
+					totalFactura,
+					fechaFactura.toString(),
+					pagoCon,
+					cambio
+				);
 			} else {
 				JOptionPane.showMessageDialog(null, "La factura esta vacia");
 			}
@@ -415,13 +459,31 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 
 	public void guardarFacturaSinImprimir() {
 		try {
-			this.modelo = (DefaultTableModel) menu.tblFactura.getModel();//obtengo el modelo de tabla factura y sus datos
+			//obtengo el modelo de tabla factura y sus datos
+			this.modelo = (DefaultTableModel) menu.tblFactura.getModel();
 			int filas = this.modelo.getRowCount();//Cuento las filas de la tabla Factura
 			//guardara la factura solo si el boton guardar factura esta habilatado
 			if (menu.btnGuardarFactura.isEnabled()) {
 				Date fecha;
 				String[] ArregloImprimir = new String[filas];
-				String factura = "", id, cantidad, precio, totalDetalle, idCredito, iva, totalFactura, formaPago, idFormaPago, comprador, cliente, subtotal, nombreProduct, tipoVenta, pagoCon, cambio;//variables para capturar los datos a guardar
+				//variables para capturar los datos a guardar
+				String factura = "",
+					id,
+					cantidad,
+					precio,
+					totalDetalle,
+					idCredito,
+					iva,
+					totalFactura,
+					formaPago,
+					idFormaPago,
+					comprador,
+					cliente,
+					subtotal,
+					nombreProduct,
+					tipoVenta,
+					pagoCon,
+					cambio;
 				pagoCon = menu.txtPagoCon.getText();
 				cambio = menu.txtCambio.getText();
 				subtotal = menu.txtSubTotal.getText();
@@ -439,25 +501,31 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 				iva = menu.txtImpuesto.getText();//obtengo el iva
 				totalFactura = menu.txtTotal.getText();//obtengo total de factura
 				formaPago = (String) menu.cmbFormaPago.getSelectedItem();//capturo el nombre de forma de pago 
-				idFormaPago = this.factura.ObtenerFormaPago(formaPago);//capturo el id de la forma de pago que retorna la funcion obtenerformapago de la clase facturacion
-				this.factura.GuardarFactura(1, fechaFactura, comprador, idCredito, idFormaPago, iva, totalFactura);//envio los datos a guardar de la factura
+				//capturo el id de la forma de pago que retorna la funcion obtenerformapago de la clase facturacion
+				idFormaPago = this.factura.ObtenerFormaPago(formaPago);
+				//envio los datos a guardar de la factura
+				this.factura.GuardarFactura(1, fechaFactura, comprador, idCredito, idFormaPago, iva, totalFactura);
 				for (int cont = 0; cont < filas; cont++)//for para recorrer la tabla factura
 				{
 					id = (String) this.modelo.getValueAt(cont, 0);//capturo el id de producto para guardar en detallefactura
-					cantidad = (String) this.modelo.getValueAt(cont, 2);//capturo la cantidad de producto de la columna dos y la paso a String para guardar en detallefactura
+					//capturo la cantidad de producto de la columna dos y la paso a String para guardar en detallefactura
+					cantidad = (String) this.modelo.getValueAt(cont, 2);
 					nombreProduct = (String) this.modelo.getValueAt(cont, 3);//capturo el nombre de producto
 					precio = (String) this.modelo.getValueAt(cont, 4);//capturo el precio de producto para guardar en detallefactura
-					totalDetalle = (String) this.modelo.getValueAt(cont, 5);//capturo el total de detalle compra de producto para guardar en detallefactura
+					//capturo el total de detalle compra de producto para guardar en detallefactura
+					totalDetalle = (String) this.modelo.getValueAt(cont, 5);
 					factura = menu.txtNumeroFactura.getText();//capturo id de factura ala que pertenece el detalle de factura
-					this.factura.DetalleFactura(factura, id, precio, cantidad, totalDetalle);//envio los datos a guardar de los detalles
+					//envio los datos a guardar de los detalles
+					this.factura.DetalleFactura(factura, id, precio, cantidad, totalDetalle);
 					//this.factura.Vender(id,cantidad);//funcion para diminuir el stock segun la cantidad que se venda
-//                    validar si el nombre del producto es mayor de 10 caracteres
+//                    			validar si el nombre del producto es mayor de 10 caracteres
 					if (nombreProduct.length() > 10) {
 						nombreProduct = nombreProduct.substring(0, 10);
 					}
 					ArregloImprimir[cont] = nombreProduct + " " + cantidad + "   " + precio + "  " + totalDetalle + "\n";
 				}
-				menu.txtNumeroFactura.setText(this.factura.ObtenerIdFactura());//Actualizo el campo numero de factura con la funcion obtenerIdFactura 
+				//Actualizo el campo numero de factura con la funcion obtenerIdFactura 
+				menu.txtNumeroFactura.setText(this.factura.ObtenerIdFactura());
 				menu.txtCodBarraFactura.setText("");
 				menu.txtCodBarraFactura.requestFocus();
 				LimpiarTablaFactura();//limpio la factura
@@ -476,7 +544,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 				reportes.mostrarProductosMasVendidios(this.fecha, this.fecha);
 				creditos.MostrarCreditos("");
 				creditos.MostrarCreditosAddFactura("");
-				//Imprimir(factura, comprador, cliente, tipoVenta, formaPago, ArregloImprimir, subtotal, iva, totalFactura, fechaFactura.toString(), pagoCon, cambio);
 			} else {
 				JOptionPane.showMessageDialog(null, "La factura esta vacia");
 			}
