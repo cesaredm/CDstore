@@ -105,11 +105,12 @@ public class Facturacion extends Conexiondb {
 	public void setPrecioDolar(float precio) {
 		this.precioDolar = precio;
 	}
-//Guardar Factura
 
+	//Guardar Factura
 	public void GuardarFactura() {
 		cn = Conexion();
-		this.consulta = "INSERT INTO facturas(caja ,fecha, nombre_comprador, credito, tipoVenta, impuestoISV, totalFactura) VALUES(?,?,?,?,?,?,?)";
+		this.consulta = "INSERT INTO facturas(caja ,fecha, nombre_comprador, credito, tipoVenta, impuestoISV,"
+				+ " totalFactura) VALUES(?,?,?,?,?,?,?)";
 		int idCredito = 0, formaPago = Integer.parseInt(pago);
 		float impuestoIVA = Float.parseFloat(iva), totalFactura = Float.parseFloat(total);
 		if (!credito.equals("")) {
@@ -125,10 +126,10 @@ public class Facturacion extends Conexiondb {
 				pst.setFloat(7, totalFactura);
 				this.banderin = pst.executeUpdate();
 				if (banderin > 0) {
-					//JOptionPane.showMessageDialog(null, "Factura Guardada Exitosamente", "Informacion", JOptionPane.WARNING_MESSAGE);
+
 				}
 				cn.close();
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, e);
 			}
 		} else {
@@ -143,22 +144,25 @@ public class Facturacion extends Conexiondb {
 				pst.setFloat(7, totalFactura);
 				this.banderin = pst.executeUpdate();
 				if (banderin > 0) {
-					//JOptionPane.showMessageDialog(null, "Factura Guardada Exitosamente", "Informacion", JOptionPane.WARNING_MESSAGE);
+
 				}
 				cn.close();
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(null, e);
 			}
 		}
 
 	}
-//Guardar detalleFactura
 
+	//Guardar detalleFactura
 	public void DetalleFactura() {
 		cn = Conexion();
 		int idFactura = Integer.parseInt(factura), idProducto = Integer.parseInt(productoDetalle);
-		float precioP = Float.parseFloat(precio), cantidadP = Float.parseFloat(cantidad), totalD = Float.parseFloat(importeDetalle);
-		this.consulta = "INSERT INTO detalleFactura(factura, producto, precioProducto, cantidadProducto, totalVenta) VALUES(?,?,?,?,?)";
+		float precioP = Float.parseFloat(precio),
+			cantidadP = Float.parseFloat(cantidad),
+			totalD = Float.parseFloat(importeDetalle);
+		this.consulta = "INSERT INTO detalleFactura(factura, producto, precioProducto, cantidadProducto, totalVenta)"
+			+ " VALUES(?,?,?,?,?)";
 		try {
 			pst = this.cn.prepareStatement(this.consulta);
 			pst.setInt(1, idFactura);
@@ -167,9 +171,6 @@ public class Facturacion extends Conexiondb {
 			pst.setFloat(4, cantidadP);
 			pst.setFloat(5, totalD);
 			this.banderin = pst.executeUpdate();
-			if (banderin > 0) {
-				//JOptionPane.showMessageDialog(null, "detalle guardado");
-			}
 			cn.close();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e);
@@ -179,9 +180,25 @@ public class Facturacion extends Conexiondb {
 
 	public DefaultTableModel BusquedaGeneralProductoVender(String buscar) {
 		cn = Conexion();
-		this.consulta = "SELECT productos.id, productos.codigoBarra, productos.nombre AS nombreProducto, precioVenta, monedaVenta, fechaVencimiento, stock, ubicacion, productos.descripcion, categorias.nombre AS nombreCategoria, marca.nombre as nombreMarca FROM productos LEFT JOIN categorias ON(productos.categoria=categorias.id) LEFT JOIN marca ON(productos.marca=marca.id) WHERE CONCAT(productos.codigoBarra, productos.nombre) LIKE '%" + buscar + "%'";
+		this.consulta = "SELECT productos.id, productos.codigoBarra, productos.nombre AS nombreProducto,"
+			+ " precioVenta, monedaVenta, fechaVencimiento, stock, ubicacion, productos.descripcion,"
+			+ " categorias.nombre AS nombreCategoria, marca.nombre as nombreMarca FROM productos LEFT JOIN"
+			+ " categorias ON(productos.categoria=categorias.id) LEFT JOIN marca ON(productos.marca=marca.id)"
+			+ " WHERE CONCAT(productos.codigoBarra, productos.nombre) LIKE '%" + buscar + "%'";
 		String[] registros = new String[11];
-		String[] titulos = {"Id", "Codigo Barra", "Nombre", "precioVenta", "Moneda", "Fecha Vencimiento", "Stock", "Categoria", "marca", "Ubicacion", "Descripcion"};
+		String[] titulos = {
+			"Id",
+			"Codigo Barra",
+			"Nombre",
+			"precioVenta",
+			"Moneda",
+			"Fecha Vencimiento",
+			"Stock",
+			"Categoria",
+			"marca",
+			"Ubicacion",
+			"Descripcion"
+		};
 		modelo = new DefaultTableModel(null, titulos) {
 			@Override
 			public boolean isCellEditable(int row, int col) {

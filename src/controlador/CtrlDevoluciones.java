@@ -87,7 +87,8 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
 			filaseleccionada = menu.tblMostrarDetalleFactura.getSelectedRow();
 			//fila seleccionada de la tabla reportes
 			filaseleccionadaR = menu.tblReporte.getSelectedRow();
-			sacarImpuesto = Float.parseFloat(1 + "." + menu.lblImpuestoISV.getText());//concatenacion para sacar el valor 1.xx para sacar el iva
+			//concatenacion para sacar el valor 1.xx para sacar el iva
+			sacarImpuesto = Float.parseFloat(1 + "." + menu.lblImpuestoISV.getText());
 			//obtengo el IVA en entero "15" o cualquier que sea el impuesto
 			porcentajeImp = Float.parseFloat(menu.lblImpuestoISV.getText());// "descProduct = descuento de producto"
 
@@ -102,7 +103,7 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
 					precio = Float.parseFloat(this.modelo.getValueAt(filaseleccionada, 5).toString());
 					cantidadActual = Float.parseFloat(this.modelo.getValueAt(filaseleccionada, 4).toString());
 					idFactura = Integer.parseInt(menu.tblReporte.getValueAt(filaseleccionadaR, 0).toString());
-					total = this.factura.obtenerTotalFacturaSeleccionada(idFactura);//Float.parseFloat(menu.tblReporte.getValueAt(filaseleccionadaR, 3).toString());
+					total = this.factura.obtenerTotalFacturaSeleccionada(idFactura);
 					this.factura.monedaVentaProducto(String.valueOf(idProducto));
 					//validar que lo que se va a devolver sea menor o igual que lo que compro
 					if (cantidadDevolver <= cantidadActual) {

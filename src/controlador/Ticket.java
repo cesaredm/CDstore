@@ -72,7 +72,6 @@ public class Ticket extends CtrlImprimir{
         this.contentTicket = this.contentTicket.replace("{{recibo}}", recibo);
         this.contentTicket = this.contentTicket.replace("{{change}}", change);
         
-        System.out.println(this.contentTicket);
     }
 
     public void printInfo() {
