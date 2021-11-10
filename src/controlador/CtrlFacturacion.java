@@ -587,10 +587,18 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 	}
 
 	public void AgregarProductoFacturaEnter() {
-		String codBarra = menu.txtCodBarraFactura.getText();
-		String precioDolar = menu.txtPrecioDolarVenta.getText(), id = "";
+		String codBarra = menu.txtCodBarraFactura.getText(),
+			precioDolar = menu.txtPrecioDolarVenta.getText(),
+			id = "";
 		int filas = 0;
-		float totalImports = 0, sacarImpuesto = 0, porcentajeImp = 0, cantidadUpdate = 0, importeUpdate = 0, cantidadActual = 0, precio = 0;
+		float totalImports = 0,
+			sacarImpuesto = 0,
+			porcentajeImp = 0,
+			cantidadUpdate = 0,
+			importeUpdate = 0,
+			cantidadActual = 0,
+			precio = 0;
+			
 		if (!menu.isNumeric(precioDolar) || precioDolar.equals("0")) {
 			menu.txtPrecioDolarVenta.setText("1");
 		} else {
@@ -606,7 +614,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 					for (int i = 0; i < filas; i++) {
 						totalImports += Float.parseFloat(this.modelo.getValueAt(i, 5).toString());
 					}
-					sacarImpuesto = Float.parseFloat(1 + "." + menu.lblImpuestoISV.getText());//concatenacion para sacar el valor 1.xx para sacar el iva
+					sacarImpuesto = Float.parseFloat(1 + "." + menu.lblImpuestoISV.getText());
 					//obtengo el IVA en entero "15" o cualquier que sea el impuesto
 					porcentajeImp = Float.parseFloat(menu.lblImpuestoISV.getText());// "descProduct = descuento de producto"
 					this.total = totalImports;

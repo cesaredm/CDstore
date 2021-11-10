@@ -473,6 +473,7 @@ public class Facturacion extends Conexiondb {
 					this.stock = rs.getFloat("stock");
 					this.monedaVenta = rs.getString("monedaVenta");
 				}
+				System.out.println(this.producto[4]);
 				if (this.producto[4] == null) {
 
 				} else {
