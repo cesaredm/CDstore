@@ -78,6 +78,8 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
 			sacarImpuesto = 0,
 			porcentajeImp = 0,
 			importe = 0,
+			importeActual = 0,
+			tasaCambio = 0,
 			restar = 0;
 		this.modelo = (DefaultTableModel) menu.tblMostrarDetalleFactura.getModel();
 		try {
@@ -98,6 +100,7 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
 				int confirmar = JOptionPane.showConfirmDialog(null, spiner, "Cantidad a devolver:", JOptionPane.OK_CANCEL_OPTION);
 				if (confirmar == JOptionPane.YES_OPTION) {
 					cantidadDevolver = Float.parseFloat(spiner.getValue().toString());
+					importeActual = Float.parseFloat(this.modelo.getValueAt(filaseleccionada, 6).toString());
 					idDetalle = Integer.parseInt(this.modelo.getValueAt(filaseleccionada, 0).toString());
 					idProducto = Integer.parseInt(this.modelo.getValueAt(filaseleccionada, 1).toString());
 					precio = Float.parseFloat(this.modelo.getValueAt(filaseleccionada, 5).toString());
@@ -111,16 +114,12 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
 						//validar que moneda
 						if (this.factura.getMonedaVenta().equals("Dolar")) {
 							//validar que precioDolar sea numerico
-							if (menu.isNumeric(precioDolar)) {
-								importe = (cantidadUpdate * precio) * Float.parseFloat(precioDolar);
-								restar = (cantidadDevolver * precio) * Float.parseFloat(precioDolar);
-								restarString = this.formato.format(restar);
-								restar = Float.parseFloat(restarString);
-								totalUpdate = total - restar;
-							} else {
-								JOptionPane.showMessageDialog(null, "El valor del dolar establecido es inavalido..");
-							}
-
+							tasaCambio = (importeActual / cantidadActual) / precio;
+							importe = (cantidadUpdate * precio) * tasaCambio;
+							restar = (cantidadDevolver * precio) * tasaCambio;
+							restarString = this.formato.format(restar);
+							restar = Float.parseFloat(restarString);
+							totalUpdate = total - restar;
 						} else {
 							importe = cantidadUpdate * precio;
 							totalUpdate = total - (cantidadDevolver * precio);
@@ -152,7 +151,7 @@ public class CtrlDevoluciones implements ActionListener, WindowListener {
 							MostrarProductosVender("");
 						} catch (Exception e) {
 							JOptionPane.showMessageDialog(null, "Oops. Ocurrio un error al intentar hacer la devolución \n"
-								+ "ERROR : "+ e + " en el metodo devolverProducto en el ctrl Devoluciones.");
+								+ "ERROR : " + e + " en el metodo devolverProducto en el ctrl Devoluciones.");
 						}
 
 					}
