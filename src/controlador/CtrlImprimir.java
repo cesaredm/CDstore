@@ -39,7 +39,7 @@ public class CtrlImprimir {
 
     public CtrlImprimir() {
         try {
-            this.printService = PrinterOutputStream.getPrintServiceByName("EPSON TM-T20III receipt");
+            this.printService = PrinterOutputStream.getPrintServiceByName("");
             this.printerOutputStream = new PrinterOutputStream(printService);
             this.escpos = new EscPos(printerOutputStream);
             this.boldCenter = new Style(escpos.getStyle())

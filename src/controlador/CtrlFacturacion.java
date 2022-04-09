@@ -67,7 +67,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 		this.creditos = new CtrlCreditos(menu, c);
 		this.reportes = new CtrlReportes(menu, r);
 		this.modelProduct = new Productos();
-		this.productos = new CtrlProducto(modelProduct, menu, 0);
 		this.menu.btnActualizarFactura.setVisible(false);
 		this.menu.btnGuardarFactura.addActionListener(this);
 		this.menu.btnGuardarFactura.addKeyListener(this);

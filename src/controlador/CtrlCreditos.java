@@ -33,6 +33,7 @@ import vista.IMenu;
 
 public class CtrlCreditos extends PrintReportes implements ActionListener, CaretListener, MouseListener {
 
+	private static CtrlCreditos instancia = null; 
 	IMenu menu;
 	Creditos creditos;
 	PagosCreditos pagos;
@@ -44,7 +45,7 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 	InfoFactura info;
 	DecimalFormat formato;
 
-	public CtrlCreditos(IMenu menu, Creditos creditos) {
+	private CtrlCreditos(IMenu menu, Creditos creditos) {
 		this.menu = menu;
 		this.creditos = creditos;
 		this.pagos = new PagosCreditos();
@@ -75,6 +76,11 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 		this.menu.btnActualizarMorosos.addActionListener(this);
 		this.menu.tblAbonosCreditos.addMouseListener(this);
 		iniciar();
+	}
+
+	public static void createInstanciaController(IMenu menu, Creditos creditosModel){
+		if(instancia == null)
+			instancia = new CtrlCreditos(menu, creditosModel);
 	}
 
 	@Override

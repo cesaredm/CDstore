@@ -51,12 +51,11 @@ public class Productos extends Conexiondb {
         return this.precioMinimo;
     }
     
-    public void Guardar(String codigoBarra, String nombre, String precioCompra, String monedaCompra, String precioVenta, String monedaVenta, String precioMinimo,Date fechaVencimiento, String stock, String categoria, String laboratorio, String ubicacion, String descripcion, float utilidad) {
+    public void Guardar(String codigoBarra, String nombre, String precioCompra, String monedaCompra, String precioVenta, String monedaVenta, float precioMinimo,Date fechaVencimiento, String stock, String categoria, String laboratorio, String ubicacion, String descripcion, float utilidad) {
         cn = Conexion();
-        this.consulta = "INSER"
-                + "T INTO productos(codigoBarra, nombre, precioCompra, monedaCompra, precioVenta, precioMinimo, monedaVenta, fechaVencimiento, stock, categoria, marca, ubicacion, descripcion, utilidad) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        this.consulta = "INSERT INTO productos(codigoBarra, nombre, precioCompra, monedaCompra, precioVenta, precioMinimo, monedaVenta, fechaVencimiento, stock, categoria, marca, ubicacion, descripcion, utilidad) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         
-        float compra = Float.parseFloat(precioCompra), venta = Float.parseFloat(precioVenta), cantidad = Float.parseFloat(stock), ventaMin = Float.parseFloat(precioMinimo);
+        float compra = Float.parseFloat(precioCompra), venta = Float.parseFloat(precioVenta), cantidad = Float.parseFloat(stock);
         int Idcategoria = Integer.parseInt(categoria), Idlaboratorio = Integer.parseInt(laboratorio);
         try {
             pst = this.cn.prepareStatement(this.consulta);
@@ -65,7 +64,7 @@ public class Productos extends Conexiondb {
             pst.setFloat(3, compra);
             pst.setString(4, monedaCompra);
             pst.setFloat(5, venta);
-            pst.setFloat(6,ventaMin);
+            pst.setFloat(6,precioMinimo);
             pst.setString(7, monedaVenta);
             pst.setDate(8, fechaVencimiento);
             pst.setFloat(9, cantidad);
@@ -74,14 +73,19 @@ public class Productos extends Conexiondb {
             pst.setString(12, ubicacion);
             pst.setString(13, descripcion);
             pst.setFloat(14, utilidad);
-            this.banderin = pst.executeUpdate();
-            if (this.banderin > 0) {
-                JOptionPane.showMessageDialog(null, "Producto guardado exitosamente", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-            }
-            cn.close();
+	    ResultSet rs = this.pst.executeQuery();
+	    while(rs.next()){
+		   JOptionPane.showMessageDialog(null, rs.getString("message"));
+	    }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
-        }
+        }finally{
+		try {
+			this.cn.close();
+		} catch (SQLException ex) {
+			Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
     }
 
     public void guardarKardexIncial(int producto, String user, float cantidad, String anotacion ){
@@ -420,7 +424,7 @@ public class Productos extends Conexiondb {
         this.cn = Conexion();
         this.consulta = "SELECT codigoBarra FROM productos WHERE codigoBarra = ?";
         try {
-            this.pst = this.cn.prepareStatement(this.consulta);
+            this.pst = this.cn.prepareStatement("CALL isExisteInventario(?)");
             this.pst.setString(1, codBarra);
             ResultSet rs = this.pst.executeQuery();
             while(rs.next()){
