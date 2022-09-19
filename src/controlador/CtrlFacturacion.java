@@ -36,8 +36,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 	Facturacion factura;
 	Date fecha;
 	DefaultTableModel modelo;
-	CtrlProducto productos;
-	CtrlCreditos creditos;
 	CtrlReportes reportes;
 	Productos modelProduct;
 	//formato para los totales
@@ -64,7 +62,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 		this.c = new Creditos();
 		this.r = new Reportes();
 		this.modelo = new DefaultTableModel();
-		this.creditos = new CtrlCreditos(menu, c);
 		this.reportes = new CtrlReportes(menu, r);
 		this.modelProduct = new Productos();
 		this.menu.btnActualizarFactura.setVisible(false);
@@ -121,8 +118,8 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 			String idCreditoL = menu.txtCreditoFactura.getText();
 			float saldo, sumar, limite;
 			if (!idCreditoL.equals("")) {
-				saldo = this.creditos.creditoPorCliente(idCreditoL);
-				limite = this.creditos.limiteCredito(idCreditoL);
+				saldo = this.c.creditoPorCliente(idCreditoL);
+				limite = this.c.limiteCredito(idCreditoL);
 				sumar = saldo + Float.parseFloat(totalF);
 				if (sumar > limite) {
 					JOptionPane.showMessageDialog(null, "Está excediendo el límite de crédito", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -310,8 +307,8 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 			String idCreditoL = menu.txtCreditoFactura.getText();
 			float saldo, sumar, limite;
 			if (!idCreditoL.equals("")) {
-				saldo = this.creditos.creditoPorCliente(idCreditoL);
-				limite = this.creditos.limiteCredito(idCreditoL);
+				saldo = this.c.creditoPorCliente(idCreditoL);
+				limite = this.c.limiteCredito(idCreditoL);
 				sumar = saldo + Float.parseFloat(totalF);
 				if (sumar > limite) {
 					JOptionPane.showMessageDialog(null, "Está excediendo el límite de crédito", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -417,26 +414,25 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 					ArregloImprimir[cont] = nombreProduct + " " + cantidad + "   " + precio + "  " + totalDetalle + "\n";
 				}
 				//Actualizo el campo numero de factura con la funcion obtenerIdFactura
-				menu.txtNumeroFactura.setText(this.factura.ObtenerIdFactura()); 
+				menu.txtNumeroFactura.setText(this.factura.ObtenerIdFactura());
 				menu.txtCodBarraFactura.setText("");
 				menu.txtCodBarraFactura.requestFocus();
 				//limpio la factura
 				LimpiarTablaFactura();
 				DeshabilitarBtnGuardarFactura();
-				productos.MostrarProductos("");
-				productos.MostrarProductosVender("");
-				creditos.ActualizarEstadoCreditoApendiente();
-				creditos.ActualizarEstadoCreditoAabierto();
+				CtrlCreditos.cambiarEstado((idCredito.equals("") ? 0 : Integer.parseInt(idCredito)));
 				//creditos.MostrarCreditos("");
-				creditos.MostrarCreditosCreados("");
+				CtrlProducto.MostrarProductos("");
+				CtrlProducto.MostrarProductosVender("");
+				CtrlCreditos.MostrarCreditosCreados("");
 				reportes.MostrarReportesDario(this.fecha);
 				reportes.reportesDiarios(this.fecha);
 				reportes.ReporteGlobal();
 				reportes.SumaTotalFiltroReporte(this.fecha, this.fecha);
 				reportes.inversion();
 				reportes.mostrarProductosMasVendidios(this.fecha, this.fecha);
-				creditos.MostrarCreditos("");
-				creditos.MostrarCreditosAddFactura("");
+				CtrlCreditos.MostrarCreditos("");
+				CtrlCreditos.MostrarCreditosAddFactura("");
 				Imprimir(
 					factura,
 					comprador,
@@ -544,26 +540,25 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 					ArregloImprimir[cont] = nombreProduct + " " + cantidad + "   " + precio + "  " + totalDetalle + "\n";
 				}
 				//Actualizo el campo numero de factura con la funcion obtenerIdFactura
-				menu.txtNumeroFactura.setText(this.factura.ObtenerIdFactura()); 
+				menu.txtNumeroFactura.setText(this.factura.ObtenerIdFactura());
 				menu.txtCodBarraFactura.setText("");
 				menu.txtCodBarraFactura.requestFocus();
 				//limpio la factura
 				LimpiarTablaFactura();
 				DeshabilitarBtnGuardarFactura();
-				productos.MostrarProductos("");
-				productos.MostrarProductosVender("");
-				creditos.ActualizarEstadoCreditoApendiente();
-				creditos.ActualizarEstadoCreditoAabierto();
+				CtrlProducto.MostrarProductos("");
+				CtrlProducto.MostrarProductosVender("");
+				CtrlCreditos.cambiarEstado((idCredito.equals("")) ? 0 : Integer.parseInt(idCredito));
 				//creditos.MostrarCreditos("");
-				creditos.MostrarCreditosCreados("");
+				CtrlCreditos.MostrarCreditosCreados("");
 				reportes.MostrarReportesDario(this.fecha);
 				reportes.reportesDiarios(this.fecha);
 				reportes.ReporteGlobal();
 				reportes.SumaTotalFiltroReporte(this.fecha, this.fecha);
 				reportes.inversion();
 				reportes.mostrarProductosMasVendidios(this.fecha, this.fecha);
-				creditos.MostrarCreditos("");
-				creditos.MostrarCreditosAddFactura("");
+				CtrlCreditos.MostrarCreditos("");
+				CtrlCreditos.MostrarCreditosAddFactura("");
 			} else {
 				JOptionPane.showMessageDialog(null, "La factura esta vacia");
 			}
@@ -597,7 +592,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 			importeUpdate = 0,
 			cantidadActual = 0,
 			precio = 0;
-			
+
 		if (!menu.isNumeric(precioDolar) || precioDolar.equals("0")) {
 			menu.txtPrecioDolarVenta.setText("1");
 		} else {
@@ -609,7 +604,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 					this.modelo = (DefaultTableModel) menu.tblFactura.getModel();
 					this.modelo.addRow(this.factura.getProducto());
 					filas = this.modelo.getRowCount();
-					this.factura.Vender(this.factura.getProducto()[0], this.factura.getProducto()[2]);
+					//this.factura.Vender(this.factura.getProducto()[0], this.factura.getProducto()[2]);
 					for (int i = 0; i < filas; i++) {
 						totalImports += Float.parseFloat(this.modelo.getValueAt(i, 5).toString());
 					}
@@ -624,7 +619,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 					menu.txtTotal.setText("" + formato.format(this.total));
 					menu.txtCodBarraFactura.setText("");
 					DeshabilitarBtnGuardarFactura();
-					productos.MostrarProductosVender("");
+					CtrlProducto.MostrarProductosVender("");
 				} else {
 					JOptionPane.showMessageDialog(null, "No hay suficiente producto en stock para realizar la venta");
 				}
@@ -645,7 +640,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 			for (int i = 0; i < filas; i++) {
 				this.modelo.removeRow(0);//remover filas de la tabla factura
 			}
-			productos.MostrarProductosVender("");//acturalizar tabla que muestra productos a vender
+			CtrlProducto.MostrarProductosVender("");//acturalizar tabla que muestra productos a vender
 			//limpiar
 			menu.btnGuardarFactura.setEnabled(true);
 			menu.txtNClienteFactura.setText("");
@@ -663,8 +658,9 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 
 		} catch (Exception err) {
 			JOptionPane.showMessageDialog(null, err);
+		} finally {
+			menu.txtNumeroFactura.setText(factura.ObtenerIdFactura());//actualizar numero de factura
 		}
-		menu.txtNumeroFactura.setText(factura.ObtenerIdFactura());//actualizar numero de factura
 	}
 
 	public void Imprimir(String Nfactura, String comprador, String cliente, String tipoVenta, String formaPago, String[] Datos, String subtotal, String isv, String total, String fecha, String recibido, String cambio) {
@@ -695,7 +691,6 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 			for (int i = 0; i < filas; i++) {
 				this.modelo.removeRow(0);
 			}
-			productos.MostrarProductosVender("");
 			menu.txtNClienteFactura.setText("");
 			menu.txtAClienteFactura.setText("");
 			menu.lblIdClienteFactura.setText("");
@@ -712,6 +707,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 			menu.txtImpuesto.setText("" + this.subTotal);
 			menu.txtTotal.setText("" + this.isv);
 		} catch (Exception err) {
+			err.printStackTrace();
 			JOptionPane.showMessageDialog(null, err);
 		}
 
@@ -794,10 +790,9 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 						menu.txtImpuesto.setText("" + formato.format(this.isv));//establecer el valor impuesto en el campo impuesto de factura
 						menu.txtSubTotal.setText("" + formato.format(this.subTotal));//establecer el valor impuesto en el campo sub total de factura
 						menu.txtTotal.setText("" + formato.format(this.total));//establecer el valor impuesto en el campo Total de factura
-						this.factura.Vender(id, cantidad);//llamar procedimiento sql para vender
-						productos.MostrarProductosVender("");
-						menu.txtBuscarPorNombre.selectAll();
+						//this.factura.Vender(id, cantidad);//llamar procedimiento sql para vender
 						DeshabilitarBtnGuardarFactura();
+						menu.txtBuscarPorNombre.selectAll();
 					}
 
 				} else {
@@ -951,7 +946,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 					}
 					this.modelo.setValueAt(String.valueOf(cantidadUpdate), filaseleccionada, 2);
 					this.modelo.setValueAt(formato.format(importeUpdate), filaseleccionada, 5);
-					this.factura.Vender(id, String.valueOf(cantidadIngresar));
+					//this.factura.Vender(id, String.valueOf(cantidadIngresar));
 					for (int i = 0; i < filas; i++) {
 						totalImports += Float.parseFloat(this.modelo.getValueAt(i, 5).toString());
 					}
@@ -971,7 +966,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 					menu.txtTotal.setText("" + formato.format(this.total));
 					menu.txtCodBarraFactura.requestFocus();
 					spiner.setValue(0.00);
-					productos.MostrarProductosVender("");
+					CtrlProducto.MostrarProductosVender("");
 				} else {
 					JOptionPane.showMessageDialog(null, "No hay suficiente producto en stock para realizar la venta");
 				}
@@ -1214,7 +1209,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 				this.modelo = (DefaultTableModel) menu.tblFactura.getModel();
 				this.modelo.addRow(this.factura.getProducto());
 				filas = this.modelo.getRowCount();
-				this.factura.Vender(this.factura.getProducto()[0], this.factura.getProducto()[2]);
+				//this.factura.Vender(this.factura.getProducto()[0], this.factura.getProducto()[2]);
 				for (int i = 0; i < filas; i++) {
 					totalImports += Float.parseFloat(this.modelo.getValueAt(i, 5).toString());
 				}
@@ -1290,17 +1285,16 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 				menu.btnEliminarFilaFactura.setEnabled(true);//deshabilitar boton EliminarFila Factura
 				menu.jcFechaFactura.setDate(this.fecha);
 				//
-				productos.MostrarProductos("");//actualizar la tabla de productos inventario
-				productos.MostrarProductosVender("");//actualizar la tabla de productos a vender
-				creditos.ActualizarEstadoCreditoAabierto();//Actualizar Credito 
-				creditos.ActualizarEstadoCreditoApendiente();//Actualizar Credito
+				CtrlProducto.MostrarProductos("");//actualizar la tabla de productos inventario
+				CtrlProducto.MostrarProductosVender("");//actualizar la tabla de productos a vender
+				CtrlCreditos.cambiarEstado((idCredito.equals("")) ? 0 : Integer.parseInt(idCredito));
 				reportes.reportesDiarios(this.fecha);
 				reportes.MostrarReportesDario(this.fecha);//actualizar reportes
 				reportes.ReporteGlobal();
 				reportes.SumaTotalFiltroReporte(this.fecha, this.fecha);//actualizar datos de reportes
 				reportes.inversion();//actualizar Dato de Inversion
-				creditos.MostrarCreditos("");//Actualizar creditos
-				creditos.MostrarCreditosAddFactura("");//actualizar los creditos en factura
+				CtrlCreditos.MostrarCreditos("");//Actualizar creditos
+				CtrlCreditos.MostrarCreditosAddFactura("");//actualizar los creditos en factura
 			} else {
 				JOptionPane.showMessageDialog(null, "La factura depende de " + nD.length + " filas");
 			}
@@ -1428,8 +1422,8 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 				menu.txtTotal.setText("" + formato.format(this.total));
 				menu.txtSubTotal.setText("" + formato.format(this.subTotal));
 				menu.txtImpuesto.setText("" + formato.format(this.isv));
-				modelProduct.AgregarProductoStock(id, cantidad);
-				productos.MostrarProductosVender("");
+				//modelProduct.AgregarProductoStock(id, cantidad);
+				CtrlProducto.MostrarProductosVender("");
 				this.modelo.removeRow(filaseleccionada);
 				DeshabilitarBtnGuardarFactura();
 				menu.txtCodBarraFactura.requestFocus();
@@ -1448,7 +1442,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 			for (int i = 0; i < filas; i++) {
 				id = (String) this.modelo.getValueAt(i, 0);
 				cantidad = (String) this.modelo.getValueAt(i, 2);
-				modelProduct.AgregarProductoStock(id, cantidad);
+				//modelProduct.AgregarProductoStock(id, cantidad);
 			}
 			LimpiarTablaFactura();
 			DeshabilitarBtnGuardarFactura();
@@ -1484,7 +1478,7 @@ public class CtrlFacturacion implements ActionListener, CaretListener, MouseList
 		}
 	}
 
-	public void updateNumberFactura(String number){
+	public void updateNumberFactura(String number) {
 		this.menu.txtNumeroFactura.setText(number);
 	}
 }

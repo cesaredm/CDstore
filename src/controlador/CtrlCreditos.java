@@ -33,9 +33,9 @@ import vista.IMenu;
 
 public class CtrlCreditos extends PrintReportes implements ActionListener, CaretListener, MouseListener {
 
-	private static CtrlCreditos instancia = null; 
-	IMenu menu;
-	Creditos creditos;
+	private static CtrlCreditos instancia = null;
+	private static IMenu menu;
+	private static Creditos creditos;
 	PagosCreditos pagos;
 	Reportes report;
 	CtrlReportes ctrlReport;
@@ -45,7 +45,7 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 	InfoFactura info;
 	DecimalFormat formato;
 
-	private CtrlCreditos(IMenu menu, Creditos creditos) {
+	CtrlCreditos(IMenu menu, Creditos creditos) {
 		this.menu = menu;
 		this.creditos = creditos;
 		this.pagos = new PagosCreditos();
@@ -78,9 +78,10 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 		iniciar();
 	}
 
-	public static void createInstanciaController(IMenu menu, Creditos creditosModel){
-		if(instancia == null)
+	public static void createInstanciaController(IMenu menu, Creditos creditosModel) {
+		if (instancia == null) {
 			instancia = new CtrlCreditos(menu, creditosModel);
+		}
 	}
 
 	@Override
@@ -208,7 +209,7 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 				} catch (Exception err) {
 					JOptionPane.showMessageDialog(null, err + "en metodo MouseClick en ctrl creditos");
 				}
-			}else{
+			} else {
 
 			}
 		}
@@ -259,22 +260,22 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 		}
 	}
 
-	public void MostrarCreditosCreados(String buscar) {
+	public static void MostrarCreditosCreados(String buscar) {
 		menu.tblCreditosCreados.getTableHeader().setFont(new Font("Sugoe UI", Font.PLAIN, 14));
 		menu.tblCreditosCreados.getTableHeader().setOpaque(false);
 		menu.tblCreditosCreados.getTableHeader().setBackground(new Color(69, 76, 89));
 		menu.tblCreditosCreados.getTableHeader().setForeground(new Color(255, 255, 255));
 		menu.tblCreditosCreados.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
-		menu.jcFechaCredito.setDate(this.fecha);
+		menu.jcFechaCredito.setDate(new Date());
 		menu.tblCreditosCreados.setModel(creditos.MostrarCreditosCreados(buscar));
 	}
 
-	public void MostrarCreditosAddFactura(String buscar) {
+	public static void MostrarCreditosAddFactura(String buscar) {
 		menu.tblAddCreditoFactura.getTableHeader().setFont(new Font("Sugoe UI", Font.PLAIN, 14));
 		menu.tblAddCreditoFactura.getTableHeader().setOpaque(false);
 		menu.tblAddCreditoFactura.getTableHeader().setBackground(new Color(69, 76, 89));
 		menu.tblAddCreditoFactura.getTableHeader().setForeground(new Color(255, 255, 255));
-		menu.jcFechaCredito.setDate(this.fecha);
+		menu.jcFechaCredito.setDate(new Date());
 		menu.tblAddCreditoFactura.setModel(creditos.MostrarCreditosAddFactura(buscar));
 	}
 
@@ -291,16 +292,16 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 		menu.jsLimiteCredito.setValue(0);
 	}
 
-	public void MostrarCreditos(String buscar) {
+	public static void MostrarCreditos(String buscar) {
 		menu.tblCreditos.getTableHeader().setFont(new Font("Sugoe UI", Font.PLAIN, 14));
 		menu.tblCreditos.getTableHeader().setOpaque(false);
 		menu.tblCreditos.getTableHeader().setBackground(new Color(69, 76, 89));
 		menu.tblCreditos.getTableHeader().setForeground(new Color(255, 255, 255));
 		menu.tblCreditos.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
-		menu.tblCreditos.setModel(this.creditos.Mostrar(buscar));
+		menu.tblCreditos.setModel(creditos.Mostrar(buscar));
 	}
 
-	//funcion para cambiar el estado del credito cerrado a Abierto
+	//funcion para cambiar el estado del credito cerrado a Abierto "NO SE ESTAN USANDO EN REMPLAZO SE ESTA USANDO LA FUNCION cambiarEstado()"
 	public void ActualizarEstadoCreditoAabierto() {
 		this.modelo = (DefaultTableModel) menu.tblCreditos.getModel();
 		//variable para almacenar total de credito de cliete
@@ -329,8 +330,8 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 			}
 		}
 	}
-	//funcion para cambiar el estado del credito a pendiente
 
+	//funcion para cambiar el estado del credito a pendiente "NO SE ESTAN USANDO EN REMPLAZO SE ESTA USANDO LA FUNCION cambiarEstado()"
 	public void ActualizarEstadoCreditoApendiente() {
 		float pagos = 0, credito = 0, saldo = 0;
 		String cliente;
@@ -349,12 +350,33 @@ public class CtrlCreditos extends PrintReportes implements ActionListener, Caret
 		}
 	}
 
+	public static void cambiarEstado(int credito) {
+		try {
+			if (credito != 0) {
+				float saldo, deuda, pagos;
+				Creditos creditoModel = new Creditos();
+				deuda = creditoModel.deudaGlobalCredito(credito);
+				pagos = creditoModel.abonosGlobalCredito(credito);
+				saldo = deuda - pagos;
+				if (saldo > 0) {
+					creditoModel.ActualizarEstadoCredito(credito, "Pendiente");
+				} else if (saldo == 0) {
+					creditoModel.ActualizarEstadoCredito(credito, "Abierto");
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public void MostrarDatosCrediticio(String id) {
 		if (!id.equals("")) {
 			float credito, abonos, saldo;
 			int idC = Integer.parseInt(id);
-			credito = creditos.creditoGlobalCliente(idC);
-			abonos = creditos.AbonoGlobalCliente(idC);
+			credito = creditos.deudaGlobalCredito(idC);
+			abonos = creditos.abonosGlobalCredito(idC);
 			menu.jpInformacionCrediticia.setBorder(javax.swing.BorderFactory.createTitledBorder(creditos.NombreCliente(id)));
 			menu.tblArticulosCredito.setModel(creditos.MostrarProductosCreditoDolar(idC));
 			menu.tblArticulosCreditoCordobas.setModel(creditos.MostrarProductosCreditoCordobas(idC));

@@ -37,9 +37,9 @@ import net.sf.jasperreports.engine.util.JRLoader;
 public class CtrlProducto extends CtrlImprimir implements ActionListener, CaretListener, MouseListener, KeyListener {
 
 	private static CtrlProducto instancia = null;
-	Productos productosModel;
-	IMenu menu;
-	Facturacion factura;
+	private static Productos productosModel;
+	private static IMenu menu;
+	private static Facturacion factura;
 	Date fecha;
 	String id;
 	DefaultTableModel modelo;
@@ -315,16 +315,16 @@ public class CtrlProducto extends CtrlImprimir implements ActionListener, CaretL
 		}
 	}
 
-	public void MostrarProductos(String buscar) {
+	public static void MostrarProductos(String buscar) {
 		menu.tblProductos.getTableHeader().setFont(new Font("Sugoe UI", Font.PLAIN, 14));
 		menu.tblProductos.getTableHeader().setOpaque(false);
 		menu.tblProductos.getTableHeader().setBackground(new Color(69, 76, 89));
 		menu.tblProductos.getTableHeader().setForeground(new Color(255, 255, 255));
-		menu.tblProductos.setModel(this.productosModel.Consulta(buscar));
+		menu.tblProductos.setModel(productosModel.Consulta(buscar));
 		menu.tblProductos.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
 	}
 
-	public void MostrarProductosVender(String Buscar) {
+	public static void MostrarProductosVender(String Buscar) {
 		menu.tblAddProductoFactura.getTableHeader().setFont(new Font("Sugoe UI", Font.PLAIN, 14));
 		menu.tblAddProductoFactura.getTableHeader().setOpaque(false);
 		menu.tblAddProductoFactura.getTableHeader().setBackground(new Color(69, 76, 89));

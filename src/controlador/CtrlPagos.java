@@ -31,7 +31,6 @@ public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretList
 	IMenu menu;
 	PagosCreditos pagos;
 	CtrlReportes ctrlR;
-	CtrlCreditos ctrlC;
 	Creditos creditos;
 	Reportes reportes;
 	PrintReportes print;
@@ -48,7 +47,6 @@ public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretList
 		this.reportes = new Reportes();
 		this.creditos = new Creditos();
 		this.ctrlR = new CtrlReportes(menu, reportes);
-		this.ctrlC = new CtrlCreditos(menu, creditos);
 		this.modelo = new DefaultTableModel();
 		this.print = new PrintReportes();
 		this.info = new InfoFactura();
@@ -70,7 +68,6 @@ public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 		if (e.getSource() == menu.btnGuardarPago) {
 			guardarPago();
 		}
@@ -91,15 +88,14 @@ public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretList
 					montoPago = Float.parseFloat(monto);
 					pagos.Actualizar(this.id, c, montoPago, fechaPago, idFormaPago, anotacion);
 					MostrarPagos("");
-					ctrlC.MostrarCreditos("");
-					ctrlC.ActualizarEstadoCreditoApendiente();
-					ctrlC.ActualizarEstadoCreditoAabierto();
+					CtrlCreditos.MostrarCreditos("");
+					CtrlCreditos.cambiarEstado(c);
 					LimpiarPago();
-					ctrlR.reportesDiarios(this.fecha);
+					/*ctrlR.reportesDiarios(this.fecha);
 					ctrlR.MostrarReportesDario(this.fecha);
 					ctrlR.ReporteGlobal();
-					ctrlR.SumaTotalFiltroReporte(this.fecha, this.fecha);
-					ctrlC.MostrarCreditosCreados("");
+					ctrlR.SumaTotalFiltroReporte(this.fecha, this.fecha);*/
+					CtrlCreditos.MostrarCreditosCreados("");
 					menu.btnGuardarPago.setEnabled(true);
 					menu.btnActualizarPago.setEnabled(false);
 				}
@@ -150,15 +146,15 @@ public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretList
 				} else {
 					this.modelo = (DefaultTableModel) menu.tblPagos.getModel();
 					id = Integer.parseInt(this.modelo.getValueAt(filaseleccionada, 0).toString());
+					int credito = Integer.parseInt(this.modelo.getValueAt(filaseleccionada, 2).toString());
 					this.pagos.Eliminar(id);
 					MostrarPagos("");
-					this.ctrlC.MostrarCreditos("");
-					ctrlR.reportesDiarios(this.fecha);
+					CtrlCreditos.MostrarCreditos("");
+					/*ctrlR.reportesDiarios(this.fecha);
 					ctrlR.MostrarReportesDario(this.fecha);
-					ctrlR.ReporteGlobal();
+					ctrlR.ReporteGlobal();*/
 					this.ctrlR.SumaTotalFiltroReporte(this.fecha, this.fecha);
-					ctrlC.ActualizarEstadoCreditoApendiente();
-					ctrlC.ActualizarEstadoCreditoAabierto();
+					CtrlCreditos.cambiarEstado(credito);
 				}
 			} catch (Exception err) {
 				JOptionPane.showMessageDialog(null, e + " en la funcion Borrar Pago", "Error", JOptionPane.ERROR_MESSAGE);
@@ -234,7 +230,7 @@ public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretList
 				c = Integer.parseInt(credito);
 				montoPago = Float.parseFloat(monto);
 				saldo = pagos.deuda(credito) - pagos.PagosSegunCredito(credito);
-				if (this.isExcedeSaldo(saldo, montoPago, credito)) {
+				if (montoPago <= Float.parseFloat(this.formato.format(saldo))) {
 					pagos.Guardar(c, montoPago, fechaPago, idFormaPago, anotacion);
 					saldoActual = pagos.deuda(credito) - pagos.PagosSegunCredito(credito);
 					UltimoPago();
@@ -246,17 +242,16 @@ public class CtrlPagos extends CtrlImprimir implements ActionListener, CaretList
 						monto, this.formato.format(saldoActual));
 					MostrarPagos("");
 					LimpiarPago();
-					ctrlC.MostrarCreditos("");
-					ctrlC.ActualizarEstadoCreditoApendiente();
-					ctrlC.ActualizarEstadoCreditoAabierto();
-					ctrlC.MostrarCreditos("");
+					CtrlCreditos.MostrarCreditos("");
+					CtrlCreditos.cambiarEstado(c);
+					CtrlCreditos.MostrarCreditos("");
 					ctrlR.reportesDiarios(this.fecha);
 					ctrlR.MostrarReportesDario(this.fecha);
 					ctrlR.ReporteGlobal();
 					ctrlR.SumaTotalFiltroReporte(this.fecha, this.fecha);
 					MostrarPagos("");
-					ctrlC.MostrarCreditosCreados("");
-					ctrlC.MostrarCreditosAddFactura("");
+					CtrlCreditos.MostrarCreditosCreados("");
+					CtrlCreditos.MostrarCreditosAddFactura("");
 					menu.btnGuardarPago.setEnabled(true);
 					menu.btnActualizarPago.setEnabled(false);
 				}else{

@@ -117,7 +117,7 @@ public class Creditos extends Conexiondb {
 				//en la variable monto obtengo el total de pagos de el cliente
 				monto = this.pagos.PagosCliente(rs.getString("idCliente"));
 				//en la variable saldo obtengo lo que queda de la resta de lo que debe el cliente menos total de pagos que ha hecho
-				saldo = Float.parseFloat(rs.getString("totalCredito")) - monto;
+				saldo = rs.getFloat("totalCredito") - monto;
 				this.registros[0] = rs.getString("id");
 				this.registros[1] = String.valueOf(formato.format(saldo));
 				this.registros[2] = rs.getString("limite");
@@ -441,7 +441,7 @@ public class Creditos extends Conexiondb {
 		return limite;
 	}
 
-	public float creditoGlobalCliente(int id) {
+	public float deudaGlobalCredito(int id) {
 		this.consulta = "SELECT SUM(facturas.totalFactura) AS totalCredito FROM creditos INNER JOIN clientes ON(creditos.cliente = clientes.id) "
 			+ "INNER JOIN facturas ON(facturas.credito = creditos.id) WHERE creditos.id = ?";
 		this.cn = Conexion();
@@ -460,7 +460,7 @@ public class Creditos extends Conexiondb {
 		return total;
 	}
 
-	public float AbonoGlobalCliente(int id) {
+	public float abonosGlobalCredito(int id) {
 		this.consulta = "SELECT SUM(p.monto) AS totalAbonos FROM pagoscreditos AS p "
 			+ "INNER JOIN creditos AS c ON(p.credito = c.id) INNER JOIN clientes ON(c.cliente=clientes.id) WHERE c.id = ?";
 		this.cn = Conexion();
@@ -520,7 +520,7 @@ public class Creditos extends Conexiondb {
 			this.pst.setDate(1, fecha);
 			ResultSet rs = this.pst.executeQuery();
 			while (rs.next()) {
-				saldo = this.creditoGlobalCliente(rs.getInt("credito")) - this.AbonoGlobalCliente(rs.getInt("credito"));
+				saldo = this.deudaGlobalCredito(rs.getInt("credito")) - this.abonosGlobalCredito(rs.getInt("credito"));
 				this.registros[0] = rs.getString("nombres");
 				this.registros[1] = rs.getString("Apellidos");
 				this.registros[2] = rs.getString("telefono");
